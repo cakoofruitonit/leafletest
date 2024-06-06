@@ -1,7 +1,7 @@
 const map = L.map('map'); 
 // Initializes map
 
-//map.setView([-37, 122], 13); 
+map.setView([37.72569410938344, -122.45226657608829], 20); 
 // Sets initial coordinates and zoom level
 L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
 //L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -13,18 +13,10 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/
 var lMarker, lCircle, zoomed, marker, marker1, polyline, polylineAB, polylineABForADA, polylineAC, polylineACForADA, 
 polylineAD, polylineADForADA, polylineAE, polylineAEForADA, polylineSCItoA, polylineBK, polylineCI, polylineDH, polylineEJ,
 polylineHG, polylineHI, polylineIF, polylineIL, polylineJH, polylineJO, polylineLM, polylineLtoBATL, polylineMN, polylineMUBtoJ,
-polylineNK;
-var mapMarkers = [
-    marker, marker1, polyline, polylineAB, polylineABForADA, polylineAC, polylineACForADA, 
-    polylineAD, polylineADForADA, polylineAE, polylineAEForADA, polylineSCItoA, polylineBK, 
-    polylineCI, polylineDH, polylineEJ, polylineHG, polylineHI, polylineIF, polylineIL, polylineJH, 
-    polylineJO, polylineLM, polylineLtoBATL, polylineMN, polylineMUBtoJ, polylineNK
-];
+polylineNK, polylineGtoART, polylineGtoARTX, polylinetest;
 let destinationlat, destinationlong;
 let latitude, longitude;
 let wheelchairAssessibilityNeeded = false;
-//var selectElement = document.querySelector("#choose-location1");
-//var selectElement1 = document.querySelector("#choose-location2");
 
 var startingPoint = "MUB";
 var destination = "SCI";
@@ -39,6 +31,7 @@ let shape1 = [
     [37.725008172562724, -122.45081619610696], [37.72488636937464, -122.45145120723384], 
     [37.72481070408807, -122.45078626472295], [37.724697977786796, -122.45144280588889]
 ];
+
 let shape2 = [
     [37.7257029109819, -122.45077517492479],[37.725848116998655, -122.45061048214252], 
     [37.72595454971086, -122.45056354348515], [37.72602827123092, -122.45058567170945],
@@ -103,18 +96,32 @@ function setStartAndDestination(){
 }
     
 function updateMap(){
-    for(var i = 0; i < mapMarkers.length; i++){
-        const currentMarker = mapMarkers[i];
-        console.log("Current map entry: " + currentMarker);
-        if(currentMarker != undefined){
-            map.removeLayer(currentMarker);
-            console.log("Deleted!");
-        }
-    }
+    
+    clearMap();
+    
     displayMarker(destination, false);
     displayMarker(startingPoint, true);
     navigator.geolocation.watchPosition(success, error);
-    map.setView([latitude, longitude]);
+    
+    displayRoute(startingPoint, destination);
+}
+
+function clearMap(){
+
+    var mapMarkers = [
+        marker, marker1, polyline, polylineAB, polylineABForADA, polylineAC, polylineACForADA, 
+        polylineAD, polylineADForADA, polylineAE, polylineAEForADA, polylineSCItoA, polylineBK, 
+        polylineCI, polylineDH, polylineEJ, polylineHG, polylineHI, polylineIF, polylineIL, polylineJH, 
+        polylineJO, polylineLM, polylineLtoBATL, polylineMN, polylineMUBtoJ, polylineNK, polylinetest,
+        polylineGtoART, polylineGtoARTX
+    ];
+
+    for(var i = 0; i < mapMarkers.length; i++){
+        var currentMarker = mapMarkers[i];
+        if(currentMarker !== undefined){
+            currentMarker.remove();
+        }
+    }
 }
 
 function success(pos) {
@@ -138,11 +145,14 @@ function success(pos) {
     lCircle = L.circle([lat, lng], { radius: accuracy }).addTo(map);
     // Adds marker to the map and a circle for accuracy
 
-    displayRoute(lat, lng);
+    displayUserVector(lat, lng);
 
+    //uncomment for zoom
+    /*
     if (!zoomed) {
         zoomed = map.fitBounds([[destinationlat, destinationlong], [lat, lng]]); 
     }
+    */
     // Set zoom to boundaries of accuracy circle
 
     //37.72569410938344, -122.45226657608829
@@ -163,24 +173,33 @@ function error(err) {
     if (map.hasLayer(lMarker)) {
         map.removeLayer(lMarker);
         map.removeLayer(lCircle);
+    }
+    if(map.hasLayer(polyline)){
         map.removeLayer(polyline);
     }
-
 }
 
 function displayMarker(string, isStart){
     switch(string){
-        case"SCI":
-            destinationlat = 37.7257029109819;
-            destinationlong = -122.45106814833785;
+        case "ART":
+            destinationlat = 37.72711687806445; 
+            destinationlong = -122.4515670166594;
+            break;
+        case "ARTX": 
+            destinationlat = 37.72711687806445;
+            destinationlong = -122.45179031055791;
+            break;
+        case "BATL":
+            destinationlat = 37.72675835905989; 
+            destinationlong = -122.44931324533881;
             break;
         case "MUB":
             destinationlat = 37.72534222155596;
             destinationlong = -122.45297519895082;
             break;
-        case "BATL":
-            destinationlat = 37.72675835905989; 
-            destinationlong = -122.44931324533881;
+        case "SCI":
+            destinationlat = 37.7257029109819;
+            destinationlong = -122.45106814833785;
             break;
         default:
             console.log("Could not find node " + string);
@@ -193,9 +212,7 @@ function displayMarker(string, isStart){
     }
 }
 
-function displayRoute(lat, lng){
-    //37.728380525319494, -122.44651955791487
-    //37.72338230493978, -122.45551032250923
+function displayUserVector(lat, lng){
     if(lat > 37.728380525319494 || lat < 37.72338230493978 || lng > -122.44651955791487 || lng < -122.45551032250923){
         const entrances = [
             {
@@ -205,65 +222,75 @@ function displayRoute(lat, lng){
         ]
         let closestVectorIndex;
         var smallestDistance = 300;
-        for(var i = 0; i < entrances.length - 1; i++){
+        for(var i = 0; i < entrances.length; i++){
             const distance = Math.sqrt((entrances[i].lat1 - lat)**2 + (entrances[i].long1 - lng)**2);
             if(distance < smallestDistance){
                 closestVectorIndex = i;
                 smallestDistance = distance;
             }
         }
-        //polyline = L.polyline([[entrances[closestVectorIndex].lat1, entrances[closestVectorIndex].long1], [lat, lng]], {color: 'black', weight: 6}).addTo(map);
+        polyline = L.polyline([[entrances[closestVectorIndex].lat1, entrances[closestVectorIndex].long1], [lat, lng]], {color: 'black', weight: 6}).addTo(map);
     }
-    
-    var graph = new WeightedGraph();
-    graph.addVertex("A");
-    graph.addVertex("B");
-    graph.addVertex("C");
-    graph.addVertex("D");
-    graph.addVertex("E");
-    graph.addVertex("F");
-    graph.addVertex("G");
-    graph.addVertex("H");
-    graph.addVertex("I");
-    graph.addVertex("J");
-    graph.addVertex("K");
-    graph.addVertex("L");
-    graph.addVertex("M");
-    graph.addVertex("N");
-    graph.addVertex("O");
-    graph.addVertex("SCI");
-    graph.addVertex("MUB");
-    graph.addVertex("BATL");
+}
 
-    if(wheelchairAssessibilityNeeded){
-        console.log("Not done yet!");
+function displayRoute(start, end){
+    if(start !== end){
+        var graph = new WeightedGraph();
+        graph.addVertex("A");
+        graph.addVertex("B");
+        graph.addVertex("C");
+        graph.addVertex("D");
+        graph.addVertex("E");
+        graph.addVertex("F");
+        graph.addVertex("G");
+        graph.addVertex("H");
+        graph.addVertex("I");
+        graph.addVertex("J");
+        graph.addVertex("K");
+        graph.addVertex("L");
+        graph.addVertex("M");
+        graph.addVertex("N");
+        graph.addVertex("O");
+        graph.addVertex("ART");
+        graph.addVertex("ARTX");
+        graph.addVertex("SCI");
+        graph.addVertex("MUB");
+        graph.addVertex("BATL");
+
+        if(wheelchairAssessibilityNeeded){
+            console.log("Not done yet!");
+        } else {
+            graph.addEdge("A", "B", 400);
+            graph.addEdge("A", "C", 400);
+            graph.addEdge("A", "D", 592);
+            graph.addEdge("A", "E", 614);
+            graph.addEdge("A", "SCI", 40);
+            graph.addEdge("B", "K", 315);
+            graph.addEdge("C", "I", 50);
+            graph.addEdge("D", "H", 50);
+            graph.addEdge("E", "J", 800);
+            graph.addEdge("F", "I", 125);
+            graph.addEdge("G", "ART", 40);
+            graph.addEdge("G", "ARTX", 30);
+            graph.addEdge("G", "H", 65);
+            graph.addEdge("H", "I", 265);
+            graph.addEdge("I", "L", 300);
+            graph.addEdge("J", "H", 600);
+            graph.addEdge("J", "O", 240);
+            graph.addEdge("J", "MUB", 310);
+            graph.addEdge("K", "N", 390);
+            graph.addEdge("L", "M", 100);
+            graph.addEdge("L", "BATL", 200);
+            graph.addEdge("M", "N", 260);
+            
+        }
+        const route = graph.Dijkstra(start, end);
+        for(var i = 0; i < route.length - 1; i++){
+            console.log(route[i] + "," + route[i+1]);
+            displayEdge(route[i], route[i+1]);
+        }
     } else {
-        graph.addEdge("A", "B", 400);
-        graph.addEdge("A", "C", 400);
-        graph.addEdge("A", "D", 592);
-        graph.addEdge("A", "E", 614);
-        graph.addEdge("A", "SCI", 40);
-        graph.addEdge("B", "K", 315);
-        graph.addEdge("C", "I", 50);
-        graph.addEdge("D", "H", 50);
-        graph.addEdge("E", "J", 800);
-        graph.addEdge("F", "I", 125);
-        graph.addEdge("G", "H", 65);
-        graph.addEdge("H", "I", 265);
-        graph.addEdge("I", "L", 300);
-        graph.addEdge("J", "H", 600);
-        graph.addEdge("J", "O", 240);
-        graph.addEdge("J", "MUB", 310);
-        graph.addEdge("K", "N", 390);
-        graph.addEdge("L", "M", 100);
-        graph.addEdge("L", "BATL", 200);
-        graph.addEdge("M", "N", 260);
-        
-    }
-    const route = graph.Dijkstra(startingPoint, destination);
-    for(var i = 0; i < route.length - 1; i++){
-        console.log(route[i] + "," + route[i+1]);
-        displayEdge(route[i], route[i+1]);
+        alert("You must choose a different starting point and destination");
     }
 }
 
@@ -307,7 +334,6 @@ function displayEdge(node1, node2){
                 console.log("Does not exist");
             } else { 
                 polylineSCItoA = L.polyline([[37.7257029109819, -122.45106814833785], [37.7257029109819, -122.45077517492479]], {color: 'red', weight: 6}).addTo(map);
-                console.log(polylineSCItoA);
             }
             break;
         case node1 === "B" && node2 === "K":
@@ -327,6 +353,12 @@ function displayEdge(node1, node2){
             break;
         case node1 === "G" && node2 === "H":
             polylineHG = L.polyline([[37.726920384869686, -122.45171562000382], [37.72711687806445, -122.4517118510434]], {color: 'blue', weight: 6}).addTo(map);
+            break;
+        case node1 === "G" && node2 === "ART":
+            polylineGtoART = L.polyline([[37.72711687806445, -122.4517118510434], [37.72711687806445, -122.4515670166594]], {color: 'blue', weight: 6}).addTo(map);
+            break;
+        case node1 === "G" && node2 === "ARTX":
+            polylineGtoARTX = L.polyline([[37.72711687806445, -122.4517118510434], [37.72711687806445, -122.45179031055791]], {color: 'blue', weight: 6}).addTo(map);
             break;
         case node1 === "H" && node2 === "I": 
             polylineHI = L.polyline([[37.726920384869686, -122.45171562000382], [37.726927930648294, -122.45080079724654]], {color: 'blue', weight: 6}).addTo(map);
