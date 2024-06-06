@@ -12,12 +12,10 @@
     crossorigin=""></script>
     <style>
         #map { height: 80vh; }
+        img.huechange { filter: hue-rotate(160deg); }
     </style>
 </head>
 <body>
-    <div id="map"></div>
-    <script src="PriorityQueue.js"></script>
-    <script src="routeHandler.js"></script>
     <div>
         <p class="startingText">
             Starting Point:   
@@ -45,5 +43,8 @@
     <div>
         <button onclick="setStartAndDestination()">Enter</button>
     </div>
+    <div id="map"></div>
+    <script src="PriorityQueue.js"></script>
+    <script src="routeHandler.js"></script>
 </body>
 </html>
