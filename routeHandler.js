@@ -14,9 +14,11 @@ var lMarker, lCircle, zoomed, marker, marker1, polyline, polylineAB, polylineABF
 polylineAD, polylineADForADA, polylineAE, polylineAEForADA, polylineSCItoA, polylineBK, polylineCI, polylineDH, polylineEJ,
 polylineHG, polylineHI, polylineIF, polylineIL, polylineJH, polylineJO, polylineLM, polylineLtoBATL, polylineMN, polylineMUBtoJ,
 polylineNK, polylineGtoART, polylineGtoARTX, polylinetest;
+let startlat, startlong;
 let destinationlat, destinationlong;
 let latitude, longitude;
 let wheelchairAssessibilityNeeded = false;
+
 
 var startingPoint = "MUB";
 var destination = "SCI";
@@ -99,11 +101,12 @@ function updateMap(){
     
     clearMap();
     
-    displayMarker(destination, false);
-    displayMarker(startingPoint, true);
+    displayRoute(startingPoint, destination);
+
+    displayMarker(startingPoint, "start");
+    displayMarker(destination, "destination");
     navigator.geolocation.watchPosition(success, error);
     
-    displayRoute(startingPoint, destination);
 }
 
 function clearMap(){
@@ -142,7 +145,7 @@ function success(pos) {
     // Removes any existing marker and circule (new ones about to be set)
 
     lMarker = L.marker([lat, lng]).addTo(map);
-    lCircle = L.circle([lat, lng], { radius: accuracy }).addTo(map);
+    lCircle = L.circle([lat, lng], { radius: accuracy/2 }).addTo(map);
     // Adds marker to the map and a circle for accuracy
 
     displayUserVector(lat, lng);
@@ -166,7 +169,7 @@ function success(pos) {
 function error(err) {
 
     if (err.code === 1) {
-        alert("Please allow geolocation access");
+        console.log("Please allow geolocation access");
     } else {
         console.log("Cannot get current location");
     }
@@ -179,41 +182,54 @@ function error(err) {
     }
 }
 
-function displayMarker(string, isStart){
+//second arguement:
+//false indicates destination
+//true indeicates start
+function displayMarker(string, type){
+    let lat, long;
     switch(string){
         case "ART":
-            destinationlat = 37.72711687806445; 
-            destinationlong = -122.4515670166594;
+            lat = 37.72711687806445; 
+            long = -122.4515670166594;
             break;
         case "ARTX": 
-            destinationlat = 37.72711687806445;
-            destinationlong = -122.45179031055791;
+            lat = 37.72711687806445;
+            long = -122.45179031055791;
             break;
         case "BATL":
-            destinationlat = 37.72675835905989; 
-            destinationlong = -122.44931324533881;
+            lat = 37.72675835905989; 
+            long = -122.44931324533881;
             break;
         case "MUB":
-            destinationlat = 37.72534222155596;
-            destinationlong = -122.45297519895082;
+            lat = 37.72534222155596;
+            long = -122.45297519895082;
             break;
         case "SCI":
-            destinationlat = 37.7257029109819;
-            destinationlong = -122.45106814833785;
+            lat = 37.7257029109819;
+            long = -122.45106814833785;
             break;
         default:
             console.log("Could not find node " + string);
             break;
     }
-    if(isStart){
-        marker = L.marker([destinationlat, destinationlong]).addTo(map);
+    if(type === "start"){
+        startlat = lat;
+        startlong = long;
+        marker = L.marker([startlat, startlong]).addTo(map);
+    } else if(type === "destination"){
+        destinationlat = lat;
+        destinationlong = long;
+        marker1 = L.marker([destinationlat, destinationlong]).addTo(map);
+        marker1._icon.classList.add("huechange");
     } else {
+        destinationlat = lat;
+        destinationlong = long;
         marker1 = L.marker([destinationlat, destinationlong], {color: 'red'}).addTo(map);
     }
 }
 
 function displayUserVector(lat, lng){
-    if(lat > 37.728380525319494 || lat < 37.72338230493978 || lng > -122.44651955791487 || lng < -122.45551032250923){
+    /*if(lat > 37.728380525319494 || lat < 37.72338230493978 || lng > -122.44651955791487 || lng < -122.45551032250923){
         const entrances = [
             {
                 lat1: 37.723665454003175, 
@@ -230,10 +246,14 @@ function displayUserVector(lat, lng){
             }
         }
         polyline = L.polyline([[entrances[closestVectorIndex].lat1, entrances[closestVectorIndex].long1], [lat, lng]], {color: 'black', weight: 6}).addTo(map);
-    }
+    }*/
+    
+    //polyline = L.polyline([[destinationlat, destinationlong], [lat, lng]], {color: 'black', weight: 6}).addTo(map);
 }
 
 function displayRoute(start, end){
+    //37.728380525319494, -122.44651955791487
+    //37.72338230493978, -122.45551032250923
     if(start !== end){
         var graph = new WeightedGraph();
         graph.addVertex("A");
@@ -377,7 +397,8 @@ function displayEdge(node1, node2){
             }
             break;
         case node1 === "J" && node2 === "MUB":
-            polylineMUBtoJ = L.polyline(MUBtoJ, {color: 'blue', weight: 6}).addTo(map);
+            //polylineMUBtoJ = L.polyline(MUBtoJ, {color: 'blue', weight: 6}).addTo(map);
+            polylinetest = L.layerGroup().addLayer(L.polyline(MUBtoJ, {color: 'blue', weight: 6})).addTo(map);
             break;
         case node1 === "K" && node2 === "N":
             polylineNK = L.polyline(NK, {color: 'blue', weight: 6}).addTo(map);
