@@ -19,7 +19,6 @@ let destinationlat, destinationlong;
 let latitude, longitude;
 let wheelchairAssessibilityNeeded = false;
 
-
 var startingPoint = "MUB";
 var destination = "SCI";
 
@@ -148,8 +147,6 @@ function success(pos) {
     lCircle = L.circle([lat, lng], { radius: accuracy/2 }).addTo(map);
     // Adds marker to the map and a circle for accuracy
 
-    displayUserVector(lat, lng);
-
     //uncomment for zoom
     /*
     if (!zoomed) {
@@ -186,27 +183,32 @@ function error(err) {
 //false indicates destination
 //true indeicates start
 function displayMarker(string, type){
-    let lat, long;
+    let lat, long, buildingName;
     switch(string){
         case "ART":
             lat = 37.72711687806445; 
             long = -122.4515670166594;
+            buildingName = "Creative Arts Building";
             break;
         case "ARTX": 
             lat = 37.72711687806445;
             long = -122.45179031055791;
+            buildingName = "Creative Arts Extension Building";
             break;
         case "BATL":
             lat = 37.72675835905989; 
             long = -122.44931324533881;
+            buildingName = "Batmale Hall";
             break;
         case "MUB":
             lat = 37.72534222155596;
             long = -122.45297519895082;
+            buildingName = "Multi-Use Building";
             break;
         case "SCI":
             lat = 37.7257029109819;
             long = -122.45106814833785;
+            buildingName = "Science Building";
             break;
         default:
             console.log("Could not find node " + string);
@@ -215,40 +217,17 @@ function displayMarker(string, type){
     if(type === "start"){
         startlat = lat;
         startlong = long;
-        marker = L.marker([startlat, startlong]).addTo(map);
+        marker = L.marker([startlat, startlong]).addTo(map).bindPopup("<h1>" + buildingName + "<\h1>");
     } else if(type === "destination"){
         destinationlat = lat;
         destinationlong = long;
-        marker1 = L.marker([destinationlat, destinationlong]).addTo(map);
+        marker1 = L.marker([destinationlat, destinationlong]).addTo(map).bindPopup("<h1>" + buildingName + "<\h1>");
         marker1._icon.classList.add("huechange");
     } else {
         destinationlat = lat;
         destinationlong = long;
         marker1 = L.marker([destinationlat, destinationlong], {color: 'red'}).addTo(map);
     }
-}
-
-function displayUserVector(lat, lng){
-    /*if(lat > 37.728380525319494 || lat < 37.72338230493978 || lng > -122.44651955791487 || lng < -122.45551032250923){
-        const entrances = [
-            {
-                lat1: 37.723665454003175, 
-                long1: -122.44973690637808
-            }
-        ]
-        let closestVectorIndex;
-        var smallestDistance = 300;
-        for(var i = 0; i < entrances.length; i++){
-            const distance = Math.sqrt((entrances[i].lat1 - lat)**2 + (entrances[i].long1 - lng)**2);
-            if(distance < smallestDistance){
-                closestVectorIndex = i;
-                smallestDistance = distance;
-            }
-        }
-        polyline = L.polyline([[entrances[closestVectorIndex].lat1, entrances[closestVectorIndex].long1], [lat, lng]], {color: 'black', weight: 6}).addTo(map);
-    }*/
-    
-    //polyline = L.polyline([[destinationlat, destinationlong], [lat, lng]], {color: 'black', weight: 6}).addTo(map);
 }
 
 function displayRoute(start, end){
