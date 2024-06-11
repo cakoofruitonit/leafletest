@@ -13,11 +13,14 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/
 var lMarker, lCircle, zoomed, marker, marker1, polyline, polylineAB, polylineABForADA, polylineAC, polylineACForADA, 
 polylineAD, polylineADForADA, polylineAE, polylineAEForADA, polylineSCItoA, polylineBK, polylineCI, polylineDH, polylineEJ,
 polylineHG, polylineHI, polylineIF, polylineIL, polylineJH, polylineJO, polylineLM, polylineLtoBATL, polylineMN, polylineMUBtoJ,
-polylineNK, polylineGtoART, polylineGtoARTX, polylinetest;
+polylineNK, polylineGtoART, polylineGtoARTX, polylineOtoSCI, polylinetest;
 let startlat, startlong;
 let destinationlat, destinationlong;
 let latitude, longitude;
 let wheelchairAssessibilityNeeded = false;
+
+let startingCoordinates = [];
+let destinationCoordinates = [];
 
 var startingPoint = "MUB";
 var destination = "SCI";
@@ -88,9 +91,16 @@ let MUBtoJ = [
 ]
 updateMap();
 
+var selectElement = document.getElementById("choose-location1");
+var selectElement1 = document.getElementById("choose-location2");
+selectElement.addEventListener('change', ()=> {
+    setStartAndDestination();
+});
+selectElement1.addEventListener('change', ()=> {
+    setStartAndDestination();
+});
+
 function setStartAndDestination(){
-    var selectElement = document.getElementById("choose-location1");
-    var selectElement1 = document.getElementById("choose-location2");
     startingPoint = selectElement.options[selectElement.selectedIndex].value;
     destination = selectElement1.options[selectElement1.selectedIndex].value;
     updateMap();
@@ -115,7 +125,7 @@ function clearMap(){
         polylineAD, polylineADForADA, polylineAE, polylineAEForADA, polylineSCItoA, polylineBK, 
         polylineCI, polylineDH, polylineEJ, polylineHG, polylineHI, polylineIF, polylineIL, polylineJH, 
         polylineJO, polylineLM, polylineLtoBATL, polylineMN, polylineMUBtoJ, polylineNK, polylinetest,
-        polylineGtoART, polylineGtoARTX
+        polylineGtoART, polylineGtoARTX, polylineOtoSCI
     ];
 
     for(var i = 0; i < mapMarkers.length; i++){
@@ -146,14 +156,6 @@ function success(pos) {
     lMarker = L.marker([lat, lng]).addTo(map);
     lCircle = L.circle([lat, lng], { radius: accuracy/2 }).addTo(map);
     // Adds marker to the map and a circle for accuracy
-
-    //uncomment for zoom
-    /*
-    if (!zoomed) {
-        zoomed = map.fitBounds([[destinationlat, destinationlong], [lat, lng]]); 
-    }
-    */
-    // Set zoom to boundaries of accuracy circle
 
     //37.72569410938344, -122.45226657608829
     //calculate the distance bewteen lat lng and destination
@@ -253,6 +255,7 @@ function displayRoute(start, end){
         graph.addVertex("ART");
         graph.addVertex("ARTX");
         graph.addVertex("SCI");
+        graph.addVertex("SCI");
         graph.addVertex("MUB");
         graph.addVertex("BATL");
 
@@ -263,25 +266,26 @@ function displayRoute(start, end){
             graph.addEdge("A", "C", 400);
             graph.addEdge("A", "D", 592);
             graph.addEdge("A", "E", 614);
-            graph.addEdge("A", "SCI", 40);
+            graph.addEdge("A", "SCI-0", 40);
             graph.addEdge("B", "K", 315);
             graph.addEdge("C", "I", 50);
             graph.addEdge("D", "H", 50);
             graph.addEdge("E", "J", 800);
             graph.addEdge("F", "I", 125);
-            graph.addEdge("G", "ART", 40);
-            graph.addEdge("G", "ARTX", 30);
+            graph.addEdge("G", "ART-0", 40);
+            graph.addEdge("G", "ARTX-0", 30);
             graph.addEdge("G", "H", 65);
             graph.addEdge("H", "I", 265);
             graph.addEdge("I", "L", 300);
             graph.addEdge("J", "H", 600);
             graph.addEdge("J", "O", 240);
-            graph.addEdge("J", "MUB", 310);
+            graph.addEdge("J", "MUB-0", 310);
             graph.addEdge("K", "N", 390);
             graph.addEdge("L", "M", 100);
-            graph.addEdge("L", "BATL", 200);
+            graph.addEdge("L", "BATL-0", 200);
             graph.addEdge("M", "N", 260);
-            
+            graph.addEdge("O", "SCI-1", 80);
+            //must fix multiple exits
         }
         const route = graph.Dijkstra(start, end);
         for(var i = 0; i < route.length - 1; i++){
@@ -390,6 +394,9 @@ function displayEdge(node1, node2){
             break;
         case node1 === "M" && node2 === "N":
             polylineMN = L.polyline(MN, {color: 'blue', weight: 6}).addTo(map);
+            break;
+        case node1 === "O" && node2 === "SCI":
+            polylineOtoSCI = L.polyline([[37.7257028758774, -122.45149193737093], [37.7257028758774, -122.45122442674977]], {color: 'red', weight: 6}).addTo(map);
             break;
         default:
             displayEdge(node2, node1);
