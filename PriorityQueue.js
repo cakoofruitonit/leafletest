@@ -1,7 +1,7 @@
 class Node {
     constructor(val, priority) {
-      this.val = val;
-      this.priority = priority;
+        this.val = val;
+        this.priority = priority;
     }
 }
   
@@ -71,31 +71,24 @@ class PriorityQueue {
 class WeightedGraph {
     constructor() {
         this.adjacencyList = {};
+        this.start = null;
+        this.finish = null;
     }
     addVertex(vertex) {
         if (!this.adjacencyList[vertex]) this.adjacencyList[vertex] = [];
     }
     addEdge(vertex1, vertex2, weight) {
-        let start, finish;
-        start = vertex1.split("-")[0];
-        finish = vertex2.split("-")[0];
-        this.adjacencyList[start].push({ node: finish, weight });
-        this.adjacencyList[finish].push({ node: start, weight });
-        //this.adjacencyList[vertex1].push({ node: vertex2, weight });
-        //this.adjacencyList[vertex2].push({ node: vertex1, weight });
+        this.adjacencyList[vertex1].push({ node: vertex2, weight });
+        this.adjacencyList[vertex2].push({ node: vertex1, weight });
     }
     Dijkstra(first, last) {
-        //let start, finish;
-        //start = first.split("-")[0];
-        //finish = last.split("-")[0];
         const nodes = new PriorityQueue();
         const distances = {};
         const previous = {};
-        let path = [];
+        let path = []; 
         let smallest;
         for (let vertex in this.adjacencyList) {
-            //if (vertex === start) {
-            if (vertex === first) {
+            if (vertex.split("-")[0] === first) {
                 distances[vertex] = 0;
                 nodes.enqueue(vertex, 0);
             } else {
@@ -105,28 +98,47 @@ class WeightedGraph {
             previous[vertex] = null;
         }
         while (nodes.values.length) {
-        smallest = nodes.dequeue().val;
-        //if (smallest === finish) {
-        if (smallest === last) {
-            while (previous[smallest]) {
-                path.push(smallest);
-                smallest = previous[smallest];
+            smallest = nodes.dequeue().val;
+            if (smallest.split("-")[0] === last) {
+                while (previous[smallest]) {
+                    path.push(smallest);
+                    smallest = previous[smallest];
+                }
+                break;
             }
-            break;
-        }
-        if (smallest || distances[smallest] !== Infinity) {
-            for (let neighbor in this.adjacencyList[smallest]) {
-                let nextNode = this.adjacencyList[smallest][neighbor];
-                let candidate = distances[smallest] + nextNode.weight;
-                let nextNeighbor = nextNode.node;
-                if (candidate < distances[nextNeighbor]) {
-                    distances[nextNeighbor] = candidate;
-                    previous[nextNeighbor] = smallest;
-                    nodes.enqueue(nextNeighbor, candidate);
+            if (smallest || distances[smallest] !== Infinity) {
+                for (let neighbor in this.adjacencyList[smallest]) {
+                    let nextNode = this.adjacencyList[smallest][neighbor];
+                    var isBuilding = smallest.length > 1 ? 1000 : 0;
+                    let candidate = distances[smallest] + nextNode.weight + isBuilding;
+                    console.log(candidate);
+                    let nextNeighbor = nextNode.node;
+                    if (candidate < distances[nextNeighbor]) {
+                        distances[nextNeighbor] = candidate;
+                        previous[nextNeighbor] = smallest;
+                        nodes.enqueue(nextNeighbor, candidate);
                     }
                 }
             }
         }
-        return path.concat(smallest).reverse();
+        
+        let pathArray = path.concat(smallest);
+        this.setStart(pathArray[0]);
+        this.setFinish(pathArray[pathArray.length - 1]);
+        return pathArray.reverse();
+        
     }
+    setStart(start){
+        this.start = start;
+    }
+    setFinish(finish){
+        this.finish = finish;
+    }
+    getStart(){
+        return this.start;
+    }
+    getFinish(){
+        return this.finish;
+    }
+
 }
