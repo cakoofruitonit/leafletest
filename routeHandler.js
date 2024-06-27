@@ -13,7 +13,8 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/
 var lMarker, lCircle, zoomed, marker, marker1, polyline, polylineAB, polylineABForADA, polylineAC, polylineACForADA, 
 polylineAD, polylineADForADA, polylineAE, polylineAEForADA, polylineSCItoA, polylineBK, polylineCI, polylineDH, polylineEJ,
 polylineHG, polylineHI, polylineIF, polylineIL, polylineJH, polylineJO, polylineLM, polylineLtoBATL, polylineMN, polylineMUBtoJ,
-polylineNK, polylineGtoART, polylineGtoARTX, polylineOtoSCI, polylinetest;
+polylineNK, polylineGtoART, polylineGtoARTX, polylineOtoSCI, polylineKtoLIBR, polylineBtoCAFE, polylinetest, polylineFP,
+polylinePtoJDVL, polylinePtoEHF, polylineKR, polylineQR, polylineBQ;
 let startlat, startlong;
 let destinationlat, destinationlong;
 let latitude, longitude;
@@ -61,7 +62,7 @@ let shape3 = [
 ];
 
 let BK = shape3.concat([[37.724568494060584, -122.45016218506078], [37.72461320049394, -122.45004282675973], 
-[37.724673509392495, -122.44994626723535],[37.72471806130491, -122.44988591753273]]);
+    [37.724673509392495, -122.44994626723535],[37.72476206272458, -122.44988591753273]]);
 
 let IL = [
     [37.726927930648294, -122.45080079724654], [37.726911221030966, -122.45071202405849], 
@@ -81,13 +82,24 @@ let NK = [
     [37.72572013034101, -122.44948911531249], [37.725574600456156, -122.44950592016887], 
     [37.72545436308979, -122.44945650747626], [37.725340902859266, -122.44948779862958], 
     [37.72529955578054, -122.44955453783082], [37.72506179091299, -122.44963759092536], 
-    [37.72471806130491, -122.44988591753273]
+    [37.72476206272458, -122.44988591753273]
 ]
 
 let MUBtoJ = [
     [37.72534222155596, -122.45297519895082], [37.72545191921251,-122.45297519895082], 
     [37.72545191921251, -122.4525141854476], [37.7256223800879, -122.45251753820871], 
     [37.7256223800879, -122.45226395560371]
+]
+
+let PtoJDVL = [
+    [37.72802591518471, -122.45080079724654], [37.72795643850786, -122.45090918251088],
+    [37.72795643850786, -122.4510895610673], [37.72799621524043, -122.45119953163605],
+    [37.72806410081516, -122.45127463348813], [37.72806403843405, -122.45131634697346]
+]
+
+let PtoEHF = [
+    [37.72802591518471, -122.45080079724654], [37.72824866440335, -122.45080658801605], 
+    [37.72825184653033, -122.45042705543909], [37.72812403099609, -122.45042705543909]
 ]
 updateMap();
 
@@ -101,6 +113,8 @@ selectElement1.addEventListener('change', ()=> {
 });
 
 function setStartAndDestination(){
+    //var selectElement = document.getElementById("choose-location1");
+    //var selectElement1 = document.getElementById("choose-location2");
     startingPoint = selectElement.options[selectElement.selectedIndex].value;
     destination = selectElement1.options[selectElement1.selectedIndex].value;
     updateMap();
@@ -111,9 +125,6 @@ function updateMap(){
     clearMap();
     
     displayRoute(startingPoint, destination);
-
-    displayMarker(startingPoint, "start");
-    displayMarker(destination, "destination");
     navigator.geolocation.watchPosition(success, error);
     
 }
@@ -125,7 +136,8 @@ function clearMap(){
         polylineAD, polylineADForADA, polylineAE, polylineAEForADA, polylineSCItoA, polylineBK, 
         polylineCI, polylineDH, polylineEJ, polylineHG, polylineHI, polylineIF, polylineIL, polylineJH, 
         polylineJO, polylineLM, polylineLtoBATL, polylineMN, polylineMUBtoJ, polylineNK, polylinetest,
-        polylineGtoART, polylineGtoARTX, polylineOtoSCI
+        polylineGtoART, polylineGtoARTX, polylineOtoSCI, polylineKtoLIBR, polylineBtoCAFE, polylineFP,
+        polylinePtoJDVL, polylinePtoEHF
     ];
 
     for(var i = 0; i < mapMarkers.length; i++){
@@ -157,6 +169,16 @@ function success(pos) {
     lCircle = L.circle([lat, lng], { radius: accuracy/2 }).addTo(map);
     // Adds marker to the map and a circle for accuracy
 
+    displayUserVector(lat, lng);
+
+    //uncomment for zoom
+    /*
+    if (!zoomed) {
+        zoomed = map.fitBounds([[destinationlat, destinationlong], [lat, lng]]); 
+    }
+    */
+    // Set zoom to boundaries of accuracy circle
+
     //37.72569410938344, -122.45226657608829
     //calculate the distance bewteen lat lng and destination
     latitude = destinationlat - (destinationlat - lat)/2;
@@ -187,30 +209,90 @@ function error(err) {
 function displayMarker(string, type){
     let lat, long, buildingName;
     switch(string){
-        case "ART":
+        case "AMPH-0":
+            lat = 37.724102653723;
+            long = -122.44991155889541;
+            buildingName = "Amphitheater Plaza";
+            break;
+        case "ART-0":
             lat = 37.72711687806445; 
             long = -122.4515670166594;
             buildingName = "Creative Arts Building";
             break;
-        case "ARTX": 
+        case "ARTX-0": 
             lat = 37.72711687806445;
             long = -122.45179031055791;
             buildingName = "Creative Arts Extension Building";
             break;
-        case "BATL":
+        case "BATL-0":
             lat = 37.72675835905989; 
             long = -122.44931324533881;
             buildingName = "Batmale Hall";
             break;
-        case "MUB":
+        case "B700-0":
+            lat = 37.7267185103933;
+            long = -122.44741684032692;
+            buildingName = "Bungalows 701 - 716";
+            break;
+        case "CAFE-0":
+            lat = 37.72395165948694;
+            long = -122.45081165013444;
+            buildingName = "Cafeteria";
+            break;
+        case "CLOUD-0":
+            lat = 37.725455816805;
+            long = -122.45024838624327;
+            buildingName = "Cloud Hall";
+            break;
+        case "EHF-0":
+            lat = 37.72812403099609;
+            long = -122.45042705543909;
+            buildingName = "Floristry / Horticulture Center";
+            break;
+        case "HLTH-0":
+            lat = 37.727550825413836;
+            long = -122.4520963867931;
+            buildingName = "Student Health Center";
+            break;
+        case "JDVL-0":
+            lat = 37.72806403843405;
+            long = -122.45131634697346;
+            buildingName = "Judson Village";
+            break;
+        case "LIBR-0":
+            lat = 37.72476206272458;
+            long = -122.44962644354963;
+            buildingName = "Rosenburg Library";
+            break;
+        case "MUB-0":
             lat = 37.72534222155596;
             long = -122.45297519895082;
             buildingName = "Multi-Use Building";
             break;
-        case "SCI":
+        case "SCI-0":
             lat = 37.7257029109819;
             long = -122.45106814833785;
             buildingName = "Science Building";
+            break;
+        case "SCI-1":
+            lat = 37.7257028758774;
+            long = -122.45122442674977;
+            buildingName = "Science Building";
+            break;
+        case "SU-0":
+            lat = 37.724180844579436;
+            long = -122.4503093650356;
+            buildingName = "Student Union";
+            break;
+        case "VART-0":
+            lat = 37.72706414140307;
+            long = -122.450170803117;
+            buildingName = "Visual Arts Building";
+            break;
+        case "WELL-0":
+            lat = 37.72391542787471;
+            long = -122.44988004293974;
+            buildingName = "Wellness Center";
             break;
         default:
             console.log("Could not find node " + string);
@@ -252,12 +334,20 @@ function displayRoute(start, end){
         graph.addVertex("M");
         graph.addVertex("N");
         graph.addVertex("O");
-        graph.addVertex("ART");
-        graph.addVertex("ARTX");
-        graph.addVertex("SCI");
-        graph.addVertex("SCI");
-        graph.addVertex("MUB");
-        graph.addVertex("BATL");
+        graph.addVertex("P");
+        graph.addVertex("Q");
+        graph.addVertex("R");
+        graph.addVertex("ART-0");
+        graph.addVertex("ARTX-0");
+        graph.addVertex("BATL-0");
+        graph.addVertex("CAFE-0");
+        graph.addVertex("EHF-0");
+        graph.addVertex("JDVL-0");
+        graph.addVertex("LIBR-0");
+        graph.addVertex("MUB-0");
+        graph.addVertex("SCI-0");
+        graph.addVertex("SCI-1");
+        graph.addVertex("WELL-0");
 
         if(wheelchairAssessibilityNeeded){
             console.log("Not done yet!");
@@ -267,11 +357,14 @@ function displayRoute(start, end){
             graph.addEdge("A", "D", 592);
             graph.addEdge("A", "E", 614);
             graph.addEdge("A", "SCI-0", 40);
-            graph.addEdge("B", "K", 315);
+            graph.addEdge("B", "Q", 35);
+            //graph.addEdge("B", "K", 315);
+            graph.addEdge("B", "CAFE-0", 240);
             graph.addEdge("C", "I", 50);
             graph.addEdge("D", "H", 50);
             graph.addEdge("E", "J", 800);
             graph.addEdge("F", "I", 125);
+            graph.addEdge("F", "P", 250);
             graph.addEdge("G", "ART-0", 40);
             graph.addEdge("G", "ARTX-0", 30);
             graph.addEdge("G", "H", 65);
@@ -281,17 +374,26 @@ function displayRoute(start, end){
             graph.addEdge("J", "O", 240);
             graph.addEdge("J", "MUB-0", 310);
             graph.addEdge("K", "N", 390);
+            graph.addEdge("K", "R", 140);
+            graph.addEdge("K", "LIBR-0", 65);
             graph.addEdge("L", "M", 100);
             graph.addEdge("L", "BATL-0", 200);
             graph.addEdge("M", "N", 260);
             graph.addEdge("O", "SCI-1", 80);
+            graph.addEdge("P", "JDVL-0", 165);
+            graph.addEdge("P", "EHF-0", 245);
+            graph.addEdge("Q", "R", 130);
             //must fix multiple exits
         }
         const route = graph.Dijkstra(start, end);
+        
         for(var i = 0; i < route.length - 1; i++){
-            console.log(route[i] + "," + route[i+1]);
+            //console.log(route[i] + "," + route[i+1]);
             displayEdge(route[i], route[i+1]);
         }
+        
+        displayMarker(graph.getStart(), "start");
+        displayMarker(graph.getFinish(), "destination");
     } else {
         alert("You must choose a different starting point and destination");
     }
@@ -332,15 +434,21 @@ function displayEdge(node1, node2){
                 polylineAE = L.polyline([[37.7257029109819, -122.45077517492479],[37.72479962250000, -122.45077517492479], [37.72464213925238, -122.45174060814374]], {color: 'red', weight: 6}).addTo(map);
             }
             break;
-        case node1 === "A" && node2 === "SCI":
+        case node1 === "A" && node2 === "SCI-0":
             if (wheelchairAssessibilityNeeded) {
                 console.log("Does not exist");
             } else { 
                 polylineSCItoA = L.polyline([[37.7257029109819, -122.45106814833785], [37.7257029109819, -122.45077517492479]], {color: 'red', weight: 6}).addTo(map);
             }
             break;
+        case node1 === "B" && node2 === "Q":
+            polylineBQ = L.polyline([[37.724594969482396, -122.45077517492479], [37.72447090392019, -122.45077506981772]], {color: 'blue', weight: 6}).addTo(map);
+            break;
         case node1 === "B" && node2 === "K":
             polylineBK = L.polyline(BK, {color: 'blue', weight: 6}).addTo(map);
+            break;
+        case node1 === "B" && node2 === "CAFE-0":
+            polylineBtoCAFE = L.polyline([[37.724594969482396, -122.45077517492479], [37.72395165948694, -122.45077517492479],[37.72395165948694, -122.45081165013444]], {color: 'blue', weight: 6}).addTo(map);
             break;
         case node1 === "C" && node2 === "I":
             polylineCI = L.polyline([[37.72680311010429, -122.45078517492479], [37.726927930648294, -122.45080079724654]], {color: 'blue', weight: 6}).addTo(map);
@@ -354,13 +462,16 @@ function displayEdge(node1, node2){
         case node1 === "F" && node2 === "I":
             polylineIF = L.polyline([[37.726927930648294, -122.45080079724654], [37.72723245488745, -122.45079724516542]], {color: 'blue', weight: 6}).addTo(map);
             break;
+        case node1 === "F" && node2 === "P":
+            polylineFP = L.polyline([[37.72723245488745, -122.45079724516542], [37.72802591518471, -122.45080079724654]], {color: 'blue', weight: 6}).addTo(map);
+            break;
         case node1 === "G" && node2 === "H":
             polylineHG = L.polyline([[37.726920384869686, -122.45171562000382], [37.72711687806445, -122.4517118510434]], {color: 'blue', weight: 6}).addTo(map);
             break;
-        case node1 === "G" && node2 === "ART":
+        case node1 === "G" && node2 === "ART-0":
             polylineGtoART = L.polyline([[37.72711687806445, -122.4517118510434], [37.72711687806445, -122.4515670166594]], {color: 'blue', weight: 6}).addTo(map);
             break;
-        case node1 === "G" && node2 === "ARTX":
+        case node1 === "G" && node2 === "ARTX-0":
             polylineGtoARTX = L.polyline([[37.72711687806445, -122.4517118510434], [37.72711687806445, -122.45179031055791]], {color: 'blue', weight: 6}).addTo(map);
             break;
         case node1 === "H" && node2 === "I": 
@@ -379,24 +490,40 @@ function displayEdge(node1, node2){
                 polylineJO = L.polyline([[37.7256223800879, -122.45226395560371],[37.7257028758774, -122.45149193737093]], {color: 'red', weight: 6}).addTo(map);
             }
             break;
-        case node1 === "J" && node2 === "MUB":
+        case node1 === "J" && node2 === "MUB-0":
             //polylineMUBtoJ = L.polyline(MUBtoJ, {color: 'blue', weight: 6}).addTo(map);
             polylinetest = L.layerGroup().addLayer(L.polyline(MUBtoJ, {color: 'blue', weight: 6})).addTo(map);
             break;
         case node1 === "K" && node2 === "N":
             polylineNK = L.polyline(NK, {color: 'blue', weight: 6}).addTo(map);
             break;
+        case node1 === "K" && node2 === "LIBR-0":
+            polylineKtoLIBR = L.polyline([[37.72476206272458, -122.44988591753273], [37.72476206272458, -122.44962644354963]], {color: 'blue', weight: 6}).addTo(map);
+            break;
+        case node1 === "K" && node2 === "R":
+            polylineKR = L.polyline([[37.72452394205446, -122.45032982312472], [37.724568494060584, -122.45016218506078], [37.72461320049394, -122.45004282675973], 
+                [37.724673509392495, -122.44994626723535],[37.72476206272458, -122.44988591753273]], {color: 'blue', weight: 6}).addTo(map);
+            break;
         case node1 === "L" && node2 === "M":
             polylineLM = L.polyline([[37.726605626097915, -122.4498317078415], [37.726515518135476, -122.44975430348917], [37.726355047712474, -122.44965506175564]], {color: 'blue', weight: 6}).addTo(map);
             break;
-        case node1 === "L" && node2 === "BATL":
+        case node1 === "L" && node2 === "BATL-0":
             polylineLtoBATL = L.polyline([[37.726605626097915, -122.4498317078415], [37.72675729832949, -122.44975580982445], [37.72675835905989, -122.44931324533881]], {color: 'blue', weight: 6}).addTo(map);
             break;
         case node1 === "M" && node2 === "N":
             polylineMN = L.polyline(MN, {color: 'blue', weight: 6}).addTo(map);
             break;
-        case node1 === "O" && node2 === "SCI":
+        case node1 === "O" && node2 === "SCI-1":
             polylineOtoSCI = L.polyline([[37.7257028758774, -122.45149193737093], [37.7257028758774, -122.45122442674977]], {color: 'red', weight: 6}).addTo(map);
+            break;
+        case node1 === "P" && node2 === "JDVL-0":
+            polylinePtoJDVL = L.polyline(PtoJDVL, {color: 'blue', weight: 6}).addTo(map);
+            break;
+        case node1 === "P" && node2 === "EHF-0":
+            polylinePtoEHF = L.polyline(PtoEHF, {color: 'blue', weight: 6}).addTo(map);
+            break;
+        case node1 === "Q" && node2 === "R":
+            polylineQR = L.polyline([[37.72447090392019, -122.45077506981772], [37.7244910584166, -122.45051355444272], [37.72452394205446, -122.45032982312472]], {color: 'blue', weight: 6}).addTo(map);
             break;
         default:
             displayEdge(node2, node1);
