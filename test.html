@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>KML File Test</title>
+    <title>Leaflet / Panolens Test</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
     crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""></script>
-    <style>
-        #map { height: 80vh; }
-        img.huechange { filter: hue-rotate(160deg); }
-    </style>
+    <link rel="stylesheet" href="css/styles.css">
+
 </head>
 <body>
     <div>
@@ -62,9 +60,31 @@
             <option value="WELL">Wellness Center</option>
         </select>
     </div>
+
+    <div id="tab-table">
+        <ul class="tabs">
+            <li data-tab-target="#maps" class="tab" id="maps-tab">Map</li>
+            <li data-tab-target="#directions" class="tab">Directions</li>
+        </ul>
+        <div id="tab-content">
+            <div id="maps" data-tab-content class="active">
+                <div id="map" class="map-container"></div>
+            </div>
+            <div id="directions" data-tab-content>
+                <div id="direction-container" class="direction-container">
+                    <div id="typed-direction-container"class="typed-direction-container"></div>
+                    <div id="pano-container" class="pano-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
     <br>
-    <div id="map"></div>
     <script src="PriorityQueue.js"></script>
     <script src="routeHandler.js"></script>
+    <script src="panolens_js/three.min.js"></script>
+    <script src="panolens_js/panolens.min.js"></script>
+    <script src="js/tabs.js"></script>
 </body>
 </html>
