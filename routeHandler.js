@@ -432,7 +432,11 @@ function displayRoute(start, end){
         graph.addVertex("WELL-0");
 
         if(wheelchairAssessibilityNeeded){
-            console.log("Not done yet!");
+            graph.addEdge("A", "B", 1110);
+            graph.addEdge("A", "C", 1110);
+            graph.addEdge("A", "D", 1010);
+            graph.addEdge("A", "E", 1010);
+            graph.addEdge("A", "SCI-0", 130);
         } else {
             graph.addEdge("A", "B", 400);
             graph.addEdge("A", "C", 400);
@@ -443,14 +447,10 @@ function displayRoute(start, end){
             //graph.addEdge("B", "K", 315);
             //graph.addEdge("B", "CAFE-0", 240);
             graph.addEdge("C", "I", 50);
-            graph.addEdge("D", "H", 50);
             graph.addEdge("E", "J", 800);
             graph.addEdge("F", "I", 125);
             graph.addEdge("F", "P", 250);
             graph.addEdge("F", "VART-0", 80);
-            graph.addEdge("G", "ART-0", 40);
-            graph.addEdge("G", "ARTX-0", 30);
-            graph.addEdge("G", "H", 65);
             graph.addEdge("H", "I", 265);
             graph.addEdge("I", "L", 300);
             graph.addEdge("J", "H", 600);
@@ -477,6 +477,12 @@ function displayRoute(start, end){
             graph.addEdge("V", "MUB-1", 310);
             graph.addEdge("AMPH-0", "WELL-0", 80);
         }
+        //For All
+        graph.addEdge("D", "H", 50);
+        graph.addEdge("G", "ART-0", 40);
+        graph.addEdge("G", "ARTX-0", 30);
+        graph.addEdge("G", "H", 65);
+
         const route = graph.Dijkstra(start, end);
         let listOfAdjacencyNodes = [];
         
@@ -689,7 +695,7 @@ function directionsHandler(list){
                 let text = [];
                 if("ForAll" in key){
                     text = key["ForAll"];
-                } else if("Walking" in key){
+                } else if("Walking" in key && !wheelchairAssessibilityNeeded){
                     text = key["Walking"];
                 } else if("ADA" in key){
                     text = key["ADA"];
