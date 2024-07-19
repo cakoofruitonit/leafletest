@@ -1,0 +1,84 @@
+{
+    "AB": {
+        "ADA": "Take ramp down to Cloud Circle",
+        "Walking": "Head towards staircase and descend down to Cloud Circle"
+    },
+    "AC": {
+        "ADA": "Take ramp down to Cloud Circle",
+        "Walking": "Head towards staircase and descend down to Cloud Circle"
+    },
+    "AD": {
+        "ADA": "Take ramp down to Cloud Circle",
+        "Walking": "Head towards staircase and descend down to Cloud Circle"
+    },
+    "AE": {
+        "ADA": "Take ramp down to Cloud Circle",
+        "Walking": "Head towards staircase and descend down to Cloud Circle"
+    },
+    "ASCI-0": {
+        "ADA": "Enter Science Building via ramp",
+        "Walking": "Enter Science Building"
+    },
+    "BA": {
+        "ADA": "Take ramp up to the top",
+        "Walking": "Head up staircase and walk to center of plaza"
+    },
+    "CA": {
+        "ADA": "Take ramp up to the top",
+        "Walking": "Head up staircase and walk to center of plaza"
+    },
+    "DA": {
+        "ADA": "Take ramp down to Cloud Circle",
+        "Walking": "Head towards staircase and descend down to Cloud Circle"
+    },
+    "DH": {
+        "ForAll": "Cross Cloud Circle"
+    },
+    "EA": {
+        "ADA": "Take ramp down to Cloud Circle",
+        "Walking": "Head towards staircase and descend down to Cloud Circle"
+    },
+    "GH": {
+        "ForAll": "Walk towards Cloud Circle"
+    },
+    "GART-0": {
+        "ForAll": "Enter Creative Arts Building"
+    },
+    "GARTX-0": {
+        "ForAll": "Enter Creative Arts Extension Building"
+    },
+    "HD": {
+        "ForAll": "Cross Cloud Circle"
+    },
+    "HG": {
+        "ForAll": "Walk straight towards elevator"
+    },
+    "JO": {
+        "Walking": "Walk up the stairs to Science Circle"
+    },
+    "JMUB-0": {
+        "ForAll": "Head towards the Multi-Use Building by crossing Frida Khalo Way and parking lot."
+    },
+    "OJ": {
+        "Walking": "Walk down the stairs to Frida Khalo Way"
+    },
+    "ART-0G": {
+        "ForAll": "Exit Creative Arts Extension Building and head in front of elevator"
+    },
+    "ARTX-0G": {
+        "ForAll": "Exit Creative Arts Extension Building and head in front of elevator"
+    },
+    "OSCI-1": {
+        "Walking": "From Science Circle, walk up stairs and enter the Science Building"
+    },
+    "MUB-0J": {
+        "ForAll": "Leave the Multi-Use Building and head towards the staircase"
+    },
+    "SCI-0A": {
+        "ADA": "Exit Science Building via ramp and head towards the center of plaza",
+        "Walking": "Exit Science Building and walk towards the center of plaza"
+    },
+    "SCI-1O": {
+        "Walking": "Exit Science Building and walk down stairs to Science Circle"
+    }
+}
