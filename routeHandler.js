@@ -19,13 +19,25 @@ polylineStoLIBR, polylineST, polylineTtoAMPH, polylineUV, polylineVtoMUB, polyli
 let startlat, startlong;
 let destinationlat, destinationlong;
 let latitude, longitude;
+
+document.getElementById("walking-btn").classList.add("active");
 let wheelchairAssessibilityNeeded = false;
 
 let startingCoordinates = [];
 let destinationCoordinates = [];
+let directions = [];
 
-var startingPoint = "MUB";
-var destination = "SCI";
+document.getElementById("maps-tab").classList.add('active');
+const panoContainer = document.querySelector('.pano-container');
+const directionContainer = document.getElementById("typed-direction-container");
+
+let counter = 0;
+let size = 0;
+const tabs = document.querySelectorAll('[data-tab-target]');
+const tabContents = document.querySelectorAll('[data-tab-content]');
+
+var startingPoint = "SCI";
+var destination = "MUB";
 
 let shape1 = [
     [37.7257029109819, -122.45077517492479],[37.725560293677326, -122.45059960773112],
@@ -104,20 +116,48 @@ let PtoEHF = [
 ]
 updateMap();
 
-var selectElement = document.getElementById("choose-location1");
-var selectElement1 = document.getElementById("choose-location2");
-selectElement.addEventListener('change', ()=> {
-    setStartAndDestination();
-});
+var selectElement1 = document.getElementById("choose-location1");
+var selectElement2 = document.getElementById("choose-location2");
 selectElement1.addEventListener('change', ()=> {
-    setStartAndDestination();
+    this.setStartAndDestination();
 });
+selectElement2.addEventListener('change', ()=> {
+    this.setStartAndDestination();
+});
+
+function onReverseMarkersBtnPressed(){
+    var temp = selectElement2.value;
+    selectElement2.value = selectElement1.value;
+    selectElement1.value = temp;
+    this.setStartAndDestination();
+}
+
+function onWalkingBtnPressed(){
+    this.changeAccessibilityRoute(false, '.accessibility-btn', "walking-btn");
+}
+
+function onADABtnPressed(){
+    this.changeAccessibilityRoute(true, '.accessibility-btn' , "ada-btn");
+}
+
+function changeAccessibilityRoute(needADARoute, btnClass, str){
+    const btnClasses = document.querySelectorAll(btnClass);
+    btnClasses.forEach(btn => {
+        btn.classList.remove("active");
+    })
+    const btnToSelect = document.getElementById(str);
+    btnToSelect.classList.add("active");
+    wheelchairAssessibilityNeeded = needADARoute;
+    console.log("wheelchairAssessibilityNeeded = " + wheelchairAssessibilityNeeded);
+    this.setStartAndDestination();
+}
 
 function setStartAndDestination(){
     //var selectElement = document.getElementById("choose-location1");
     //var selectElement1 = document.getElementById("choose-location2");
-    startingPoint = selectElement.options[selectElement.selectedIndex].value;
-    destination = selectElement1.options[selectElement1.selectedIndex].value;
+    startingPoint = selectElement1.options[selectElement1.selectedIndex].value;
+    destination = selectElement2.options[selectElement2.selectedIndex].value;
+
     updateMap();
 }
     
@@ -252,7 +292,7 @@ function displayMarker(string, type){
             break;
         case "HLTH-0":
             lat = 37.727550825413836;
-            long = -122.4520963867931;
+            long = -122.45204494422353;
             buildingName = "Student Health Center";
             break;
         case "JDVL-0":
@@ -436,17 +476,35 @@ function displayRoute(start, end){
             graph.addEdge("U", "V", 210);
             graph.addEdge("V", "MUB-1", 310);
             graph.addEdge("AMPH-0", "WELL-0", 80);
-            //must fix multiple exits
         }
         const route = graph.Dijkstra(start, end);
+        let listOfAdjacencyNodes = [];
+        
+        /*
+        for(var i = route.length - 1; i > 0; i--){
+            let newAdjacencyNode = route[i] + route[i-1];
+            listOfAdjacencyNodes.push(newAdjacencyNode);
+            displayEdge(route[i], route[i-1]);
+        }
+        */
         
         for(var i = 0; i < route.length - 1; i++){
-            console.log(route[i] + "," + route[i+1]);
+            let newAdjacencyNode = route[i] + route[i+1];
+            listOfAdjacencyNodes.push(newAdjacencyNode);
             displayEdge(route[i], route[i+1]);
         }
         
         displayMarker(graph.getStart(), "start");
         displayMarker(graph.getFinish(), "destination");
+
+        //empties all the directions
+        directions = [];
+        directionsHandler(listOfAdjacencyNodes);
+
+        console.log(document.getElementById("directions-tab").classList.contains("active"));
+        if(document.getElementById("directions-tab").classList.contains("active")){
+            this.addSetOfDirectionsAndImage();
+        }
     } else {
         alert("You must choose a different starting point and destination");
     }
@@ -619,4 +677,119 @@ function displayEdge(node1, node2){
             break;
     }
 }
+function directionsHandler(list){
     
+    fetch("resources/path.json")
+    .then(response => response.json())
+    .then(data => {
+        list.forEach(listElement => {
+            console.log(listElement);
+            if(listElement in data){
+                const key = data[listElement];
+                let text = [];
+                if("ForAll" in key){
+                    text = key["ForAll"];
+                } else if("Walking" in key){
+                    text = key["Walking"];
+                } else if("ADA" in key){
+                    text = key["ADA"];
+                } else {
+                    console.log("No text avaliable in this node");
+                }
+                directions.push(text);
+            } else {
+                console.log("Nodes " + listElement + " does not exist.");
+            }
+        });
+    })
+}
+console.log(directions);
+tabs.forEach(tab => {
+    tab.addEventListener('click', ()=> {
+        const target = document.querySelector(tab.dataset.tabTarget);
+        tabContents.forEach(element => {
+            element.classList.remove('active');
+        });
+        target.classList.add('active');
+        this.addSetOfDirectionsAndImage();
+
+        tabs.forEach(element => {
+            element.classList.remove('active');
+        });
+        tab.classList.add('active');
+        
+    })
+});
+
+function addSetOfDirectionsAndImage(){
+
+    if(panoContainer.innerHTML === ""){
+        const panorama = new PANOLENS.ImagePanorama('images/panel1.jpeg');
+
+        const viewer = new PANOLENS.Viewer({
+            initialLookAt: new THREE.Vector3( 2953.93, 1891.55, 5213.46 ),
+            container: panoContainer,
+            controlBar: false
+        });
+        viewer.add(panorama);
+    }
+
+    if(document.getElementById("directions-1") !== null){
+        this.clearDirections("directions");
+    } else {
+        console.log("Set of directions does not exist ATM!");
+    }
+
+    size = 0;
+    setTimeout( ()=> {
+        directions.forEach(text => {
+            console.log("Written directions are being added!");
+            directionContainer.innerHTML += '<span id="directions-' + size + '" class="written-direction">'+ text + '\n</span>';
+            if(size % 2 !== 0){
+                document.getElementById("directions-" + size).classList.add('gray');
+            }
+            size++;
+        });
+        const writtenDirections = document.querySelectorAll(".written-direction");
+        writtenDirections.forEach(direction => {
+            direction.addEventListener('click', ()=> {
+                this.removeDirectionFormatting();
+                const valueString = direction.id.split("-")[1];
+                const value = parseFloat(valueString);
+                this.changeSelectedDirection(value);
+            });
+        });
+        this.changeSelectedDirection(0);
+    }, 100);
+}
+
+function onUpBtnPressed(){
+    if(counter > 0){
+        this.removeDirectionFormatting();
+        changeSelectedDirection(counter - 1);
+    }
+}
+
+function onDownBtnPressed(){
+    if(counter < size - 1){
+        this.removeDirectionFormatting();
+        changeSelectedDirection(counter + 1);
+    }
+}
+
+function changeSelectedDirection(value){
+    document.getElementById("directions-" + value).classList.add("selected");
+    counter = value;
+}
+
+function removeDirectionFormatting(){
+    for(var i = 0; i < size; i++){
+        document.getElementById("directions-" + i).classList.remove("selected");
+    }
+}
+function clearDirections(container){
+    for(var i = 0; i < size; i++){
+        var c = document.getElementById(container + "-" + i);
+        c.remove();
+    }
+}
