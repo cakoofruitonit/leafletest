@@ -14,57 +14,78 @@
 
 </head>
 <body>
-    <div>
-        <p class="startingText">
-            Starting Point:   
-        </p>
-        <select class = "chooseLocation1" id="choose-location1" name="list-of-locations1">
-            <option value="AMPH">Amphitheater Plaza</option>
-            <option value="BATL">Batmale Hall</option>
-            <option value="B700">Bungalows 701 - 716</option>
-            <option value="CAFE">Cafeteria</option>
-            <option value="ART">Creative Arts Building</option>
-            <option value="ARTX">Creative Arts Extension Building</option>
-            <option value="CLOUD">Cloud Hall</option>
-            <option value="EHF">Horticulture / Floristry Center</option>
-            <option value="JDVL">Judson Village</option>
-            <option value="MUB">Multi-use Building (MUB)</option>
-            <option value="LIBR">Rosenburg Library</option>
-            <option value="SCI" selected="select">Science Building</option>
-            <option value="HLTH">Student Health Center</option>
-            <option value="SU">Student Union</option>
-            <option value="VART">Visual Arts Building</option>
-            <option value="WELL">Wellness Center</option>
-        </select>
-    </div>
-    <div>
-        <p class="destinationText">
-            Destination:
-        </p>
-        <select class = "chooseLocation2" id="choose-location2" name="list-of-locations2">
-            <option value="AMPH">Amphitheater Plaza</option>
-            <option value="BATL">Batmale Hall</option>
-            <option value="B700">Bungalows 701 - 716</option>
-            <option value="CAFE">Cafeteria</option>
-            <option value="ART">Creative Arts Building</option>
-            <option value="ARTX">Creative Arts Extension Building</option>
-            <option value="CLOUD">Cloud Hall</option>
-            <option value="EHF">Horticulture / Floristry Center</option>
-            <option value="JDVL">Judson Village</option>
-            <option value="MUB" selected="select">Multi-use Building (MUB)</option>
-            <option value="LIBR">Rosenburg Library</option>
-            <option value="SCI">Science Building</option>
-            <option value="HLTH">Student Health Center</option>
-            <option value="SU">Student Union</option>
-            <option value="VART">Visual Arts Building</option>
-            <option value="WELL">Wellness Center</option>
-        </select>
-    </div>
+    <table class="table1-main">
+        <tbody>
+            <tr>
+                <td class="table-left1">
+                    <p class="startingText">
+                        Starting Point:   
+                    </p>
+                    <div>
+                        <select class = "chooseLocation1" id="choose-location1" name="list-of-locations1">
+                            <option value="AMPH">Amphitheater Plaza</option>
+                            <option value="BATL">Batmale Hall</option>
+                            <option value="B700">Bungalows 701 - 716</option>
+                            <option value="CAFE">Cafeteria</option>
+                            <option value="ART">Creative Arts Building</option>
+                            <option value="ARTX">Creative Arts Extension Building</option>
+                            <option value="CLOUD">Cloud Hall</option>
+                            <option value="EHF">Horticulture / Floristry Center</option>
+                            <option value="JDVL">Judson Village</option>
+                            <option value="MUB">Multi-use Building (MUB)</option>
+                            <option value="LIBR">Rosenburg Library</option>
+                            <option value="SCI" selected="select">Science Building</option>
+                            <option value="HLTH">Student Health Center</option>
+                            <option value="SU">Student Union</option>
+                            <option value="VART">Visual Arts Building</option>
+                            <option value="WELL">Wellness Center</option>
+                        </select>
+                    </div>
+                    <p class="destinationText">
+                        Destination:
+                    </p>
+                    <div>
+                        <select class = "chooseLocation2" id="choose-location2" name="list-of-locations2">
+                            <option value="AMPH">Amphitheater Plaza</option>
+                            <option value="BATL">Batmale Hall</option>
+                            <option value="B700">Bungalows 701 - 716</option>
+                            <option value="CAFE">Cafeteria</option>
+                            <option value="ART">Creative Arts Building</option>
+                            <option value="ARTX">Creative Arts Extension Building</option>
+                            <option value="CLOUD">Cloud Hall</option>
+                            <option value="EHF">Horticulture / Floristry Center</option>
+                            <option value="JDVL">Judson Village</option>
+                            <option value="MUB" selected="select">Multi-use Building (MUB)</option>
+                            <option value="LIBR">Rosenburg Library</option>
+                            <option value="SCI">Science Building</option>
+                            <option value="HLTH">Student Health Center</option>
+                            <option value="SU">Student Union</option>
+                            <option value="VART">Visual Arts Building</option>
+                            <option value="WELL">Wellness Center</option>
+                        </select>
+                    </div>
+                </td>
+                <td class="table-center1">
+                    <button class="reverse-markers-btn" onclick="onReverseMarkersBtnPressed()">
+                        <img class="swap-icon" src="images/icons/swap.png">
+                    </button>
+                </td>
+                <td class="table-right1">
+                    <button id="walking-btn" class="accessibility-btn" onclick="onWalkingBtnPressed()">
+                        <img class="walking-icon" src="images/icons/walking.png">
+                    </button>
+                    <button id="ada-btn" class="accessibility-btn" onclick="onADABtnPressed()">
+                        <img class="ada-icon" src="images/icons/handicap.webp">
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
     <div id="tab-table">
         <ul class="tabs">
             <li data-tab-target="#maps" class="tab" id="maps-tab">Map</li>
-            <li data-tab-target="#directions" class="tab">Directions</li>
+            <li data-tab-target="#directions" class="tab" id="directions-tab">Directions</li>
         </ul>
         <div id="tab-content">
             <div id="maps" data-tab-content class="active">
@@ -72,7 +93,24 @@
             </div>
             <div id="directions" data-tab-content>
                 <div id="direction-container" class="direction-container">
-                    <div id="typed-direction-container"class="typed-direction-container"></div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="table-left2">
+                                    <div id="typed-direction-container" class="typed-direction-container"></div>
+                                </td>
+                                <td class="table-right2">
+                                    
+                                    <button class="btn-up" onclick="onUpBtnPressed()">
+                                        ⬆️
+                                    </button>
+                                    <button class="btn-down" onclick="onDownBtnPressed()">
+                                        ⬇️
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <div id="pano-container" class="pano-container"></div>
                 </div>
             </div>
@@ -81,10 +119,10 @@
 
     </div>
     <br>
+    <script src="LinkedNodes.js"></script>
     <script src="PriorityQueue.js"></script>
     <script src="routeHandler.js"></script>
     <script src="panolens_js/three.min.js"></script>
     <script src="panolens_js/panolens.min.js"></script>
-    <script src="js/tabs.js"></script>
 </body>
 </html>
