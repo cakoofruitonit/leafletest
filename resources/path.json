@@ -16,8 +16,11 @@
         "Walking": "Head towards staircase and descend down to Cloud Circle"
     },
     "ASCI-0": {
-        "ADA": "Enter Science Building via ramp",
-        "Walking": "Enter Science Building"
+        "Walking": "Enter Science Building",
+        "imageWalking": "images/panel2.jpeg"
+    },
+    "ASCI-2": {
+        "ForAll": "Enter Science Building via ramp"
     },
     "BA": {
         "ADA": "Take ramp up to the top",
@@ -38,6 +41,9 @@
         "ADA": "Take ramp down to Cloud Circle",
         "Walking": "Head towards staircase and descend down to Cloud Circle"
     },
+    "EJ": {
+        "ForAll": "From Cloud Circle, head down ramp and turn right towards staircase"
+    },  
     "GH": {
         "ForAll": "Walk towards Cloud Circle"
     },
@@ -53,14 +59,29 @@
     "HG": {
         "ForAll": "Walk straight towards elevator"
     },
+    "JE": {
+        "ForAll": "Head towards ramp and ascend to Cloud Circle"
+    },
     "JO": {
-        "Walking": "Walk up the stairs to Science Circle"
+        "Walking": "Walk up the stairs to Science Circle",
+        "imageWalking": {
+            "location": "images/panel1.jpeg",
+            "initialLook": [2953.93, 1891.55, 5213.46]
+        }
     },
     "JMUB-0": {
-        "ForAll": "Head towards the Multi-Use Building by crossing Frida Khalo Way and parking lot."
+        "ForAll": "Head towards the Multi-Use Building by crossing Frida Khalo Way and parking lot.",
+        "imageForAll": {
+            "location": "images/panel2.jpeg",
+            "initialLook": [2953.93, 1891.55, 5213.46]
+        }
     },
     "OJ": {
-        "Walking": "Walk down the stairs to Frida Khalo Way"
+        "Walking": "Walk down the stairs to Frida Khalo Way",
+        "imageWalking": {
+            "location": "images/panel1.jpeg",
+            "initialLook": [0, 0, 0]
+        }
     },
     "ART-0G": {
         "ForAll": "Exit Creative Arts Extension Building and head in front of elevator"
@@ -69,16 +90,30 @@
         "ForAll": "Exit Creative Arts Extension Building and head in front of elevator"
     },
     "OSCI-1": {
-        "Walking": "From Science Circle, walk up stairs and enter the Science Building"
+        "Walking": "From Science Circle, walk up stairs and enter the Science Building",
+        "imageWalking": {
+            "location": "images/panel2.jpeg",
+            "initialLook": [0, 0, 0]
+        }
     },
     "MUB-0J": {
-        "ForAll": "Leave the Multi-Use Building and head towards the staircase"
+        "ForAll": "Leave the Multi-Use Building and head towards the staircase",
+        "imageForAll": {
+            "location": "images/panel2.jpeg",
+            "initialLook": [0, 0, 0]
+        }
     },
     "SCI-0A": {
-        "ADA": "Exit Science Building via ramp and head towards the center of plaza",
         "Walking": "Exit Science Building and walk towards the center of plaza"
     },
+    "SCI-2A": {
+        "ForAll": "Exit Science Building via ramp and head towards the center of plaza"
+    },
     "SCI-1O": {
-        "Walking": "Exit Science Building and walk down stairs to Science Circle"
+        "Walking": "Exit Science Building and walk down stairs to Science Circle",
+        "imageWalking": {
+            "location": "images/panel2.jpeg",
+            "initialLook": [2000, 2000, 2000]
+        }
     }
 }
