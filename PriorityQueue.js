@@ -67,6 +67,7 @@ class PriorityQueue {
         }
     }
 }
+  
 class WeightedGraph {
     constructor() {
         this.adjacencyList = {};
@@ -84,7 +85,7 @@ class WeightedGraph {
         const nodes = new PriorityQueue();
         const distances = {};
         const previous = {};
-        let path = [];
+        let path = []; 
         let smallest;
         for (let vertex in this.adjacencyList) {
             if (vertex.split("-")[0] === first) {
@@ -108,7 +109,7 @@ class WeightedGraph {
             if (smallest || distances[smallest] !== Infinity) {
                 for (let neighbor in this.adjacencyList[smallest]) {
                     let nextNode = this.adjacencyList[smallest][neighbor];
-                    var isBuilding = smallest.length > 1 ? 1000 : 0;
+                    var isBuilding = smallest.length > 1 ? 200 : 0;
                     let candidate = distances[smallest] + nextNode.weight + isBuilding;
                     let nextNeighbor = nextNode.node;
                     if (candidate < distances[nextNeighbor]) {
