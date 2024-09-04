@@ -15,6 +15,9 @@
         "ADA": "Take ramp down to Cloud Circle",
         "Walking": "Head towards staircase and descend down to Cloud Circle"
     },
+    "Ae": {
+        "ForAll": "Head to ramp"
+    },
     "ASCI-0": {
         "Walking": "Enter Science Building",
         "imageWalking": "images/panel2.jpeg"
@@ -25,6 +28,12 @@
     "BA": {
         "ADA": "Take ramp up to the top",
         "Walking": "Head up staircase and walk to center of plaza"
+    },
+    "BQ": {
+        "ForAll": "Cross Cloud Circle"
+    },
+    "Be": {
+        "ForAll": "Ascend to the top via ramp"
     },
     "CA": {
         "ADA": "Take ramp up to the top",
@@ -83,11 +92,32 @@
             "initialLook": [0, 0, 0]
         }
     },
+    "QB": {
+        "ForAll": "Cross Cloud Circle"
+    },
+    "Qf": {
+        "ForAll": "Head straight towards end"
+    },
+    "eA": {
+        "ForAll": "Head towards center of plaza"
+    },
+    "eB": {
+        "ForAll": "Descend down to Cloud Circle via ramp"
+    },
+    "fQ": {
+        "ForAll": "Walk towards Cloud Circle"
+    },
+    "fCAFE-0": {
+        "ForAll": "Enter Cafeteria"
+    },
     "ART-0G": {
         "ForAll": "Exit Creative Arts Extension Building and head in front of elevator"
     },
     "ARTX-0G": {
         "ForAll": "Exit Creative Arts Extension Building and head in front of elevator"
+    },
+    "CAFE-0f": {
+        "ForAll": "Exit Cafeteria"
     },
     "OSCI-1": {
         "Walking": "From Science Circle, walk up stairs and enter the Science Building",
@@ -112,7 +142,7 @@
     "SCI-1O": {
         "Walking": "Exit Science Building and walk down stairs to Science Circle",
         "imageWalking": {
-            "location": "images/panel2.jpeg",
+            "location": "images/test.JPG",
             "initialLook": [2000, 2000, 2000]
         }
     }
