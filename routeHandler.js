@@ -8,6 +8,13 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/
     maxZoom: 19,
     attribution: '© OpenStreetMap'
 }).addTo(map); 
+
+var Stadia_StamenTerrainLabels = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain_labels/{z}/{x}/{y}{r}.{ext}', {
+	minZoom: 0,
+	maxZoom: 19,
+	//attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	ext: 'png'
+}).addTo(map); 
 // Sets map data source and associates with map
 
 var lMarker, lCircle, zoomed, marker, circleStart, marker1, polyline1, polylineAB, polylineABForADA, polylineAC, polylineACForADA, 
@@ -44,6 +51,8 @@ const tabContents = document.querySelectorAll('[data-tab-content]');
 
 var startingPoint = "SCI";
 var destination = "MUB";
+
+var secondNode = null;
 
 let shape1 = [
     [37.72558946535073, -122.45063602924347], [37.725560293677326, -122.45059960773112],
@@ -155,7 +164,6 @@ function changeAccessibilityRoute(needADARoute, btnClass, str){
     const btnToSelect = document.getElementById(str);
     btnToSelect.classList.add("active");
     wheelchairAssessibilityNeeded = needADARoute;
-    console.log("wheelchairAssessibilityNeeded = " + wheelchairAssessibilityNeeded);
     this.setStartAndDestination();
 }
 
@@ -399,15 +407,45 @@ function displayMarker(string, type){
     if(type === "start"){
         startlat = lat;
         startlong = long;
-        //console.log(map.getZoom());
-        marker = L.marker([startlat, startlong], {
-            rotationOrigin: 45
-        }).addTo(map).bindPopup("<h1>" + buildingName + "<\h1>");
-        //circleStart = L.circle([startlat, startlong], {radius: 3, color: "black"}).addTo(map);
+        /*
+        let angle = 0;
+        const iconOptions = {
+            iconUrl: "images/icons/arrow.png",
+            iconAnchor: [16, 32]
+        }
+        const customIcon = L.icon(iconOptions);
+        fetch("resources/nodes.json")
+        .then(response => response.json())
+        .then(data => {
+            if(secondNode in data){
+                let secondNodeCoords = data[secondNode];
+                let deltaX = secondNodeCoords[1] - startlong;
+                let deltaY = secondNodeCoords[0] - startlat;
+                console.log(deltaY/deltaX);
+                var isNegative = 0;
+                if(deltaX === 0 || deltaY === 0){
+                    isNegative += 90;
+                    if(deltaX < 0 || deltaY < 0){
+                        isNegative += 180;
+                    }
+                }
+                const convertedRadians = Math.atan(deltaY/deltaX) * (180/(Math.PI));
+                angle = convertedRadians + isNegative;
+                console.log("Angle = " + angle + ", " + deltaY/deltaX);
+                marker = L.marker([startlat, startlong], {
+                    icon: customIcon,
+                    rotationAngle: angle,
+                }).addTo(map).bindPopup("<h1>" + buildingName + "<\h1>");
+            }
+        });
+        */
+        circleStart = L.circle([startlat, startlong], {radius: 3, color: "black", fillColor: "white", fillOpacity: "1"}).addTo(map)
+            .bindPopup("<b>" + buildingName).openPopup();
     } else if(type === "destination"){
         destinationlat = lat;
         destinationlong = long;
-        marker1 = L.marker([destinationlat, destinationlong]).addTo(map).bindPopup("<h1>" + buildingName + "<\h1>");
+        marker1 = L.marker([destinationlat, destinationlong]).addTo(map)
+            .bindPopup("<b>" + buildingName);
         marker1._icon.classList.add("huechange");
     } else {
         destinationlat = lat;
@@ -613,8 +651,17 @@ function displayRoute(start, end){
         }
         */
         
+        secondNode = null;
+        console.log(secondNode === null)
         for(var i = 0; i < route.length - 1; i++){
+            if(secondNode === null){
+                secondNode = route[i+1];
+                console.log("secondNode = " + secondNode);
+            } else {
+                console.log("secondNode is already assigned to a value!");
+            }
             let newAdjacencyNode = route[i] + route[i+1];
+            console.log(newAdjacencyNode);
             listOfAdjacencyNodes.push(newAdjacencyNode);
             displayEdge(route[i], route[i+1]);
         }
@@ -627,7 +674,7 @@ function displayRoute(start, end){
         imageLocations = [];
         directionsHandler(listOfAdjacencyNodes);
 
-        console.log(document.getElementById("directions-tab").classList.contains("active"));
+        //console.log(document.getElementById("directions-tab").classList.contains("active"));
         if(document.getElementById("directions-tab").classList.contains("active")){
             this.addSetOfDirectionsAndImage();
         }
@@ -675,11 +722,7 @@ function displayEdge(node1, node2){
             polylineAe = L.polyline([[37.7257029109819, -122.45077517492479], [37.72558946535073, -122.45063602924347]], {color: 'blue', weight: 6}).addTo(map);
             break;
         case node1 === "A" && node2 === "SCI-0":
-            if (wheelchairAssessibilityNeeded) {
-                console.log("Does not exist");
-            } else { 
-                polylineSCItoA = L.polyline([[37.7257029109819, -122.45106814833785], [37.7257029109819, -122.45077517492479]], {color: 'red', weight: 6}).addTo(map);
-            }
+            polylineSCItoA = L.polyline([[37.7257029109819, -122.45106814833785], [37.7257029109819, -122.45077517492479]], {color: 'red', weight: 6}).addTo(map);
             break;
         case node1 === "A" && node2 === "SCI-2":
             if(wheelchairAssessibilityNeeded){
@@ -998,7 +1041,6 @@ function directionsHandler(list){
     .then(response => response.json())
     .then(data => {
         list.forEach(listElement => {
-            console.log(listElement);
             if(listElement in data){
                 const key = data[listElement];
                 let text = [];
@@ -1023,8 +1065,6 @@ function directionsHandler(list){
         });
     })
 }
-console.log(directions);
-console.log(imageLocations);
 
 tabs.forEach(tab => {
     tab.addEventListener('click', ()=> {
@@ -1096,9 +1136,11 @@ function changeSelectedDirection(value){
     document.getElementById("directions-" + value).classList.add("selected");
 
     counter = value;
+
     while(panoContainer.firstChild){
         panoContainer.removeChild(panoContainer.firstChild);
     }
+
     const imageSetting = imageLocations[value];
     const panorama = new PANOLENS.ImagePanorama(imageSetting["location"]);
 
@@ -1109,6 +1151,18 @@ function changeSelectedDirection(value){
     });
     
     viewer.add(panorama);
+    /*
+    const imageSetting = imageLocations[value];
+    const panorama = new PANOLENS.ImagePanorama(imageSetting["location"]);
+
+    const viewer = new PANOLENS.Viewer({
+        initialLookAt: new THREE.Vector3(imageSetting["initialLook"][0], imageSetting["initialLook"][1], imageSetting["initialLook"][2]),
+        container: panoContainer,
+        controlBar: false
+    });
+    
+    viewer.add(panorama);
+    */
 }
 
 function removeDirectionFormatting(){
