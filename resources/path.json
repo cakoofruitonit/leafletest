@@ -39,6 +39,9 @@
         "ADA": "Take ramp up to the top",
         "Walking": "Head up staircase and walk to center of plaza"
     },
+    "CI": {
+        "ForAll": "Cross Cloud Circle"
+    },
     "DA": {
         "ADA": "Take ramp down to Cloud Circle",
         "Walking": "Head towards staircase and descend down to Cloud Circle"
@@ -53,6 +56,12 @@
     "EJ": {
         "ForAll": "From Cloud Circle, head down ramp and turn right towards staircase"
     },  
+    "EU": {
+        "ForAll": "Cross Cloud Circle"
+    },
+    "Em": {
+
+    },
     "GH": {
         "ForAll": "Walk towards Cloud Circle"
     },
@@ -67,6 +76,9 @@
     },
     "HG": {
         "ForAll": "Walk straight towards elevator"
+    },
+    "IC": {
+        "ForAll": "Cross Cloud Circle"
     },
     "JE": {
         "ForAll": "Head towards ramp and ascend to Cloud Circle"
@@ -85,6 +97,9 @@
             "initialLook": [2953.93, 1891.55, 5213.46]
         }
     },
+    "MX": {
+        "Walking": "Walk down to bottom of staircase"
+    },
     "OJ": {
         "Walking": "Walk down the stairs to Frida Khalo Way",
         "imageWalking": {
@@ -98,6 +113,35 @@
     "Qf": {
         "ForAll": "Head straight towards end"
     },
+    "ST": {
+        "Walking": "Walk down staircase"
+    },
+    "TS": {
+        "Walking": "Walk up staircase"
+    },
+    "UV": {
+        "Walking": "Walk down street to Frida Khalo Way crossing"
+    },
+    "UE": {
+        "ForAll": "Cross Cloud Circle"
+    },
+    "VU": {
+        "Walking": "Walk up street"
+    },
+    "XM": {
+        "Walking": "Walk up stairs to Cloud Circle"
+    },
+    "YZ": {
+        "Walking": "Walk down stairs to curb",
+        "ADA": "Take ramp to curb"
+    },
+    "ZY": {
+        "Walking": "Take stairs to top",
+        "ADA": "Take ramp to top"
+    },
+    "df": {
+        "Walking": "Take stairs to the top"
+    },
     "eA": {
         "ForAll": "Head towards center of plaza"
     },
@@ -107,8 +151,17 @@
     "fQ": {
         "ForAll": "Walk towards Cloud Circle"
     },
+    "fd": {
+        "Walking": "Take stairs to bottom"
+    },
     "fCAFE-0": {
         "ForAll": "Enter Cafeteria"
+    },
+    "gHLTH-1": {
+
+    },
+    "mE": {
+
     },
     "ART-0G": {
         "ForAll": "Exit Creative Arts Extension Building and head in front of elevator"
@@ -125,6 +178,9 @@
             "location": "images/panel2.jpeg",
             "initialLook": [0, 0, 0]
         }
+    },
+    "HLTH-1g": {
+
     },
     "MUB-0J": {
         "ForAll": "Leave the Multi-Use Building and head towards the staircase",
@@ -145,5 +201,245 @@
             "location": "images/test.JPG",
             "initialLook": [2000, 2000, 2000]
         }
-    }
+    },
+    "FI": {
+        "ForAll": "Head down path"
+    },
+    "IF": {
+        "ForAll": "Head up path to Cloud Circle"
+    },
+    "FP": {
+        "ForAll": "Follow path to Judson Avenue"
+    },
+    "PF": {
+        "ForAll": "Follow path from Judson Avenue"
+    },
+    "FVART-0": {
+        "ForAll": "Enter Visual Arts Building"
+    },
+    "VART-0F": {
+        "ForAll": "Exit Visual Arts Building"
+    },
+    "GW": {
+        "ForAll": "Head to ramp"
+    },
+    "WG": {
+        "ForAll": "Head towards Cloud Circle"
+    },
+    "HI": {
+        "ForAll": "Head to other Cloud Circle crossing"
+    },
+    "IH": {
+        "ForAll": "Head to other Cloud Circle crossing"
+    },
+    "IL": {
+        "ForAll": "Follow path and cross Marston Avenue"
+    },
+    "LI": {
+        "ForAll": "Cross Marston Avenue and follow path to first Cloud Circle crossing"
+    },
+    "IART-1": {
+        "ForAll": "Follow ramp to Creative Arts Building"
+    },
+    "ART-1I": {
+        "ForAll": "Exit Creative Arts Building via ramp"
+    },
+    "JH": {
+        "ForAll": "Keep right and follow path to first Cloud Circle Crossing"
+    },
+    "HJ": {
+        "ForAll": "Keep left and follow path to big 'City College of San Francisco' sign in staircase"
+    },
+    "Jm": {
+
+    },
+    "mJ": {
+
+    },
+    "KN": {
+        "ForAll": "Follow curb to the next Cloud Circle crossing"
+    },
+    "NK": {
+        "ForAll": "Walk to 'The Lunch Box' building"
+    },
+    "KR": {
+        "ForAll": "Follow curb and look for small bridge leading to a building on left"
+    },
+    "RK": {
+        "ForAll": "Follow curb to the next Cloud Circle crossing"
+    },
+    "KS": {},
+    "SK": {},
+    "Kn": {},
+    "nK": {},
+    "LM": {
+        "ForAll": "Head down to small red box on left"
+    },
+    "ML": {
+        "ForAll": "Head up to Marston crossing"
+    },
+    "LBATL-0": {
+        "ForAll": "Head to bridge and enter Batmale Hall"
+    },
+    "BATL-0L": {
+        "ForAll": "Exit Batmale Hall and proceed to crossing"
+    },
+    "MN": {
+        "ForAll": "Head to the building 'The Lunch Box'"
+    },
+    "NM": {
+        "ForAll": "Follow path and look for a red box on right"
+    },
+    "No": {},
+    "oN": {},
+    "PEHF-0": {
+        "ForAll": "Enter Horticulture / Floristry Center"
+    },
+    "EHF-0P": {
+        "ForAll": "Exit Horticulture / Floristry Center"
+    },
+    "PJDVL-0": {
+        "ForAll": "Enter Judson Village"
+    },
+    "JDVL-0P": {
+        "ForAll": "Exit Judson Village"
+    },
+    "QR": {
+        "ForAll": "Follow path to bridge leading to building on right"
+    },
+    "RQ": {
+        "ForAll": "Follow curb to next Cloud Circle crossing"
+    },
+    "QU": {
+        "ForAll": "Follow straight curb"
+    },
+    "UQ": {
+        "ForAll": "Follow straight curb to next Cloud Circle crossing"
+    },
+    "Rc": {
+        "ForAll": "Cross bridge"
+    },
+    "cR": {
+        "ForAll": "Cross bridge"
+    },
+    "SLIBR-0": {
+        "ForAll": "Enter Student Union"
+    },
+    "LIBR-0S": {
+        "ForAll": "Exit Student Union"
+    },
+    "Th": {},
+    "hT": {},
+    "TAMPH-0": {
+        "ForAll": "Head to Amphitheather Plaza"
+    },
+    "AMPH-0T": {
+        "ForAll": "Leave to Amphitheather Plaza"
+    },
+    "Vm": {},
+    "mV": {},
+    "VMUB-1": {
+        "ForAll": "Cross Frida Khalo Way and Enter Multi-Use Building"
+    },
+    "MUB-1V": {
+        "ForAll": "Exit Multi-Use Building and cross Frida Khalo Way"
+    },
+    "WHLTH-0": {
+        "ForAll": "Take ramp to Student Health Center"
+    },
+    "HLTH-0W": {
+        "ForAll": "Exit Student Health Center via ramp"
+    },
+    "XY": {
+        "ForAll": "Head to staircase/ramp"
+    },
+    "YX": {
+        "ForAll": "Head to staircase"
+    },
+    "XBATL-1": {
+        "ForAll": "Enter Batmale Hall"
+    },
+    "BATL-1X": {
+        "ForAll": "Exit Batmale Hall, turn right to path leading to staircase"
+    },
+    "Za": {
+        "ForAll": "Head to crossing"
+    },
+    "aZ": {
+        "ForAll": "Head to small staircase/ramp"
+    },
+    "Zl": {
+
+    },
+    "lZ": {
+
+    },
+    "ab": {
+        "ForAll": "Cross W road"
+    },
+    "ba": {
+        "ForAll": "Cross W road"
+    },
+    "bB700-0": {
+        "ForAll": "Take ramp to Bungalows 701 - 716"
+    },
+    "B700-0b": {
+        "ForAll": "Exit Bungalows 701 - 716 via ramp"
+    },
+    "cSU-0": {
+        "ForAll": "Enter Student Union"
+    },
+    "SU-0c": {
+        "ForAll": "Exit Student Union"
+    },
+    "cd": {
+        "ForAll": "Head to elevator, select floor '1', and descend ramp on back of elevator"
+    },
+    "dc": {
+        "ForAll": "Head to elevator, select floor '3', and head right to Student Union entrance"
+    },
+    "dAMPH-0": {
+        "ForAll": "Head to Amphitheather Plaza"
+    },
+    "AMPH-0d": {
+        "ForAll": "Leave to Amphitheather Plaza"
+    },
+    "dWELL-0": {
+        "ForAll": "Enter Wellness Center"
+    },
+    "WELL-0d": {
+        "ForAll": "Exit Wellness Center"
+    },
+    "eE": {},
+    "Ee": {},
+    "eCLOUD-0": {
+        "ForAll": "Enter Cloud Hall"
+    },
+    "CLOUD-0e": {
+        "ForAll": "Exit Cloud Hall"
+    },
+    "gJDVL-1": {
+        "ForAll": "Enter Judson Village"
+    },
+    "JDVL-1g": {
+        "ForAll": "Exit Judson Village"
+    },
+    "hi": {},
+    "ih": {},
+    "ij": {},
+    "ji": {},
+    "jk": {},
+    "kj": {},
+    "kl": {},
+    "lk": {},
+    "nCLOUD-1": {},
+    "CLOUD-1n": {},
+    "oCLOUD-2": {},
+    "CLOUD-2o": {},
+    "AMPH-0WELL-0": {},
+    "WELL-0AMPH-0": {},
+    "BATL-0BATL-1": {},
+    "BATL-1BATL-0": {},
+    "JDVL-1JDVL-0": {},
+    "JDVL-0JDVL-1": {}
 }
