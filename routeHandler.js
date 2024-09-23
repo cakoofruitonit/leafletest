@@ -9,12 +9,14 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/
     attribution: '© OpenStreetMap'
 }).addTo(map); 
 
+/*
 var Stadia_StamenTerrainLabels = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain_labels/{z}/{x}/{y}{r}.{ext}', {
 	minZoom: 0,
 	maxZoom: 19,
 	//attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 	ext: 'png'
 }).addTo(map); 
+*/
 // Sets map data source and associates with map
 
 var lMarker, lCircle, zoomed, marker, circleStart, marker1, polyline1, polylineAB, polylineABForADA, polylineAC, polylineACForADA, 
@@ -27,10 +29,12 @@ polylineWtoHLTH, polylineGW, polylineRtoSU, polylineMX, polylineXY, polylineYZ, 
 markerSUElevator, polylineRc, polylinectoSU, polylinec_d, polylinedtoWELL, polylinedtoAMPH, polylineeB, polylineetoCLOUD,
 polylineeE, polylineAe, polylineItoART, polylineQe, polylineftoCAFE, polylined_f, polylineXtoBATL, polylinegtoHLTH, polylinegtoJDVL,
 polylineJDVL, polylineT_h, polylineh_i, polylinei_j, polylinej_k, polylinek_l, polylineZ_l, polylineEU, polylineE_m, polylineJ_m,
-polylineV_m, polylinentoCLOUD, polylineK_n, polylineBATL, polylineN_o, polylineotoCLOUD;
+polylineV_m, polylinentoCLOUD, polylineK_n, polylineBATL, polylineN_o, polylineotoCLOUD, polylinentoCLOUD, polylineYZForADA;
 let startlat, startlong;
 let destinationlat, destinationlong;
 let latitude, longitude;
+
+var COLOR = 'yellow';
 
 document.getElementById("walking-btn").classList.add("active");
 let wheelchairAssessibilityNeeded = false;
@@ -198,7 +202,7 @@ function clearMap(){
         markerSUElevator, polylineRc, polylinectoSU, polylinec_d, polylinedtoWELL, polylinedtoAMPH, polylineeB, polylineetoCLOUD,
         polylineeE, polylineAe, polylineItoART, polylineQe, polylineftoCAFE, polylined_f, polylineXtoBATL, polylinegtoHLTH,
         polylinegtoJDVL, polylineJDVL, polylineT_h, polylineh_i, polylinei_j, polylinej_k, polylinek_l, polylineZ_l, polylineEU,
-        polylineE_m, polylineJ_m, polylineV_m, polylineBATL, polylineN_o, polylineotoCLOUD
+        polylineE_m, polylineJ_m, polylineV_m, polylineBATL, polylineN_o, polylineotoCLOUD, polylinentoCLOUD, polylineYZForADA
     ];
 
     for(var i = 0; i < mapMarkers.length; i++){
@@ -570,6 +574,7 @@ function displayRoute(start, end){
             graph.addEdge("Y", "Z", 45);
             graph.addEdge("d", "f", 230);
             graph.addEdge("g", "HLTH-1", 75);
+            graph.addEdge("n", "CLOUD-1", 125);
         }
         //For All
         graph.addEdge("A", "SCI-2", 130);
@@ -634,7 +639,6 @@ function displayRoute(start, end){
         graph.addEdge("i", "j", 145);
         graph.addEdge("j", "k", 65);
         graph.addEdge("k", "l", 30);
-        graph.addEdge("n", "CLOUD-1", 125);
         graph.addEdge("o", "CLOUD-2", 225);
         graph.addEdge("AMPH-0", "WELL-0", 80);
         graph.addEdge("BATL-0", "BATL-1", 120);
@@ -691,21 +695,21 @@ function displayEdge(node1, node2){
         case node1 === "A" && node2 === "B":
             if (wheelchairAssessibilityNeeded) {
                 let AB = shape1.concat([[37.724594969482396, -122.45077517492479]]);
-                polylineABForADA = L.polyline(AB, {color: 'blue', weight: 6}).addTo(map);
+                polylineABForADA = L.polyline(AB, {color: COLOR, weight: 6}).addTo(map);
             } else { 
                 polylineAB = L.polyline([[37.7257029109819, -122.45077517492479],[37.724594969482396, -122.45077517492479]], {color: 'red', weight: 6}).addTo(map);
             }
             break;
         case node1 === "A" && node2 === "C":
             if (wheelchairAssessibilityNeeded) {
-                polylineACForADA = L.polyline(AC, {color: 'blue', weight: 6}).addTo(map);
+                polylineACForADA = L.polyline(AC, {color: COLOR, weight: 6}).addTo(map);
             } else { 
                 polylineAC = L.polyline([[37.7257029109819, -122.45077517492479],[37.72680311010429, -122.45078517492479]], {color: 'red', weight: 6}).addTo(map);
             }
             break;
         case node1 === "A" && node2 === "D":
             if (wheelchairAssessibilityNeeded) {
-                polylineADForADA = L.polyline(AD, {color: 'blue', weight: 6}).addTo(map);
+                polylineADForADA = L.polyline(AD, {color: COLOR, weight: 6}).addTo(map);
             } else { 
                 polylineAD = L.polyline([[37.7257029109819, -122.45077517492479],[37.72657487092926, -122.45077517492479], [37.72680595642644, -122.45172134374558]], {color: 'red', weight: 6}).addTo(map);
             }
@@ -713,13 +717,13 @@ function displayEdge(node1, node2){
         case node1 === "A" && node2 === "E":
             if (wheelchairAssessibilityNeeded) {
                 let AE = shape1.concat([[37.72464213925238, -122.45174060814374]]);
-                polylineAEForADA = L.polyline(AE, {color: 'blue', weight: 6}).addTo(map);
+                polylineAEForADA = L.polyline(AE, {color: COLOR, weight: 6}).addTo(map);
             } else { 
                 polylineAE = L.polyline([[37.7257029109819, -122.45077517492479],[37.72479962250000, -122.45077517492479], [37.72464213925238, -122.45174060814374]], {color: 'red', weight: 6}).addTo(map);
             }
             break;
         case node1 === "A" && node2 === "e": 
-            polylineAe = L.polyline([[37.7257029109819, -122.45077517492479], [37.72558946535073, -122.45063602924347]], {color: 'blue', weight: 6}).addTo(map);
+            polylineAe = L.polyline([[37.7257029109819, -122.45077517492479], [37.72558946535073, -122.45063602924347]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "A" && node2 === "SCI-0":
             polylineSCItoA = L.polyline([[37.7257029109819, -122.45106814833785], [37.7257029109819, -122.45077517492479]], {color: 'red', weight: 6}).addTo(map);
@@ -729,71 +733,71 @@ function displayEdge(node1, node2){
                 polylineSCItoA = L.polyline([[37.725733825219024, -122.45106537623089], [37.72573488596401, -122.45094870013874], 
                     [37.72571897478768, -122.45094870013874], [37.72571579255201, -122.45103453082722],
                     [37.7257029109819, -122.45103453082722], [37.7257029109819, -122.45077517492479]
-                ], {color: 'blue', weight: 6}).addTo(map);
+                ], {color: COLOR, weight: 6}).addTo(map);
             }
             break;
         case node1 === "B" && node2 === "Q":
-            polylineBQ = L.polyline([[37.724594969482396, -122.45077517492479], [37.72447090392019, -122.45077506981772]], {color: 'blue', weight: 6}).addTo(map);
+            polylineBQ = L.polyline([[37.724594969482396, -122.45077517492479], [37.72447090392019, -122.45077506981772]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "B" && node2 === "K":
-            polylineBK = L.polyline(BK, {color: 'blue', weight: 6}).addTo(map);
+            polylineBK = L.polyline(BK, {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "B" && node2 === "CAFE-0":
-            polylineBtoCAFE = L.polyline([[37.724594969482396, -122.45077517492479], [37.72395165948694, -122.45077517492479],[37.72395165948694, -122.45081165013444]], {color: 'blue', weight: 6}).addTo(map);
+            polylineBtoCAFE = L.polyline([[37.724594969482396, -122.45077517492479], [37.72395165948694, -122.45077517492479],[37.72395165948694, -122.45081165013444]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "C" && node2 === "I":
-            polylineCI = L.polyline([[37.72680311010429, -122.45078517492479], [37.726927930648294, -122.45080079724654]], {color: 'blue', weight: 6}).addTo(map);
+            polylineCI = L.polyline([[37.72680311010429, -122.45078517492479], [37.726927930648294, -122.45080079724654]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "D" && node2 === "H":
-            polylineDH = L.polyline([[37.72680595642644, -122.45172134374558], [37.726920384869686, -122.45171562000382]], {color: 'blue', weight: 6}).addTo(map);
+            polylineDH = L.polyline([[37.72680595642644, -122.45172134374558], [37.726920384869686, -122.45171562000382]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "E"  && node2 === "J":
-            polylineEJ = L.polyline(EJ, {color: 'blue', weight: 6}).addTo(map);
+            polylineEJ = L.polyline(EJ, {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "E" && node2 === "U":
             polylineEU = L.polyline([[37.72464213925238, -122.45174060814374], [ 37.7246019032562, -122.45170488953592 ],
-                [37.72447090392019, -122.45175259331734]], {color: 'blue', weight: 6}).addTo(map);
+                [37.72447090392019, -122.45175259331734]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "E" && node2 === "m":
             //J = [37.7256223800879, -122.45226395560371]
             polylineE_m = L.polyline([[37.72464213925238, -122.45174060814374],[37.72471522536498, -122.45188037899639], 
                 [37.72479849494462, -122.45196352747524], [37.72457459442172, -122.45205250325165], 
-                [37.7248790916372, -122.45214715188555], [37.724541639282165, -122.45225193921242]], {color: 'blue', weight: 6}).addTo(map);
+                [37.7248790916372, -122.45214715188555], [37.724541639282165, -122.45225193921242]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "F" && node2 === "I":
             polylineIF = L.polyline([[37.726927930648294, -122.45080079724654], [ 37.72695145204931, -122.45084926486015 ], 
-                [ 37.72723254431681, -122.45084926486015 ] , [37.72723245488745, -122.45079724516542]], {color: 'blue', weight: 6}).addTo(map);        
+                [ 37.72723254431681, -122.45084926486015 ] , [37.72723245488745, -122.45079724516542]], {color: COLOR, weight: 6}).addTo(map);        
             break;
         case node1 === "F" && node2 === "P":
-            polylineFP = L.polyline([[37.72723245488745, -122.45079724516542], [37.72802591518471, -122.45080079724654]], {color: 'blue', weight: 6}).addTo(map);
+            polylineFP = L.polyline([[37.72723245488745, -122.45079724516542], [37.72802591518471, -122.45080079724654]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "F" && node2 === "VART-0":
-            polylineFtoVART = L.polyline([[37.72723245488745, -122.45079724516542], [37.72723245488745, -122.45044357153154]], {color: 'blue', weight: 6}).addTo(map);
+            polylineFtoVART = L.polyline([[37.72723245488745, -122.45079724516542], [37.72723245488745, -122.45044357153154]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "G" && node2 === "H":
-            polylineHG = L.polyline([[37.726920384869686, -122.45171562000382], [37.72711687806445, -122.4517118510434]], {color: 'blue', weight: 6}).addTo(map);
+            polylineHG = L.polyline([[37.726920384869686, -122.45171562000382], [37.72711687806445, -122.4517118510434]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "G" && node2 === "W":
-            polylineGW = L.polyline([[37.72711687806445, -122.4517118510434], [37.727133349554386, -122.45179144486204], [37.727394287428424, -122.45191884978509]], {color: 'blue', weight: 6}).addTo(map);
+            polylineGW = L.polyline([[37.72711687806445, -122.4517118510434], [37.727133349554386, -122.45179144486204], [37.727394287428424, -122.45191884978509]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "G" && node2 === "ART-0":
-            polylineGtoART = L.polyline([[37.72711687806445, -122.4517118510434], [37.72711687806445, -122.4515670166594]], {color: 'blue', weight: 6}).addTo(map);
+            polylineGtoART = L.polyline([[37.72711687806445, -122.4517118510434], [37.72711687806445, -122.4515670166594]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "G" && node2 === "ARTX-0":
-            polylineGtoARTX = L.polyline([[37.72711687806445, -122.4517118510434], [37.72711687806445, -122.45179031055791]], {color: 'blue', weight: 6}).addTo(map);
+            polylineGtoARTX = L.polyline([[37.72711687806445, -122.4517118510434], [37.72711687806445, -122.45179031055791]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "H" && node2 === "I": 
-            polylineHI = L.polyline([[37.726920384869686, -122.45171562000382], [37.726927930648294, -122.45080079724654]], {color: 'blue', weight: 6}).addTo(map);
+            polylineHI = L.polyline([[37.726920384869686, -122.45171562000382], [37.726927930648294, -122.45080079724654]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "I" && node2 === "L":
-            polylineIL = L.polyline(IL, {color: 'blue', weight: 6}).addTo(map);
+            polylineIL = L.polyline(IL, {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "I" && node2 === "ART-1":
             polylineItoART = L.polyline([[37.726927930648294, -122.45080079724654], [37.72713601841314, -122.45080079724654], 
-                [37.72713601841314, -122.45084792375566]], {color: 'blue', weight: 6}).addTo(map);
+                [37.72713601841314, -122.45084792375566]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "J" && node2 === "H":
-            polylineJH = L.polyline([[37.7256223800879, -122.45226395560371], [37.726794033346096, -122.45225198492271], [37.72688101313737, -122.45199851617306], [37.726920384869686, -122.45171562000382]], {color: 'blue', weight: 6}).addTo(map);
+            polylineJH = L.polyline([[37.7256223800879, -122.45226395560371], [37.726794033346096, -122.45225198492271], [37.72688101313737, -122.45199851617306], [37.726920384869686, -122.45171562000382]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "J" && node2 === "O":
             if(wheelchairAssessibilityNeeded){
@@ -803,37 +807,37 @@ function displayEdge(node1, node2){
             }
             break;
         case node1 === "J" && node2 === "m":
-            polylineJ_m = L.polyline([[37.7256223800879, -122.45226395560371], [37.724541639282165, -122.45225193921242]], {color: 'blue', weight: 6}).addTo(map);
+            polylineJ_m = L.polyline([[37.7256223800879, -122.45226395560371], [37.724541639282165, -122.45225193921242]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "J" && node2 === "MUB-0":
-            //polylineMUBtoJ = L.polyline(MUBtoJ, {color: 'blue', weight: 6}).addTo(map);
-            polylinetest = L.layerGroup().addLayer(L.polyline(MUBtoJ, {color: 'blue', weight: 6})).addTo(map);
+            //polylineMUBtoJ = L.polyline(MUBtoJ, {color: COLOR, weight: 6}).addTo(map);
+            polylinetest = L.layerGroup().addLayer(L.polyline(MUBtoJ, {color: COLOR, weight: 6})).addTo(map);
             break;
         case node1 === "K" && node2 === "N":
-            polylineNK = L.polyline(NK, {color: 'blue', weight: 6}).addTo(map);
+            polylineNK = L.polyline(NK, {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "K" && node2 === "LIBR-0":
-            polylineKtoLIBR = L.polyline([[37.72476206272458, -122.4498591753273], [37.72476206272458, -122.44962644354963]], {color: 'blue', weight: 6}).addTo(map);
+            polylineKtoLIBR = L.polyline([[37.72476206272458, -122.4498591753273], [37.72476206272458, -122.44962644354963]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "K" && node2 === "R":
             polylineKR = L.polyline([[37.72452394205446, -122.45032982312472], [37.724568494060584, -122.45016218506078], [37.72461320049394, -122.45004282675973], 
-                [37.724673509392495, -122.44994626723535],[37.72476206272458, -122.4498591753273]], {color: 'blue', weight: 6}).addTo(map);
+                [37.724673509392495, -122.44994626723535],[37.72476206272458, -122.4498591753273]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "K" && node2 === "S":
-            polylineKS = L.polyline([[37.72476206272458, -122.4498591753273], [37.72476206272458, -122.44976129961127]], {color: 'blue', weight: 6}).addTo(map);
+            polylineKS = L.polyline([[37.72476206272458, -122.4498591753273], [37.72476206272458, -122.44976129961127]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "K" && node2 === "n":
             polylineK_n = L.polyline([[37.72476206272458, -122.4498591753273], [ 37.724751470434576, -122.44993999600412 ],
-                [37.72479496154325, -122.44999900460245]], {color: 'blue', weight: 6}).addTo(map);
+                [37.72479496154325, -122.44999900460245]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "L" && node2 === "M":
-            polylineLM = L.polyline([[37.726605626097915, -122.4498317078415], [37.726515518135476, -122.44975430348917], [37.72638787552949, -122.44966336901145]], {color: 'blue', weight: 6}).addTo(map);
+            polylineLM = L.polyline([[37.726605626097915, -122.4498317078415], [37.726515518135476, -122.44975430348917], [37.72638787552949, -122.44966336901145]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "L" && node2 === "BATL-0":
-            polylineLtoBATL = L.polyline([[37.726605626097915, -122.4498317078415], [37.72675729832949, -122.44975580982445], [37.72675835905989, -122.44931324533881]], {color: 'blue', weight: 6}).addTo(map);
+            polylineLtoBATL = L.polyline([[37.726605626097915, -122.4498317078415], [37.72675729832949, -122.44975580982445], [37.72675835905989, -122.44931324533881]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "M" && node2 === "N":
-            polylineMN = L.polyline(MN, {color: 'blue', weight: 6}).addTo(map);
+            polylineMN = L.polyline(MN, {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "M" && node2 === "X":
             polylineMX = L.polyline([ [ 37.72638787552949, -122.44966336901145 ], [ 37.72642712273711, -122.44952121193366 ],
@@ -843,99 +847,99 @@ function displayEdge(node1, node2){
                 [ 37.72652536639427, -122.44899183515828 ] ], {color: 'red', weight: 6}).addTo(map);
             break;
         case node1 === "N" && node2 === "o":
-            polylineN_o = L.polyline([[ 37.725704025944346, -122.44949609041215 ], [ 37.72570084370802, -122.44960203766824 ]], {color: 'blue', weight: 6}).addTo(map);
+            polylineN_o = L.polyline([[ 37.725704025944346, -122.44949609041215 ], [ 37.72570084370802, -122.44960203766824 ]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "O" && node2 === "SCI-1":
             polylineOtoSCI = L.polyline([[37.7257028758774, -122.45149193737093], [37.7257028758774, -122.45122442674977]], {color: 'red', weight: 6}).addTo(map);
             break;
         case node1 === "P" && node2 === "JDVL-0":
-            polylinePtoJDVL = L.polyline(PtoJDVL, {color: 'blue', weight: 6}).addTo(map);
+            polylinePtoJDVL = L.polyline(PtoJDVL, {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "P" && node2 === "EHF-0":
-            polylinePtoEHF = L.polyline(PtoEHF, {color: 'blue', weight: 6}).addTo(map);
+            polylinePtoEHF = L.polyline(PtoEHF, {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "Q" && node2 === "R":
-            polylineQR = L.polyline([[37.72447090392019, -122.45077506981772], [37.7244910584166, -122.45051355444272], [37.72452394205446, -122.45032982312472]], {color: 'blue', weight: 6}).addTo(map);
+            polylineQR = L.polyline([[37.72447090392019, -122.45077506981772], [37.7244910584166, -122.45051355444272], [37.72452394205446, -122.45032982312472]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "Q" && node2 === "U":
-            polylineQU = L.polyline([[37.72447090392019, -122.45077506981772], [37.72447090392019, -122.45175259331734]], {color: 'blue', weight: 6}).addTo(map);
+            polylineQU = L.polyline([[37.72447090392019, -122.45077506981772], [37.72447090392019, -122.45175259331734]], {color: COLOR, weight: 6}).addTo(map);
             break;
         //remove
         case node1 === "Q" && node2 === "CAFE-0":
-            polylineQtoCAFE = L.polyline([[37.72447090392019, -122.45077506981772], [37.72400257075262, -122.45077506981772], [37.72400257075262, -122.45083048939706]], {color: 'blue', weight: 6}).addTo(map);
+            polylineQtoCAFE = L.polyline([[37.72447090392019, -122.45077506981772], [37.72400257075262, -122.45077506981772], [37.72400257075262, -122.45083048939706]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "Q" && node2 === "f":
-            polylineQe = L.polyline([[37.72447090392019, -122.45077506981772], [37.72400257075262, -122.45077506981772]], {color: 'blue', weight: 6}).addTo(map);
+            polylineQe = L.polyline([[37.72447090392019, -122.45077506981772], [37.72400257075262, -122.45077506981772]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "R" && node2 === "SU-0":
-            polylineRtoSU = L.polyline([[37.72452394205446, -122.45032982312472], [37.724230844579436, -122.45032982312472]], {color: 'blue', weight: 6}).addTo(map);
+            polylineRtoSU = L.polyline([[37.72452394205446, -122.45032982312472], [37.724230844579436, -122.45032982312472]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "R" && node2 === "c":
-            polylineRc = L.polyline([[37.72452394205446, -122.45032982312472], [37.724260844579436, -122.45032982312472]], {color: 'blue', weight: 6}).addTo(map);
+            polylineRc = L.polyline([[37.72452394205446, -122.45032982312472], [37.724260844579436, -122.45032982312472]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "S" && node2 === "T":
             polylineST = L.polyline([[37.72476206272458, -122.44976129961127], [37.72441629003369, -122.44976129961127]], {color: 'red', weight: 6}).addTo(map);
             break;
         case node1 === "S" && node2 === "LIBR-0":
-            polylineStoLIBR = L.polyline([[37.72476206272458, -122.44976129961127], [37.72476206272458, -122.44962644354963]], {color: 'blue', weight: 6}).addTo(map);
+            polylineStoLIBR = L.polyline([[37.72476206272458, -122.44976129961127], [37.72476206272458, -122.44962644354963]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "T" && node2 === "AMPH-0":
-            polylineTtoAMPH = L.polyline([[37.72441629003369, -122.44976129961127], [37.724102653723, -122.44991155889541]], {color: 'blue', weight: 6}).addTo(map);
+            polylineTtoAMPH = L.polyline([[37.72441629003369, -122.44976129961127], [37.724102653723, -122.44991155889541]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "T" && node2 === "h":
             polylineT_h = L.polyline([[37.72441629003369, -122.44976129961127], [ 37.72443642432393, -122.44897440075876 ],
                 [ 37.72446718646111, -122.44893014431001 ], [ 37.72450007011088, -122.44891941547395 ],
                 [ 37.72453083222162, -122.44892477989198 ], [ 37.72455416898678, -122.44893014431001 ],
-                [ 37.72466767042149, -122.44893014431001 ], [ 37.724785414716706, -122.44892746210101 ] ], {color: 'blue', weight: 6}).addTo(map);    
+                [ 37.72466767042149, -122.44893014431001 ], [ 37.724785414716706, -122.44892746210101 ] ], {color: COLOR, weight: 6}).addTo(map);    
             break;
         case node1 === "U" && node2 === "V":
             polylineUV = L.polyline([[37.72447090392019, -122.45175259331734], [37.724483548933065, -122.45191526245611],
                 [37.72421729696977, -122.45225992631322], [37.72413243558602, -122.45225992631322]], {color: 'red', weight: 6}).addTo(map);
             break;
         case node1 === "V" && node2 === "m":
-            polylineV_m = L.polyline([[37.72413243558602, -122.45225992631322], [37.724541639282165, -122.45225193921242]], {color: 'blue', weight: 6}).addTo(map);
+            polylineV_m = L.polyline([[37.72413243558602, -122.45225992631322], [37.724541639282165, -122.45225193921242]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "V" && node2 === "MUB-1":
             polylineVtoMUB = L.polyline([[37.72413243558602, -122.45225992631322], [37.72413243558602, -122.45274624769276],
                 [37.724330019437275, -122.45274624769276], [37.724330019437275, -122.45297519895082], 
-                [37.724430792066286, -122.45297519895082]], {color: 'blue', weight: 6}).addTo(map);
+                [37.724430792066286, -122.45297519895082]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "W" && node2 === "HLTH-0":
             polylineWtoHLTH = L.polyline([[37.727394287428424, -122.45191884978509], [37.72744672334469, -122.45191884978509],
-                [37.72744672334469, -122.45204494422353], [37.727550825413836, -122.45204494422353]], {color: 'blue', weight: 6}).addTo(map);
+                [37.72744672334469, -122.45204494422353], [37.727550825413836, -122.45204494422353]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "X" && node2 === "Y":
             polylineXY = L.polyline([ [ 37.72652536639427, -122.44899183515828 ], [ 37.726545192283105, -122.44890868663789 ], 
-                [ 37.726544131549716, -122.44822204113008 ] ], {color: 'blue', weight: 6}).addTo(map);
+                [ 37.726544131549716, -122.44822204113008 ] ], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "X" && node2 === "BATL-1":
             polylineXtoBATL = L.polyline([ [37.72652536639427, -122.44899183515828], [ 37.72647094091001, -122.44913130998613 ], 
-                [ 37.72678916055623, -122.44913801550868 ], [37.72678809982633, -122.44915679097177]], {color: 'blue', weight: 6, dashArray: '8, 8'}).addTo(map);        
+                [ 37.72678916055623, -122.44913801550868 ], [37.72678809982633, -122.44915679097177]], {color: COLOR, weight: 6, dashArray: '8, 8'}).addTo(map);        
             break;
         case node1 === "Y" && node2 === "Z":
             if(!wheelchairAssessibilityNeeded){
                 polylineYZ = L.polyline([[37.726544131549716, -122.44822204113008], [37.72654094934947, -122.44807586073878]], {color: 'red', weight: 6}).addTo(map);
             } else {
                 polylineYZForADA = L.polyline([[37.726544131549716, -122.44822204113008],[ 37.72630016246942, -122.44814157485963 ],
-                    [ 37.72630016246942, -122.44811475276948 ], [37.72654094934947, -122.44807586073878]], {color: 'blue', weight: 6}).addTo(map);
+                    [ 37.72630016246942, -122.44811475276948 ], [37.72654094934947, -122.44807586073878]], {color: COLOR, weight: 6}).addTo(map);
             }
             break;
         case node1 === "Z" && node2 === "a":
             polylineZ_a = L.polyline([[37.72654094934947, -122.44807586073878], [ 37.72672763819789, -122.44807049632072 ],
-                [ 37.72672763819789, -122.4480463564396 ]], {color: 'blue', weight: 6}).addTo(map);
+                [ 37.72672763819789, -122.4480463564396 ]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "Z" && node2 === "l":
             polylineZ_l = L.polyline([[37.72654094934947, -122.44807586073878], [ 37.72650594513802, -122.44804099202157 ],
-                [37.726104986626545, -122.44803696870805]], {color: 'blue', weight: 6}).addTo(map);
+                [37.726104986626545, -122.44803696870805]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "a" && node2 === "b":
-            polylinea_b = L.polyline([[37.72672763819789, -122.4480463564396], [37.726729759659364, -122.44789212942125]], {color: 'blue', weight: 6}).addTo(map);
+            polylinea_b = L.polyline([[37.72672763819789, -122.4480463564396], [37.726729759659364, -122.44789212942125]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "b" && node2 === "B700-0":
             polylinebtoB700 = L.polyline([[37.726729759659364, -122.44789212942125], [ 37.7267329418515, -122.44757428765298 ], 
                 [ 37.726757338653115, -122.44757428765298 ], [ 37.726757338653115, -122.44744822382927 ], 
                 [ 37.72677643179663, -122.44744822382927 ], [ 37.72677643179663, -122.44741737842561 ]
-            ], {color: 'blue', weight: 6}).addTo(map);
+            ], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "c" && node2 === "d":
             polylinec_d = L.polyline([[37.724260844579436, -122.45032982312472], [ 37.724260844579436, -122.45021358132365 ],
@@ -943,42 +947,42 @@ function displayEdge(node1, node2){
                 [ 37.72414365299964, -122.45014384388925 ], [ 37.72417653679302, -122.45011568069458 ],
                 [ 37.72417441525842, -122.45008751749995 ], [ 37.72413198455329, -122.45010361075404 ],
                 [ 37.72408318921237, -122.4500995874405 ], [ 37.72404181922424, -122.45007410645486 ],
-                [ 37.724004692292155, -122.45001778006554 ], [ 37.72398878074413, -122.44998157024385 ] ], {color: 'blue', weight: 6}).addTo(map);    
+                [ 37.724004692292155, -122.45001778006554 ], [ 37.72398878074413, -122.44998157024385 ] ], {color: COLOR, weight: 6}).addTo(map);    
             this.displaySUElevator();
             break;
         case node1 === "c" && node2 === "SU-0":
-            polylinectoSU = L.polyline([[37.724260844579436, -122.45032982312472], [37.724230844579436, -122.45032982312472]], {color: 'blue', weight: 6}).addTo(map);
+            polylinectoSU = L.polyline([[37.724260844579436, -122.45032982312472], [37.724230844579436, -122.45032982312472]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "d" && node2 === "f":
             polylined_f = L.polyline([[37.72398878074413, -122.44998157024385], [ 37.723937863767475, -122.45013177394868 ], 
                 [ 37.72400150998282, -122.4504402279854 ], [ 37.72400150998282, -122.45053678750993 ],
-                [37.72400257075262, -122.45077506981772]], {color: 'blue', weight: 6}).addTo(map);
+                [37.72400257075262, -122.45077506981772]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "d" && node2 === "AMPH-0":
-            polylinedtoAMPH = L.polyline([[37.72398878074413, -122.44998157024385], [37.724102653723, -122.44991155889541]], {color: 'blue', weight: 6}).addTo(map);
+            polylinedtoAMPH = L.polyline([[37.72398878074413, -122.44998157024385], [37.724102653723, -122.44991155889541]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "d" && node2 === "WELL-0":
-            polylinedtoAMPH = L.polyline([[37.72398878074413, -122.44998157024385], [37.72391542787471, -122.44988004293974]], {color: 'blue', weight: 6}).addTo(map);
+            polylinedtoAMPH = L.polyline([[37.72398878074413, -122.44998157024385], [37.72391542787471, -122.44988004293974]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "e" && node2 === "B":
             let eB = shape1.concat([[37.724594969482396, -122.45077517492479]]);
-            polylineeB = L.polyline(eB, {color: 'blue', weight: 6}).addTo(map);
+            polylineeB = L.polyline(eB, {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "e" && node2 === "E":
             let eE = shape1.concat([[37.72464213925238, -122.45174060814374]]);
-            polylineeE = L.polyline(eE, {color: 'blue', weight: 6}).addTo(map);
+            polylineeE = L.polyline(eE, {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "e" && node2 === "CLOUD-0":
-            polylineetoCLOUD = L.polyline([[ 37.72558946535073, -122.45063602924347 ], [ 37.72551521301948, -122.45030745863917 ]], {color: 'blue', weight: 6}).addTo(map);
+            polylineetoCLOUD = L.polyline([[ 37.72558946535073, -122.45063602924347 ], [ 37.72551521301948, -122.45030745863917 ]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "f" && node2 === "CAFE-0":
-            polylineftoCAFE = L.polyline([[37.72400257075262, -122.45077506981772], [37.72400257075262, -122.45083048939706]], {color: 'blue', weight: 6}).addTo(map);
+            polylineftoCAFE = L.polyline([[37.72400257075262, -122.45077506981772], [37.72400257075262, -122.45083048939706]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "g" && node2 === "HLTH-1":
             if(wheelchairAssessibilityNeeded){
                 polylinegtoHLTH = L.polyline([[37.72766213609839, -122.4517773091793], [ 37.72766213609839, -122.45180413126948 ],
                     [ 37.72772896126267, -122.45180547237398 ], [ 37.727727900546235, -122.45189264416696 ], 
-                    [ 37.72763561815933, -122.45188862085344 ], [37.72763561815933, -122.45190605521205]], {color: 'blue', weight: 6}).addTo(map);
+                    [ 37.72763561815933, -122.45188862085344 ], [37.72763561815933, -122.45190605521205]], {color: COLOR, weight: 6}).addTo(map);
             } else {
                 polylinegtoHLTH = L.polyline([[37.72766213609839, -122.4517773091793], [ 37.72763561815933, -122.45188862085344 ], 
                     [37.72763561815933, -122.45190605521205]], {color: 'red', weight: 6}).addTo(map);  
@@ -987,25 +991,25 @@ function displayEdge(node1, node2){
         case node1 === "g" && node2 === "JDVL-1":
             polylinegtoJDVL = L.polyline([ [37.72766213609839, -122.4517773091793],[ 37.72776396489607, -122.45177865028383 ], 
                 [ 37.72793367924775, -122.45184302330019 ], [ 37.72802171841449, -122.45184302330019 ],
-                [ 37.72806414689119, -122.45180279016496 ] ], {color: 'blue', weight: 6}).addTo(map);
+                [ 37.72806414689119, -122.45180279016496 ] ], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "h" && node2 === "i":
             polylineh_i = L.polyline([ [ 37.724785414716706, -122.44892746210101 ], [ 37.72486178929459, -122.44884431362154 ],
                 [ 37.724874518383245, -122.44842857122424 ], [ 37.72491482714956, -122.44830384850503 ],
                 [ 37.724960439674476, -122.44822606444362 ], [ 37.72503151029681, -122.44816169142726 ], 
-                [ 37.72509303406408, -122.44811207056047 ], [ 37.72531367060228, -122.44805574417116 ] ], {color: 'blue', weight: 6}).addTo(map);
+                [ 37.72509303406408, -122.44811207056047 ], [ 37.72531367060228, -122.44805574417116 ] ], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "i" && node2 === "j":
             polylinei_j = L.polyline([[37.72531367060228, -122.44805574417116], [ 37.72541656337853, -122.44794443249705 ],
                 [ 37.725486572814674, -122.44794711470604 ], [ 37.72548551206615, -122.44789615273477 ],
-                [ 37.725647806415935, -122.44789481163026 ] ], {color: 'blue', weight: 6}).addTo(map);
+                [ 37.725647806415935, -122.44789481163026 ] ], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "j" && node2 === "k":
             polylinej_k = L.polyline([ [ 37.725647806415935, -122.44789481163026 ], [ 37.7258270723105, -122.44789347052574 ],
-                [ 37.7258270723105, -122.44796857237816 ], [ 37.72602437036745, -122.44796857237816 ] ], {color: 'blue', weight: 6}).addTo(map);
+                [ 37.7258270723105, -122.44796857237816 ], [ 37.72602437036745, -122.44796857237816 ] ], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "k" && node2 === "l":
-            polylinek_l = L.polyline([[37.72602437036745, -122.44796857237816], [ 37.726104986626545, -122.44803696870805 ]], {color: 'blue', weight: 6}).addTo(map);
+            polylinek_l = L.polyline([[37.72602437036745, -122.44796857237816], [ 37.726104986626545, -122.44803696870805 ]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "n" && node2 === "CLOUD-1":
             polylinentoCLOUD = L.polyline([ [ 37.72479496154325, -122.44999900460245 ], [ 37.72496786496657, -122.45020553469658 ], 
@@ -1015,20 +1019,20 @@ function displayEdge(node1, node2){
         case node1 === "o" && node2 === "CLOUD-2":
             polylineotoCLOUD = L.polyline([[37.72570084370802, -122.44960203766824], [ 37.72564886716214, -122.44961678981782 ],
                 [ 37.72533382486868, -122.44999900460245 ], [ 37.72534337162453, -122.45004862546922 ],
-                [ 37.725401712883574, -122.4500231444836 ], [37.72541656337853, -122.45007812976839]], {color: 'blue', weight: 6}).addTo(map);
+                [ 37.725401712883574, -122.4500231444836 ], [37.72541656337853, -122.45007812976839]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "AMPH-0" && node2 === "WELL-0":
-            polylineAMPHtoWELL = L.polyline([[37.724102653723, -122.44991155889541], [37.72391542787471, -122.44988004293974]], {color: 'blue', weight: 6}).addTo(map);
+            polylineAMPHtoWELL = L.polyline([[37.724102653723, -122.44991155889541], [37.72391542787471, -122.44988004293974]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "BATL-1" && node2 === "BATL-0":
             polylineBATL = L.polyline([ [37.72675835905989, -122.44931324533881], [ 37.72689311201102, -122.44931638240816 ],
                 [ 37.72689311201102, -122.44925200939178 ], [ 37.7268252253632, -122.4492667615414 ], 
-                [ 37.726785978366514, -122.44925737380983 ], [ 37.72678809982633, -122.44915679097177 ] ], {color: 'blue', weight: 6, dashArray: '8, 8'}).addTo(map);
+                [ 37.726785978366514, -122.44925737380983 ], [ 37.72678809982633, -122.44915679097177 ] ], {color: COLOR, weight: 6, dashArray: '8, 8'}).addTo(map);
             displayBATLElevator();
             break;
         case node1 === "JDVL-1" && node2 === "JDVL-0":
             polylineJDVL = L.polyline([[37.72806414689119, -122.45180279016496], [ 37.72808111827507, -122.45172634720804 ], 
-                [ 37.7280800575637, -122.45133206248286 ], [ 37.7280800575637, -122.45130121707918 ]], {color: 'blue', weight: 6}).addTo(map);
+                [ 37.7280800575637, -122.45133206248286 ], [ 37.7280800575637, -122.45130121707918 ]], {color: COLOR, weight: 6}).addTo(map);
             break;
         default:
             displayEdge(node2, node1);
@@ -1179,9 +1183,9 @@ function clearDirections(container){
 }
 
 function displaySUElevator(){
-    markerSUElevator = L.marker([37.72417404088113, -122.45017202679541]).addTo(map).bindPopup("<h1>Student Union Elevator<\h1>");
+    markerSUElevator = L.marker([37.72417404088113, -122.45017202679541]).addTo(map).bindPopup("<b>Student Union Elevator");
 }
 
 function displayBATLElevator(){
-    markerBATLElevator = L.marker([ 37.72689311201102, -122.44925200939178 ]).addTo(map).bindPopup("<h1>Batmale Hall Elevator<\h1>");
+    markerBATLElevator = L.marker([ 37.72689311201102, -122.44925200939178 ]).addTo(map).bindPopup("<b>Batmale Hall Elevator");
 }
