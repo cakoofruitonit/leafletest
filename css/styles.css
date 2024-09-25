@@ -45,7 +45,7 @@
 
 #map { 
     width: 100%;
-    aspect-ratio: 2/3;
+    height: 60vh;
 }
 img.huechange { 
     filter: hue-rotate(160deg); 
