@@ -138,6 +138,7 @@ updateMap();
 
 var selectElement1 = document.getElementById("choose-location1");
 var selectElement2 = document.getElementById("choose-location2");
+
 selectElement1.addEventListener('change', ()=> {
     this.setStartAndDestination();
 });
@@ -1086,6 +1087,12 @@ tabs.forEach(tab => {
         if(target.id === "directions"){
             this.addSetOfDirectionsAndImage();
             console.log("Added directions and images!");
+        } else if(target.id === "maps"){
+            this.clearMap();
+            
+            //test map updates -- MAY CREATE ISSUES WITH MAPUPDATES
+            map.setView(map.getCenter(), map.getZoom());
+            this.updateMap();
         }
 
         tabs.forEach(element => {
