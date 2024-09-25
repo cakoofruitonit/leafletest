@@ -1,4 +1,4 @@
-const map = L.map('map'); 
+let map = L.map('map'); 
 // Initializes map
 
 map.setView([37.72569410938344, -122.45226657608829], 20); 
@@ -1039,6 +1039,11 @@ function displayEdge(node1, node2){
             break;
     }
 }
+
+/**
+ * Handles the direction instructions
+ * @param  list 
+ */
 function directionsHandler(list){
     
     fetch("resources/path.json")
@@ -1077,7 +1082,11 @@ tabs.forEach(tab => {
             element.classList.remove('active');
         });
         target.classList.add('active');
-        this.addSetOfDirectionsAndImage();
+
+        if(target.id === "directions"){
+            this.addSetOfDirectionsAndImage();
+            console.log("Added directions and images!");
+        }
 
         tabs.forEach(element => {
             element.classList.remove('active');
@@ -1087,6 +1096,9 @@ tabs.forEach(tab => {
     })
 });
 
+/**
+ * adds the set of directions and images to the directions container
+ */
 function addSetOfDirectionsAndImage(){
 
     if(panoContainer.innerHTML === ""){
@@ -1155,18 +1167,7 @@ function changeSelectedDirection(value){
     });
     
     viewer.add(panorama);
-    /*
-    const imageSetting = imageLocations[value];
-    const panorama = new PANOLENS.ImagePanorama(imageSetting["location"]);
-
-    const viewer = new PANOLENS.Viewer({
-        initialLookAt: new THREE.Vector3(imageSetting["initialLook"][0], imageSetting["initialLook"][1], imageSetting["initialLook"][2]),
-        container: panoContainer,
-        controlBar: false
-    });
     
-    viewer.add(panorama);
-    */
 }
 
 function removeDirectionFormatting(){
@@ -1188,4 +1189,8 @@ function displaySUElevator(){
 
 function displayBATLElevator(){
     markerBATLElevator = L.marker([ 37.72689311201102, -122.44925200939178 ]).addTo(map).bindPopup("<b>Batmale Hall Elevator");
+}
+
+function removeMap(){
+    map.remove();
 }
