@@ -1,8 +1,13 @@
 .startingText{
     font-size: 20px;
+    margin:0px;
+    padding-bottom:10px;
 }
 .destinationText{
     font-size: 20px;
+    margin:0px;
+    padding-top:10px;
+    padding-bottom:10px;
 }
 [data-tab-content]{
     display: none;
@@ -49,7 +54,7 @@
     aspect-ratio: 2/3;
 }
 img.huechange { 
-    filter: hue-rotate(160deg); 
+    filter: hue-rotate(145deg); 
 }
 
 .pano-container{
