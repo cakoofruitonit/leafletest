@@ -1,4 +1,4 @@
-let map = L.map('map'); 
+var map = L.map('map'); 
 // Initializes map
 
 map.setView([37.72569410938344, -122.45226657608829], 20); 
@@ -214,35 +214,35 @@ function clearMap(){
     }
 }
 
+var lat;
+var lng;
+
 function success(pos) {
 
-    const lat = pos.coords.latitude;
-    const lng = pos.coords.longitude;
-    console.log("latitude: " + lat + " longitude: " + lng);
+    lat = pos.coords.latitude;
+    lng = pos.coords.longitude;
+
     const accuracy = pos.coords.accuracy;
 
     if (lMarker) {
-        map.removeLayer(lMarker);
-        map.removeLayer(lCircle);
-        
+        map.removeLayer(lMarker); 
     }
+    if(lCircle){
+        map.removeLayer(lCircle);    
+    }
+    /*
     if(polyline1){
         map.removeLayer(polyline1);
     }
-    // Removes any existing marker and circule (new ones about to be set)
+    */
 
-    lMarker = L.marker([lat, lng]).addTo(map);
-    lCircle = L.circle([lat, lng], { radius: accuracy/2 }).addTo(map);
+    // Removes any existing marker and circule (new ones about to be set)
+    window.addEventListener('deviceorientation', orientationHandler);
+
+    lCircle = L.circle([lat, lng], 
+        { radius: accuracy/2, color: "white", fillColor: "cyan", fillOpacity: "0.2"}).addTo(map);
     // Adds marker to the map and a circle for accuracy
 
-    displayUserVector(lat, lng);
-
-    //uncomment for zoom
-    /*
-    if (!zoomed) {
-        zoomed = map.fitBounds([[destinationlat, destinationlong], [lat, lng]]); 
-    }
-    */
     // Set zoom to boundaries of accuracy circle
 
     //37.72569410938344, -122.45226657608829
@@ -253,6 +253,33 @@ function success(pos) {
 
 }
 
+function orientationHandler(event) {
+    if(lMarker){
+        map.removeLayer(lMarker);
+    }
+    var heading = event.alpha; // The compass direction
+
+    if (heading !== null) {
+        // Display the heading
+        
+        const iconOptions = {
+            iconUrl: "images/icons/user_arrow.png",
+            iconAnchor: [12, 16],
+            iconSize: [24, 32],
+        }
+
+        const customIcon = L.icon(iconOptions);
+        lMarker = L.marker([lat, lng], {
+            icon: customIcon,
+            rotationAngle: heading,
+        }).addTo(map);
+        
+    } else {
+        console.log('Heading: N/A');
+    }
+    
+}
+
 function error(err) {
 
     if (err.code === 1) {
@@ -260,12 +287,11 @@ function error(err) {
     } else {
         console.log("Cannot get current location");
     }
-    if (map.hasLayer(lMarker)) {
+    if (lMarker) {
         map.removeLayer(lMarker);
-        map.removeLayer(lCircle);
     }
-    if(map.hasLayer(polyline1)){
-        map.removeLayer(polyline1);
+    if(lCircle){
+        map.removeLayer(lCircle);
     }
 }
 
@@ -459,29 +485,6 @@ function displayMarker(string, type){
     }
 }
 
-function displayUserVector(lat, lng){
-    /*if(lat > 37.728380525319494 || lat < 37.72338230493978 || lng > -122.44651955791487 || lng < -122.45551032250923){
-        const entrances = [
-            {
-                lat1: 37.723665454003175, 
-                long1: -122.44973690637808
-            }
-        ]
-        let closestVectorIndex;
-        var smallestDistance = 300;
-        for(var i = 0; i < entrances.length; i++){
-            const distance = Math.sqrt((entrances[i].lat1 - lat)**2 + (entrances[i].long1 - lng)**2);
-            if(distance < smallestDistance){
-                closestVectorIndex = i;
-                smallestDistance = distance;
-            }
-        }
-        polyline = L.polyline([[entrances[closestVectorIndex].lat1, entrances[closestVectorIndex].long1], [lat, lng]], {color: 'black', weight: 6}).addTo(map);
-    }*/
-    
-    //polyline = L.polyline([[destinationlat, destinationlong], [lat, lng]], {color: 'black', weight: 6}).addTo(map);
-}
-
 function displayRoute(start, end){
     //37.728380525319494, -122.44651955791487
     //37.72338230493978, -122.45551032250923
@@ -657,11 +660,9 @@ function displayRoute(start, end){
         */
         
         secondNode = null;
-        console.log(secondNode === null)
         for(var i = 0; i < route.length - 1; i++){
             if(secondNode === null){
                 secondNode = route[i+1];
-                console.log("secondNode = " + secondNode);
             } else {
                 console.log("secondNode is already assigned to a value!");
             }
@@ -679,7 +680,6 @@ function displayRoute(start, end){
         imageLocations = [];
         directionsHandler(listOfAdjacencyNodes);
 
-        //console.log(document.getElementById("directions-tab").classList.contains("active"));
         if(document.getElementById("directions-tab").classList.contains("active")){
             this.addSetOfDirectionsAndImage();
         }
@@ -1086,7 +1086,6 @@ tabs.forEach(tab => {
 
         if(target.id === "directions"){
             this.addSetOfDirectionsAndImage();
-            console.log("Added directions and images!");
         } else if(target.id === "maps"){
             this.clearMap();
             
@@ -1121,7 +1120,6 @@ function addSetOfDirectionsAndImage(){
     size = 0;
     setTimeout( ()=> {
         directions.forEach(text => {
-            console.log("Written directions are being added!");
             directionContainer.innerHTML += '<span id="directions-' + size + '" class="written-direction">'+ text + '\n</span>';
             if(size % 2 !== 0){
                 document.getElementById("directions-" + size).classList.add('gray');
@@ -1144,14 +1142,14 @@ function addSetOfDirectionsAndImage(){
 function onUpBtnPressed(){
     if(counter > 0){
         this.removeDirectionFormatting();
-        changeSelectedDirection(counter - 1);
+        this.changeSelectedDirection(counter - 1);
     }
 }
 
 function onDownBtnPressed(){
     if(counter < size - 1){
         this.removeDirectionFormatting();
-        changeSelectedDirection(counter + 1);
+        this.changeSelectedDirection(counter + 1);
     }
 }
 
@@ -1165,16 +1163,31 @@ function changeSelectedDirection(value){
     }
 
     const imageSetting = imageLocations[value];
-    const panorama = new PANOLENS.ImagePanorama(imageSetting["location"]);
+    var panorama = new PANOLENS.ImagePanorama(imageSetting["location"]);
+
+    const x = imageSetting["initialLook"][0];
+    const y = imageSetting["initialLook"][1];
+    const z = imageSetting["initialLook"][2];
+
+    if(counter < size - 1){
+        var infospot = new PANOLENS.Infospot( 8, PANOLENS.DataImage.Info );
+        const x1 = x * (0.006);
+        const z1 = z * (0.006);
+        infospot.position.set(x1, 0, z1);
+        infospot.addEventListener('click', ()=> {this.onDownBtnPressed()});
+        panorama.add( infospot );
+    }
 
     const viewer = new PANOLENS.Viewer({
-        initialLookAt: new THREE.Vector3(imageSetting["initialLook"][0], imageSetting["initialLook"][1], imageSetting["initialLook"][2]),
+        initialLookAt: new THREE.Vector3(x,y,z),
         container: panoContainer,
-        controlBar: false
+        controlBar: false,
+        autoHideInfospot: false,
+        output: 'console' //remember to remove
     });
-    
+
+    //panorama.link(new THREE.Vector3(imageSetting["initialLook"][0], imageSetting["initialLook"][1], imageSetting["initialLook"][2]));
     viewer.add(panorama);
-    
 }
 
 function removeDirectionFormatting(){
