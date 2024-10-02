@@ -16,7 +16,11 @@
         "Walking": "Head towards staircase and descend down to Cloud Circle"
     },
     "Ae": {
-        "ForAll": "Head to ramp"
+        "ForAll": "Head to ramp",
+        "imageForAll": {
+            "location": "images/mountain.JPG",
+            "initialLook": [2000, 2000, 2000]
+        }
     },
     "ASCI-0": {
         "Walking": "Enter Science Building",
@@ -104,7 +108,7 @@
         "Walking": "Walk down the stairs to Frida Khalo Way",
         "imageWalking": {
             "location": "images/panel1.jpeg",
-            "initialLook": [0, 0, 0]
+            "initialLook": [5000, 0, 5000]
         }
     },
     "QB": {
@@ -144,6 +148,7 @@
     },
     "eA": {
         "ForAll": "Head towards center of plaza"
+        
     },
     "eB": {
         "ForAll": "Descend down to Cloud Circle via ramp"
@@ -199,7 +204,7 @@
         "Walking": "Exit Science Building and walk down stairs to Science Circle",
         "imageWalking": {
             "location": "images/test.JPG",
-            "initialLook": [2000, 2000, 2000]
+            "initialLook": [2500.00, 0, 5000.00]
         }
     },
     "FI": {
@@ -438,8 +443,16 @@
     "CLOUD-2o": {},
     "AMPH-0WELL-0": {},
     "WELL-0AMPH-0": {},
-    "BATL-0BATL-1": {},
-    "BATL-1BATL-0": {},
-    "JDVL-1JDVL-0": {},
-    "JDVL-0JDVL-1": {}
+    "BATL-0BATL-1": {
+        "ForAll": "Head to elevator, select level '1', and turn left and follow exit to door"
+    },
+    "BATL-1BATL-0": {
+        "ForAll": "Head to elevator, select level '4', and leave through exit on left"
+    },
+    "JDVL-1JDVL-0": {
+        "ForAll": "Pass through Judson Village"
+    },
+    "JDVL-0JDVL-1": {
+        "ForAll": "Pass through Judson Village"
+    }
 }
