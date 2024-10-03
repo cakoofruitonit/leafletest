@@ -1087,10 +1087,10 @@ tabs.forEach(tab => {
         if(target.id === "directions"){
             this.addSetOfDirectionsAndImage();
         } else if(target.id === "maps"){
-            this.clearMap();
+            //this.clearMap();
             
             //test map updates -- MAY CREATE ISSUES WITH MAPUPDATES
-            map.setView(map.getCenter(), map.getZoom());
+            //map.setView(map.getCenter(), map.getZoom());
             this.updateMap();
         }
 
