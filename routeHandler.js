@@ -254,6 +254,7 @@ function success(pos) {
 }
 
 function orientationHandler(event) {
+    alert('orientationHandler fired');
     if(lMarker){
         map.removeLayer(lMarker);
     }
