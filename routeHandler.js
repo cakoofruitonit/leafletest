@@ -237,7 +237,21 @@ function success(pos) {
     */
 
     // Removes any existing marker and circule (new ones about to be set)
-    window.addEventListener('deviceorientation', orientationHandler);
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+        // iOS 13+ requires permission to access device orientation
+        DeviceOrientationEvent.requestPermission()
+            .then(permissionState => {
+            if (permissionState === 'granted') {
+                window.addEventListener('deviceorientation', orientationHandler);
+            } else {
+                console.log('Permission not granted for Device Orientation');
+            }
+        })
+        .catch(console.error);
+    } else {
+        // Non iOS 13+ or other browsers
+        window.addEventListener('deviceorientation', orientationHandler);
+    }
 
     lCircle = L.circle([lat, lng], 
         { radius: accuracy/2, color: "white", fillColor: "cyan", fillOpacity: "0.2"}).addTo(map);
