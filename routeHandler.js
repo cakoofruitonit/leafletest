@@ -9,16 +9,6 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/
     attribution: '© OpenStreetMap'
 }).addTo(map); 
 
-/*
-var Stadia_StamenTerrainLabels = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain_labels/{z}/{x}/{y}{r}.{ext}', {
-	minZoom: 0,
-	maxZoom: 19,
-	//attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-	ext: 'png'
-}).addTo(map); 
-*/
-// Sets map data source and associates with map
-
 var lMarker, lCircle, zoomed, marker, circleStart, marker1, polyline1, polylineAB, polylineABForADA, polylineAC, polylineACForADA, 
 polylineAD, polylineADForADA, polylineAE, polylineAEForADA, polylineSCItoA, polylineBK, polylineCI, polylineDH, polylineEJ,
 polylineHG, polylineHI, polylineIF, polylineIL, polylineJH, polylineJO, polylineLM, polylineLtoBATL, polylineMN, polylineMUBtoJ,
@@ -29,7 +19,7 @@ polylineWtoHLTH, polylineGW, polylineRtoSU, polylineMX, polylineXY, polylineYZ, 
 markerSUElevator, polylineRc, polylinectoSU, polylinec_d, polylinedtoWELL, polylinedtoAMPH, polylineeB, polylineetoCLOUD,
 polylineeE, polylineAe, polylineItoART, polylineQe, polylineftoCAFE, polylined_f, polylineXtoBATL, polylinegtoHLTH, polylinegtoJDVL,
 polylineJDVL, polylineT_h, polylineh_i, polylinei_j, polylinej_k, polylinek_l, polylineZ_l, polylineEU, polylineE_m, polylineJ_m,
-polylineV_m, polylinentoCLOUD, polylineK_n, polylineBATL, polylineN_o, polylineotoCLOUD, polylinentoCLOUD, polylineYZForADA;
+polylineV_m, polylinentoCLOUD, polylineK_n, polylineBATL, polylineN_o, polylineotoCLOUD, polylinentoCLOUD, polylineYZForADA, lCircleLocation;
 let startlat, startlong;
 let destinationlat, destinationlong;
 let latitude, longitude;
@@ -227,8 +217,11 @@ function success(pos) {
     if (lMarker) {
         map.removeLayer(lMarker); 
     }
-    if(lCircle){
+    if (lCircle){
         map.removeLayer(lCircle);    
+    }
+    if(lCircleLocation){
+        map.removeLayer(lCircleLocation);
     }
     /*
     if(polyline1){
@@ -250,11 +243,15 @@ function success(pos) {
         .catch(console.error);
     } else {
         // Non iOS 13+ or other browsers
-        window.addEventListener('deviceorientation', orientationHandler);
+        var popup = L.popup([lat,lng],{closeButton: false, content: "<b>You Are Here"}).openOn(map);
+        lCircleLocation = L.circle([lat, lng], 
+            { radius: 3, color: "white", fillColor: "blue", fillOpacity: "1"})
+            .addTo(map).bindPopup(popup);
     }
 
     lCircle = L.circle([lat, lng], 
-        { radius: accuracy/2, color: "white", fillColor: "cyan", fillOpacity: "0.2"}).addTo(map);
+        { radius: accuracy/2, color: "black", fillColor: "cyan", fillOpacity: "0.2"}).addTo(map);
+
     // Adds marker to the map and a circle for accuracy
 
     // Set zoom to boundaries of accuracy circle
@@ -268,19 +265,20 @@ function success(pos) {
 }
 
 function orientationHandler(event) {
-    alert('orientationHandler fired');
     if(lMarker){
         map.removeLayer(lMarker);
     }
     var heading = event.alpha; // The compass direction
 
+    console.log('heading: ' + heading);
     if (heading !== null) {
         // Display the heading
         
         const iconOptions = {
             iconUrl: "images/icons/user_arrow.png",
             iconAnchor: [12, 16],
-            iconSize: [24, 32],
+            //iconSize: [24, 32],
+            iconSize: [100, 125]
         }
 
         const customIcon = L.icon(iconOptions);
@@ -307,6 +305,9 @@ function error(err) {
     }
     if(lCircle){
         map.removeLayer(lCircle);
+    }
+    if(lCircleLocation){
+        map.removeLayer(lCircleLocation);
     }
 }
 
@@ -485,8 +486,9 @@ function displayMarker(string, type){
             }
         });
         */
+        var popup = L.popup([lat, long], {content: "<b>" + buildingName, autoClose: false, closeOnClick: false}).openOn(map);
         circleStart = L.circle([startlat, startlong], {radius: 3, color: "black", fillColor: "white", fillOpacity: "1"}).addTo(map)
-            .bindPopup("<b>" + buildingName).openPopup();
+            .bindPopup(popup).openPopup();
     } else if(type === "destination"){
         destinationlat = lat;
         destinationlong = long;
@@ -1102,8 +1104,11 @@ tabs.forEach(tab => {
         if(target.id === "directions"){
             this.addSetOfDirectionsAndImage();
         } else if(target.id === "maps"){
+            if (window.gc) {
+                window.gc();
+                console.log("window.gc() called successfully");
+            }
             //this.clearMap();
-            
             //test map updates -- MAY CREATE ISSUES WITH MAPUPDATES
             //map.setView(map.getCenter(), map.getZoom());
             this.updateMap();
