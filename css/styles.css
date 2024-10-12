@@ -1,6 +1,8 @@
 .startingText{
     font-size: 20px;
     margin:0px;
+    margin-top: 0px;
+    padding-top:0px;
     padding-bottom:10px;
 }
 .destinationText{
@@ -11,19 +13,20 @@
 }
 [data-tab-content]{
     display: none;
+    
 }
 .active[data-tab-content]{
     display: block;
 }
 
 .tabs{
-    font-size: 30px;
+    font-size: 25px;
     display: flex;
     justify-content: space-around;
     list-style-type: none;
-    margin:0;
     padding-left: 0px;
-    margin-top: 3vh;
+    margin-bottom: 0px;
+    margin-top: 5px;
     border-bottom: 1px solid black;
 }
 
@@ -57,7 +60,7 @@ img.huechange {
     filter: hue-rotate(145deg); 
 }
 
-.pano-container{
+#pano-container{
     height:35vh;
     width: 100%;
     max-width: 800px;
@@ -81,6 +84,9 @@ img.huechange {
 }
 .table-left1{
     width: 60%;
+    height: 5vh;
+    margin-top: 0;
+    padding-bottom:10px;
 }
 .table-center1{
     text-align:center;
@@ -112,15 +118,19 @@ img.huechange {
     width:50%;
     aspect-ratio: 1/1;
     border: none;
+    border-radius: 10%;
+    text-align: center;
+    background-color: transparent;
 }
 .accessibility-btn{
     margin: auto;
     margin-top:10px;
     margin-bottom:10px;
-    width:75%;
+    width:60%;
     aspect-ratio: 1/1;
     text-align: center;
     border: none;
+    border-radius: 10%;
 }
 .accessibility-btn.active{
     background-color: aqua;
@@ -140,4 +150,7 @@ img.huechange {
 .chooseLocation1, .chooseLocation2{
     width:100%;
     border-radius: 5px;
+}
+.tab-table{
+    margin: 0px;
 }
