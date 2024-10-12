@@ -9,6 +9,16 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/
     attribution: '© OpenStreetMap'
 }).addTo(map); 
 
+/*
+var Stadia_StamenTerrainLabels = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain_labels/{z}/{x}/{y}{r}.{ext}', {
+	minZoom: 0,
+	maxZoom: 19,
+	//attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	ext: 'png'
+}).addTo(map); 
+*/
+// Sets map data source and associates with map
+
 var lMarker, lCircle, zoomed, marker, circleStart, marker1, polyline1, polylineAB, polylineABForADA, polylineAC, polylineACForADA, 
 polylineAD, polylineADForADA, polylineAE, polylineAEForADA, polylineSCItoA, polylineBK, polylineCI, polylineDH, polylineEJ,
 polylineHG, polylineHI, polylineIF, polylineIL, polylineJH, polylineJO, polylineLM, polylineLtoBATL, polylineMN, polylineMUBtoJ,
@@ -33,6 +43,9 @@ let startingCoordinates = [];
 let destinationCoordinates = [];
 let directions = [];
 let imageLocations = [];
+let nodes = [];
+
+var scenes = {};
 
 document.getElementById("maps-tab").classList.add('active');
 const panoContainer = document.querySelector('.pano-container');
@@ -250,7 +263,7 @@ function success(pos) {
     }
 
     lCircle = L.circle([lat, lng], 
-        { radius: accuracy/2, color: "black", fillColor: "cyan", fillOpacity: "0.2"}).addTo(map);
+        { radius: accuracy/2, color: "black", fillColor: "cyan", fillOpacity: "0.1"}).addTo(map);
 
     // Adds marker to the map and a circle for accuracy
 
@@ -454,38 +467,6 @@ function displayMarker(string, type){
     if(type === "start"){
         startlat = lat;
         startlong = long;
-        /*
-        let angle = 0;
-        const iconOptions = {
-            iconUrl: "images/icons/arrow.png",
-            iconAnchor: [16, 32]
-        }
-        const customIcon = L.icon(iconOptions);
-        fetch("resources/nodes.json")
-        .then(response => response.json())
-        .then(data => {
-            if(secondNode in data){
-                let secondNodeCoords = data[secondNode];
-                let deltaX = secondNodeCoords[1] - startlong;
-                let deltaY = secondNodeCoords[0] - startlat;
-                console.log(deltaY/deltaX);
-                var isNegative = 0;
-                if(deltaX === 0 || deltaY === 0){
-                    isNegative += 90;
-                    if(deltaX < 0 || deltaY < 0){
-                        isNegative += 180;
-                    }
-                }
-                const convertedRadians = Math.atan(deltaY/deltaX) * (180/(Math.PI));
-                angle = convertedRadians + isNegative;
-                console.log("Angle = " + angle + ", " + deltaY/deltaX);
-                marker = L.marker([startlat, startlong], {
-                    icon: customIcon,
-                    rotationAngle: angle,
-                }).addTo(map).bindPopup("<h1>" + buildingName + "<\h1>");
-            }
-        });
-        */
         var popup = L.popup([lat, long], {content: "<b>" + buildingName, autoClose: false, closeOnClick: false}).openOn(map);
         circleStart = L.circle([startlat, startlong], {radius: 3, color: "black", fillColor: "white", fillOpacity: "1"}).addTo(map)
             .bindPopup(popup).openPopup();
@@ -503,8 +484,6 @@ function displayMarker(string, type){
 }
 
 function displayRoute(start, end){
-    //37.728380525319494, -122.44651955791487
-    //37.72338230493978, -122.45551032250923
     if(start !== end){
         var graph = new WeightedGraph();
         graph.addVertex("A");
@@ -687,6 +666,8 @@ function displayRoute(start, end){
             console.log(newAdjacencyNode);
             listOfAdjacencyNodes.push(newAdjacencyNode);
             displayEdge(route[i], route[i+1]);
+
+            nodes.push(route[i]);
         }
         
         displayMarker(graph.getStart(), "start");
@@ -1176,38 +1157,69 @@ function onDownBtnPressed(){
 function changeSelectedDirection(value){
     document.getElementById("directions-" + value).classList.add("selected");
 
+    var scene1 = {};
     counter = value;
 
     while(panoContainer.firstChild){
         panoContainer.removeChild(panoContainer.firstChild);
     }
 
-    const imageSetting = imageLocations[value];
-    var panorama = new PANOLENS.ImagePanorama(imageSetting["location"]);
-
-    const x = imageSetting["initialLook"][0];
-    const y = imageSetting["initialLook"][1];
-    const z = imageSetting["initialLook"][2];
-
-    if(counter < size - 1){
-        var infospot = new PANOLENS.Infospot( 8, PANOLENS.DataImage.Info );
-        const x1 = x * (0.006);
-        const z1 = z * (0.006);
-        infospot.position.set(x1, 0, z1);
-        infospot.addEventListener('click', ()=> {this.onDownBtnPressed()});
-        panorama.add( infospot );
+    for(var i = 0; i < imageLocations.length; i++) {
+        let imageSetting = imageLocations[i];
+        //let pitch = imageSetting["initialLook"][0];
+        //let yaw = imageSetting["initialLook"][1];
+        
+        if(i !== imageLocations.length - 1){
+            scene1[i] = {
+                //"panorama": imageSetting["location"],
+                "panorama": imageSetting["location"],
+                "title": "George Peabody Library",
+                "hfov": 100,
+                "pitch": 0,
+                "yaw": 0,
+                "compass": false,
+                "showControls": false,
+                "type": "multires",
+                "hotSpots": [
+                    {
+                        "pitch": 0,
+                        "yaw": 0,
+                        "type": "scene",
+                        "text": "Mountain",
+                        "sceneId": i + 1,
+                        "clickHandlerFunc": handleClick()
+                    }
+                ]
+            }
+        
+        } else {
+            scene1[i] = {
+                "panorama": imageSetting["location"],
+                "title": "Destination",
+                "showControls": false,
+                "hfov": 100,
+                "pitch": 0,
+                "yaw": 0,
+                "compass": false,
+                "type": "multires"
+            }
+        }
     }
-
-    const viewer = new PANOLENS.Viewer({
-        initialLookAt: new THREE.Vector3(x,y,z),
-        container: panoContainer,
-        controlBar: false,
-        autoHideInfospot: false,
-        output: 'console' //remember to remove
+    console.log(scene1);
+    pannellum.viewer(panoContainer, {
+        "type": "equirectangular",
+        "hotSpotDebug": false,
+        "default": {
+            "firstScene": String(0),
+            "sceneFadeDuration": 1000,
+            "autoLoad": true
+        },
+        "scenes": scene1
     });
+}
 
-    //panorama.link(new THREE.Vector3(imageSetting["initialLook"][0], imageSetting["initialLook"][1], imageSetting["initialLook"][2]));
-    viewer.add(panorama);
+function handleClick() {
+    console.log("Pano clicked");
 }
 
 function removeDirectionFormatting(){
