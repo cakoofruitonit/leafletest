@@ -36,6 +36,8 @@ let latitude, longitude;
 
 var COLOR = 'yellow';
 
+var viewer;
+
 document.getElementById("walking-btn").classList.add("active");
 let wheelchairAssessibilityNeeded = false;
 
@@ -45,8 +47,6 @@ let directions = [];
 let imageLocations = [];
 let nodes = [];
 
-var scenes = {};
-
 document.getElementById("maps-tab").classList.add('active');
 const panoContainer = document.querySelector('.pano-container');
 const directionContainer = document.getElementById("typed-direction-container");
@@ -55,6 +55,8 @@ let counter = 0;
 let size = 0;
 const tabs = document.querySelectorAll('[data-tab-target]');
 const tabContents = document.querySelectorAll('[data-tab-content]');
+
+var scene1 = {};
 
 var startingPoint = "SCI";
 var destination = "MUB";
@@ -659,9 +661,7 @@ function displayRoute(start, end){
         for(var i = 0; i < route.length - 1; i++){
             if(secondNode === null){
                 secondNode = route[i+1];
-            } else {
-                console.log("secondNode is already assigned to a value!");
-            }
+            } 
             let newAdjacencyNode = route[i] + route[i+1];
             console.log(newAdjacencyNode);
             listOfAdjacencyNodes.push(newAdjacencyNode);
@@ -681,6 +681,7 @@ function displayRoute(start, end){
         if(document.getElementById("directions-tab").classList.contains("active")){
             this.addSetOfDirectionsAndImage();
         }
+
     } else {
         alert("You must choose a different starting point and destination");
     }
@@ -1071,7 +1072,7 @@ function directionsHandler(list){
                 console.log("Nodes " + listElement + " does not exist.");
             }
         });
-    })
+    });
 }
 
 tabs.forEach(tab => {
@@ -1117,8 +1118,8 @@ function addSetOfDirectionsAndImage(){
     } else {
         console.log("Set of directions does not exist ATM!");
     }
-
     size = 0;
+    //timer for 100ms
     setTimeout( ()=> {
         directions.forEach(text => {
             directionContainer.innerHTML += '<span id="directions-' + size + '" class="written-direction">'+ text + '\n</span>';
@@ -1138,94 +1139,7 @@ function addSetOfDirectionsAndImage(){
         });
         this.changeSelectedDirection(0);
     }, 100);
-}
 
-function onUpBtnPressed(){
-    if(counter > 0){
-        this.removeDirectionFormatting();
-        this.changeSelectedDirection(counter - 1);
-    }
-}
-
-function onDownBtnPressed(){
-    if(counter < size - 1){
-        this.removeDirectionFormatting();
-        this.changeSelectedDirection(counter + 1);
-    }
-}
-
-function changeSelectedDirection(value){
-    document.getElementById("directions-" + value).classList.add("selected");
-
-    var scene1 = {};
-    counter = value;
-
-    while(panoContainer.firstChild){
-        panoContainer.removeChild(panoContainer.firstChild);
-    }
-
-    for(var i = 0; i < imageLocations.length; i++) {
-        let imageSetting = imageLocations[i];
-        //let pitch = imageSetting["initialLook"][0];
-        //let yaw = imageSetting["initialLook"][1];
-        
-        if(i !== imageLocations.length - 1){
-            scene1[i] = {
-                //"panorama": imageSetting["location"],
-                "panorama": imageSetting["location"],
-                "title": "George Peabody Library",
-                "hfov": 100,
-                "pitch": 0,
-                "yaw": 0,
-                "compass": false,
-                "showControls": false,
-                "type": "multires",
-                "hotSpots": [
-                    {
-                        "pitch": 0,
-                        "yaw": 0,
-                        "type": "scene",
-                        "text": "Mountain",
-                        "sceneId": i + 1,
-                        "clickHandlerFunc": handleClick()
-                    }
-                ]
-            }
-        
-        } else {
-            scene1[i] = {
-                "panorama": imageSetting["location"],
-                "title": "Destination",
-                "showControls": false,
-                "hfov": 100,
-                "pitch": 0,
-                "yaw": 0,
-                "compass": false,
-                "type": "multires"
-            }
-        }
-    }
-    console.log(scene1);
-    pannellum.viewer(panoContainer, {
-        "type": "equirectangular",
-        "hotSpotDebug": false,
-        "default": {
-            "firstScene": String(0),
-            "sceneFadeDuration": 1000,
-            "autoLoad": true
-        },
-        "scenes": scene1
-    });
-}
-
-function handleClick() {
-    console.log("Pano clicked");
-}
-
-function removeDirectionFormatting(){
-    for(var i = 0; i < size; i++){
-        document.getElementById("directions-" + i).classList.remove("selected");
-    }
 }
 
 function clearDirections(container){
@@ -1245,4 +1159,97 @@ function displayBATLElevator(){
 
 function removeMap(){
     map.remove();
+}
+
+function addSceneHandler(imageLocations){
+    scene1 = {};
+    for(var i = counter; i < imageLocations.length; i++) {
+        let imageSetting = imageLocations[i];
+        console.log(imageSetting);
+        let pitch = imageSetting["initialLook"][0];
+        let yaw = imageSetting["initialLook"][1];
+
+        var title = i !== imageLocations.length - 1 ? "Step " + String(i + 1) : "Destination";
+        var type = i !== imageLocations.length - 1 ? "scene" : "info";
+        var text = i !== imageLocations.length - 1 ? "Next Step" : "Destination";
+        
+        //sceneId may cause problems with event handlers
+        scene1[i] = {
+            "panorama": imageSetting["location"],
+            "title": title,
+            "showControls": false,
+            "hfov": 100,
+            "pitch": pitch,
+            "yaw": yaw,
+            "compass": false,
+            "type": "multires",
+            "hotSpots": [
+                {
+                    "pitch": pitch,
+                    "yaw": yaw,
+                    "type": type,
+                    "text": text,
+                    "clickHandlerFunc": function(event) {
+                        console.log("scene");
+                        handleClick(event);
+                    }
+                }
+            ]
+        }
+    }
+}
+
+function handleClick(event) {
+    console.log("handleClick " + event);
+    this.onDownBtnPressed(); 
+}
+
+function onUpBtnPressed(){
+    if(counter > 0){
+        this.removeDirectionFormatting();
+        this.changeSelectedDirection(counter - 1);
+    }
+}
+
+function onDownBtnPressed(){
+    if(counter < size - 1){
+        this.removeDirectionFormatting();
+        this.changeSelectedDirection(counter + 1);
+    }
+}
+
+function changeSelectedDirection(value){
+
+    //destory the viewer to prevent a build up of canvases
+    console.log(viewer !== undefined);
+    if(viewer !== undefined){
+        viewer.destroy();
+    }
+
+    document.getElementById("directions-" + value).classList.add("selected");
+
+    counter = value;
+
+    while(panoContainer.firstChild){
+        panoContainer.removeChild(panoContainer.firstChild);
+    }
+
+    this.addSceneHandler(imageLocations);
+    viewer = pannellum.viewer(panoContainer, {
+        "type": "equirectangular",
+        "hotSpotDebug": true,
+        "default": {
+            "firstScene": String(value),
+            "sceneFadeDuration": 1000,
+            "autoLoad": true
+        },
+        "scenes": scene1
+    });
+    console.log(viewer.getScene());
+}
+
+function removeDirectionFormatting(){
+    for(var i = 0; i < size; i++){
+        document.getElementById("directions-" + i).classList.remove("selected");
+    }
 }
