@@ -1,23 +1,5 @@
-var map = L.map('map'); 
+var map; 
 // Initializes map
-
-map.setView([37.72569410938344, -122.45226657608829], 20); 
-// Sets initial coordinates and zoom level
-L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-//L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '© OpenStreetMap'
-}).addTo(map); 
-
-/*
-var Stadia_StamenTerrainLabels = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain_labels/{z}/{x}/{y}{r}.{ext}', {
-	minZoom: 0,
-	maxZoom: 19,
-	//attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-	ext: 'png'
-}).addTo(map); 
-*/
-// Sets map data source and associates with map
 
 var lMarker, lCircle, zoomed, marker, circleStart, marker1, polyline1, polylineAB, polylineABForADA, polylineAC, polylineACForADA, 
 polylineAD, polylineADForADA, polylineAE, polylineAEForADA, polylineSCItoA, polylineBK, polylineCI, polylineDH, polylineEJ,
@@ -183,19 +165,44 @@ function setStartAndDestination(){
     startingPoint = selectElement1.options[selectElement1.selectedIndex].value;
     destination = selectElement2.options[selectElement2.selectedIndex].value;
 
-    updateMap();
-}
-    
-function updateMap(){
-    
-    clearMap();
-    
-    displayRoute(startingPoint, destination);
-    navigator.geolocation.watchPosition(success, error);
-    
+    this.updateMap();
 }
 
-function clearMap(){
+/**
+ * Removes the current map and reinitializes 
+ */
+function updateMap(){
+    
+    this.initializeMap();
+    
+    navigator.geolocation.watchPosition(success, error);
+    this.clearMapMarkers();
+    this.displayRoute(startingPoint, destination);
+}
+
+function initializeMap(){
+    if(!map){
+        map = L.map('map'); 
+        map.setView([37.72569410938344, -122.45226657608829], 20); 
+        // Sets initial coordinates and zoom level
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        //L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map); 
+    }
+    /*
+    var Stadia_StamenTerrainLabels = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain_labels/{z}/{x}/{y}{r}.{ext}', {
+        minZoom: 0,
+        maxZoom: 19,
+        //attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        ext: 'png'
+    }).addTo(map); 
+    */
+    // Sets map data source and associates with map
+}
+
+function clearMapMarkers(){
 
     var mapMarkers = [
         marker, circleStart, marker1, polyline1, polylineAB, polylineABForADA, polylineAC, polylineACForADA, 
@@ -1093,6 +1100,11 @@ tabs.forEach(tab => {
             //this.clearMap();
             //test map updates -- MAY CREATE ISSUES WITH MAPUPDATES
             //map.setView(map.getCenter(), map.getZoom());
+            if(map){
+                this.removeMap();
+                map = null;
+            }
+            this.initializeMap();
             this.updateMap();
         }
 
