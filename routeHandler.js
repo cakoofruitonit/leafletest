@@ -1,5 +1,5 @@
-var map; 
 // Initializes map
+var map; 
 
 var lMarker, lCircle, zoomed, marker, circleStart, marker1, polyline1, polylineAB, polylineABForADA, polylineAC, polylineACForADA, 
 polylineAD, polylineADForADA, polylineAE, polylineAEForADA, polylineSCItoA, polylineBK, polylineCI, polylineDH, polylineEJ,
@@ -11,7 +11,9 @@ polylineWtoHLTH, polylineGW, polylineRtoSU, polylineMX, polylineXY, polylineYZ, 
 markerSUElevator, polylineRc, polylinectoSU, polylinec_d, polylinedtoWELL, polylinedtoAMPH, polylineeB, polylineetoCLOUD,
 polylineeE, polylineAe, polylineItoART, polylineQe, polylineftoCAFE, polylined_f, polylineXtoBATL, polylinegtoHLTH, polylinegtoJDVL,
 polylineJDVL, polylineT_h, polylineh_i, polylinei_j, polylinej_k, polylinek_l, polylineZ_l, polylineEU, polylineE_m, polylineJ_m,
-polylineV_m, polylinentoCLOUD, polylineK_n, polylineBATL, polylineN_o, polylineotoCLOUD, polylinentoCLOUD, polylineYZForADA, lCircleLocation;
+polylineV_m, polylinentoCLOUD, polylineK_n, polylineBATL, polylineN_o, polylineotoCLOUD, polylinentoCLOUD, polylineYZForADA, lCircleLocation,
+markerBATLElevator;
+
 let startlat, startlong;
 let destinationlat, destinationlong;
 let latitude, longitude;
@@ -117,10 +119,6 @@ let PtoJDVL = [
     [37.72806410081516, -122.45127463348813], [37.7280800575637, -122.45130121707918]
 ]
 
-let PtoEHF = [
-    [37.72802591518471, -122.45080079724654], [37.72824866440335, -122.45080658801605], 
-    [37.72825184653033, -122.45042705543909], [37.72812403099609, -122.45042705543909]
-]
 updateMap();
 
 var selectElement1 = document.getElementById("choose-location1");
@@ -184,6 +182,7 @@ function initializeMap(){
     if(!map){
         map = L.map('map'); 
         map.setView([37.72569410938344, -122.45226657608829], 20); 
+        
         // Sets initial coordinates and zoom level
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         //L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -215,7 +214,8 @@ function clearMapMarkers(){
         markerSUElevator, polylineRc, polylinectoSU, polylinec_d, polylinedtoWELL, polylinedtoAMPH, polylineeB, polylineetoCLOUD,
         polylineeE, polylineAe, polylineItoART, polylineQe, polylineftoCAFE, polylined_f, polylineXtoBATL, polylinegtoHLTH,
         polylinegtoJDVL, polylineJDVL, polylineT_h, polylineh_i, polylinei_j, polylinej_k, polylinek_l, polylineZ_l, polylineEU,
-        polylineE_m, polylineJ_m, polylineV_m, polylineBATL, polylineN_o, polylineotoCLOUD, polylinentoCLOUD, polylineYZForADA
+        polylineE_m, polylineJ_m, polylineV_m, polylineBATL, polylineN_o, polylineotoCLOUD, polylinentoCLOUD, polylineYZForADA,
+        markerBATLElevator
     ];
 
     for(var i = 0; i < mapMarkers.length; i++){
@@ -245,34 +245,17 @@ function success(pos) {
     if(lCircleLocation){
         map.removeLayer(lCircleLocation);
     }
-    /*
-    if(polyline1){
-        map.removeLayer(polyline1);
-    }
-    */
 
-    // Removes any existing marker and circule (new ones about to be set)
-    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-        // iOS 13+ requires permission to access device orientation
-        DeviceOrientationEvent.requestPermission()
-            .then(permissionState => {
-            if (permissionState === 'granted') {
-                window.addEventListener('deviceorientation', orientationHandler);
-            } else {
-                console.log('Permission not granted for Device Orientation');
-            }
-        })
-        .catch(console.error);
-    } else {
-        // Non iOS 13+ or other browsers
-        var popup = L.popup([lat,lng],{closeButton: false, content: "<b>You Are Here"}).openOn(map);
-        lCircleLocation = L.circle([lat, lng], 
-            { radius: 3, color: "white", fillColor: "blue", fillOpacity: "1"})
-            .addTo(map).bindPopup(popup);
-    }
+    var popup = L.popup([lat,lng],{closeButton: false, content: "<b>You Are Here"}).openOn(map);
 
+    //estimated location of the user
+    lCircleLocation = L.circle([lat, lng], 
+        { radius: 3, color: "white", fillColor: "blue", fillOpacity: "1"})
+        .addTo(map).bindPopup(popup);
+    
+    //accuracy circle
     lCircle = L.circle([lat, lng], 
-        { radius: accuracy/2, color: "black", fillColor: "cyan", fillOpacity: "0.1"}).addTo(map);
+        { radius: accuracy, color: "black", fillColor: "cyan", fillOpacity: "0.1"}).addTo(map);
 
     // Adds marker to the map and a circle for accuracy
 
@@ -476,12 +459,14 @@ function displayMarker(string, type){
     if(type === "start"){
         startlat = lat;
         startlong = long;
+        startingCoordinates = [startlat, startlong];
         var popup = L.popup([lat, long], {content: "<b>" + buildingName, autoClose: false, closeOnClick: false}).openOn(map);
         circleStart = L.circle([startlat, startlong], {radius: 3, color: "black", fillColor: "white", fillOpacity: "1"}).addTo(map)
             .bindPopup(popup).openPopup();
     } else if(type === "destination"){
         destinationlat = lat;
         destinationlong = long;
+        destinationCoordinates = [destinationlat, destinationlong];
         marker1 = L.marker([destinationlat, destinationlong]).addTo(map)
             .bindPopup("<b>" + buildingName);
         marker1._icon.classList.add("huechange");
@@ -652,6 +637,7 @@ function displayRoute(start, end){
         graph.addEdge("AMPH-0", "WELL-0", 80);
         graph.addEdge("BATL-0", "BATL-1", 120);
         graph.addEdge("JDVL-1", "JDVL-0", 140);
+        graph.addEdge("K", "LIBR-0", 50);
 
         const route = graph.Dijkstra(start, end);
         let listOfAdjacencyNodes = [];
@@ -679,6 +665,8 @@ function displayRoute(start, end){
         
         displayMarker(graph.getStart(), "start");
         displayMarker(graph.getFinish(), "destination");
+
+        map.fitBounds(L.latLngBounds(startingCoordinates, destinationCoordinates));
 
         //empties all the directions
         directions = [];
@@ -863,6 +851,10 @@ function displayEdge(node1, node2){
             polylinePtoJDVL = L.polyline(PtoJDVL, {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "P" && node2 === "EHF-0":
+            let PtoEHF = [
+                [37.72802591518471, -122.45080079724654], [37.72824866440335, -122.45080658801605], 
+                [37.72825184653033, -122.45042705543909], [37.72812403099609, -122.45042705543909]
+            ]
             polylinePtoEHF = L.polyline(PtoEHF, {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "Q" && node2 === "R":
@@ -1177,11 +1169,12 @@ function addSceneHandler(imageLocations){
     scene1 = {};
     for(var i = counter; i < imageLocations.length; i++) {
         let imageSetting = imageLocations[i];
-        console.log(imageSetting);
+
         let pitch = imageSetting["initialLook"][0];
         let yaw = imageSetting["initialLook"][1];
 
-        var title = i !== imageLocations.length - 1 ? "Step " + String(i + 1) : "Destination";
+        //var title = i !== imageLocations.length - 1 ? "Step " + String(i + 1) : "Destination";
+        var title = '<span class="pnlm-dir">' + directions[i] + "</span>";
         var type = i !== imageLocations.length - 1 ? "scene" : "info";
         var text = i !== imageLocations.length - 1 ? "Next Step" : "Destination";
         
@@ -1195,6 +1188,9 @@ function addSceneHandler(imageLocations){
             "yaw": yaw,
             "compass": false,
             "type": "multires",
+            "clickHandlerFunc": function(event) {
+                console.log([event.pitch, event.yaw]);
+            },
             "hotSpots": [
                 {
                     "pitch": pitch,
