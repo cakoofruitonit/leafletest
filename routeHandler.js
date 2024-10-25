@@ -233,6 +233,11 @@ function clearMapMarkers(){
 
 var lat;
 var lng;
+var intervals = 0;
+var difference = 0;
+var startZoom = map.getZoom();
+var endZoom = map.getZoom();
+var lCircleLocationBaseRadius = 5 * (20 - map.getZoom());
 
 function success(pos) {
 
@@ -251,27 +256,43 @@ function success(pos) {
         map.removeLayer(lCircleLocation);
     }
 
+    //remove openOn(map);
     var popup = L.popup([lat,lng],{closeButton: true, content: "<b>You Are Here"}).openOn(map);
 
     //estimated location of the user
     lCircleLocation = L.circle([lat, lng], 
-        { radius: 3, color: "white", fillColor: "blue", fillOpacity: "1"})
+        { radius: lCircleLocationBaseRadius, color: "white", fillColor: "blue", fillOpacity: "1"})
         .addTo(map).bindPopup(popup);
     
     //accuracy circle
     lCircle = L.circle([lat, lng], 
         { radius: accuracy, color: "black", fillColor: "cyan", fillOpacity: "0.1"}).addTo(map);
 
-    // Adds marker to the map and a circle for accuracy
+    //animate the user circle
+    setInterval(function() {
+        intervals++;
+        const newRadius = lCircleLocation.getRadius() + (20 - map.getZoom()) * 0.05 * (Math.sin(intervals/8));
+        lCircleLocation.setRadius(newRadius);
+        }, 100/(20 - map.getZoom()));
 
-    // Set zoom to boundaries of accuracy circle
+    map.on('zoomstart', function(e){
+        startZoom = map.getZoom();
+    });
 
-    //37.72569410938344, -122.45226657608829
+    map.on('zoomend', function(e){
+        endZoom = map.getZoom();
+        difference = startZoom - endZoom;
+        console.log(difference);
+        if(startZoom - endZoom > 0){
+            lCircleLocation.setRadius((20 - map.getZoom()) * (lCircleLocationBaseRadius + 0.05 * (20 - map.getZoom()) * (Math.sin(intervals/8))));
+        } else if(startZoom - endZoom < 0){
+            lCircleLocation.setRadius((20 - map.getZoom()) * (lCircleLocationBaseRadius + 0.05 * (20 - map.getZoom()) * (Math.sin(intervals/8))));
+        }
+    });
+
     //calculate the distance bewteen lat lng and destination
     latitude = destinationlat - (destinationlat - lat)/2;
     longitude = destinationlong - (destinationlong - lng)/2;
-    // Set map focus to current user position
-
 }
 
 function orientationHandler(event) {
