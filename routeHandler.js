@@ -45,6 +45,11 @@ var scene1 = {};
 var startingPoint = "SCI";
 var destination = "MUB";
 
+const locationOptions = {
+    enableHighAccuracy: true,
+    timeout: 1000,
+}
+
 var secondNode = null;
 
 let shape1 = [
@@ -173,7 +178,7 @@ function updateMap(){
     
     this.initializeMap();
     
-    navigator.geolocation.watchPosition(success, error);
+    navigator.geolocation.watchPosition(success, error, locationOptions);
     this.clearMapMarkers();
     this.displayRoute(startingPoint, destination);
 }
@@ -246,7 +251,7 @@ function success(pos) {
         map.removeLayer(lCircleLocation);
     }
 
-    var popup = L.popup([lat,lng],{closeButton: false, content: "<b>You Are Here"}).openOn(map);
+    var popup = L.popup([lat,lng],{closeButton: true, content: "<b>You Are Here"}).openOn(map);
 
     //estimated location of the user
     lCircleLocation = L.circle([lat, lng], 
@@ -1085,10 +1090,6 @@ tabs.forEach(tab => {
         if(target.id === "directions"){
             this.addSetOfDirectionsAndImage();
         } else if(target.id === "maps"){
-            if (window.gc) {
-                window.gc();
-                console.log("window.gc() called successfully");
-            }
             //this.clearMap();
             //test map updates -- MAY CREATE ISSUES WITH MAPUPDATES
             //map.setView(map.getCenter(), map.getZoom());
@@ -1183,14 +1184,11 @@ function addSceneHandler(imageLocations){
             "panorama": imageSetting["location"],
             "title": title,
             "showControls": false,
-            "hfov": 100,
+            "hfov": 90,
             "pitch": pitch,
             "yaw": yaw,
             "compass": false,
             "type": "multires",
-            "clickHandlerFunc": function(event) {
-                console.log([event.pitch, event.yaw]);
-            },
             "hotSpots": [
                 {
                     "pitch": pitch,
@@ -1198,7 +1196,6 @@ function addSceneHandler(imageLocations){
                     "type": type,
                     "text": text,
                     "clickHandlerFunc": function(event) {
-                        console.log("scene");
                         handleClick(event);
                     }
                 }
@@ -1208,7 +1205,6 @@ function addSceneHandler(imageLocations){
 }
 
 function handleClick(event) {
-    console.log("handleClick " + event);
     this.onDownBtnPressed(); 
 }
 
@@ -1229,7 +1225,6 @@ function onDownBtnPressed(){
 function changeSelectedDirection(value){
 
     //destory the viewer to prevent a build up of canvases
-    console.log(viewer !== undefined);
     if(viewer !== undefined){
         viewer.destroy();
     }
@@ -1253,7 +1248,6 @@ function changeSelectedDirection(value){
         },
         "scenes": scene1
     });
-    console.log(viewer.getScene());
 }
 
 function removeDirectionFormatting(){
