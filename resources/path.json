@@ -13,9 +13,9 @@
     },
     "AC": {
         "ADA": "Take ramp down to Cloud Circle",
-        "imageForAll": {
+        "imageADA": {
             "location": "images/360_images/Node_A.JPG",
-            "initialLook": [0, 0]
+            "initialLook": [-1.8, 136.3]
         },
         "Walking": "Head towards staircase and descend down to Cloud Circle",
         "imageWalking": {
@@ -24,15 +24,15 @@
         }
     },
     "AD": {
-        "ADA": "Take ramp down to Cloud Circle",
-        "imageForAll": {
+        "ADA": "Take ramp down to Cloud Circle (Head left when ramp splits into two paths at the bottom)",
+        "imageADA": {
             "location": "images/360_images/Node_A.JPG",
-            "initialLook": [0, 0]
+            "initialLook": [-1.8, 136.3]
         },
-        "Walking": "Head towards staircase and descend down to Cloud Circle",
+        "Walking": "Head towards staircase and descend down to Cloud Circle (Follow ramp left just before last few flights of stairs)",
         "imageWalking": {
             "location": "images/360_images/Node_A.JPG",
-            "initialLook": [0, 0]
+            "initialLook": [0, 90.7]
         }
     },
     "AE": {
@@ -92,14 +92,14 @@
     },
     "CA": {
         "ADA": "Take ramp up to the top",
-        "imageForAll": {
+        "imageADA": {
             "location": "images/360_images/Node_C.JPG",
-            "initialLook": [0, 0]
+            "initialLook": [0.2, -98.3]
         },
         "Walking": "Head up staircase and walk to center of plaza",
         "imageWalking": {
             "location": "images/360_images/Node_C.JPG",
-            "initialLook": [0, 0]
+            "initialLook": [10.3, -184.7]
         }
     },
     "CI": {
@@ -110,11 +110,23 @@
         }
     },
     "DA": {
-        "ADA": "Take ramp down to Cloud Circle",
-        "Walking": "Head towards staircase and descend down to Cloud Circle"
+        "ADA": "Take ramp up to the top",
+        "imageADA": {
+            "location": "images/360_images/Node_D.JPG",
+            "initialLook": [-4.1, -240.6]
+        },
+        "Walking": "Follow path to staircase walk to the top",
+        "imageWalking": {
+            "location": "images/360_images/Node_D.JPG",
+            "initialLook": [-4.1, -240.6]
+        }
     },
     "DH": {
-        "ForAll": "Cross Cloud Circle"
+        "ForAll": "Cross Cloud Circle",
+        "imageForAll": {
+            "location": "images/360_images/Node_D.JPG",
+            "initialLook": [-1.4, -1]
+        }
     },
     "EA": {
         "ADA": "Take ramp down to Cloud Circle",
@@ -134,25 +146,45 @@
         }
     },
     "GH": {
-        "ForAll": "Walk towards Cloud Circle"
+        "ForAll": "Head towards Cloud Circle crossing",
+        "imageForAll": {
+            "location": "images/360_images/Node_G.JPG",
+            "initialLook": [-4.7, 92]
+        }
     },
     "GART-0": {
-        "ForAll": "Enter Creative Arts Building"
+        "ForAll": "Enter Creative Arts Building",
+        "imageForAll": {
+            "location": "images/360_images/Node_G.JPG",
+            "initialLook": [0, 341]
+        }
     },
     "GARTX-0": {
-        "ForAll": "Enter Creative Arts Extension Building"
+        "ForAll": "Enter Creative Arts Extension Building",
+        "imageForAll": {
+            "location": "images/360_images/Node_G.JPG",
+            "initialLook": [-4.8, 185.9]
+        }
     },
     "HD": {
-        "ForAll": "Cross Cloud Circle"
+        "ForAll": "Cross Cloud Circle",
+        "imageForAll": {
+            "location": "images/360_images/Node_H.JPG",
+            "initialLook": [-5.6, 173.9]
+        }
     },
     "HG": {
-        "ForAll": "Walk straight towards elevator"
+        "ForAll": "Walk straight in front of elevator",
+        "imageForAll": {
+            "location": "images/360_images/Node_H.JPG",
+            "initialLook": [-2.1, -4.9]
+        }
     },
     "IC": {
         "ForAll": "Cross Cloud Circle",
         "imageForAll": {
             "location": "images/360_images/Node_I.JPG",
-            "initialLook": [0, 0]
+            "initialLook": [-8.3, -184]
         }
     },
     "JE": {
@@ -173,7 +205,11 @@
         }
     },
     "MX": {
-        "Walking": "Walk down to bottom of staircase"
+        "Walking": "Walk down to bottom of staircase",
+        "imageWalking": {
+            "location": "images/360_images/Node_M.JPG",
+            "initialLook": [0,0]
+        }
     },
     "OJ": {
         "Walking": "Walk down the stairs to Frida Khalo Way",
@@ -197,13 +233,17 @@
         }
     },
     "ST": {
-        "Walking": "Walk down staircase"
+        "Walking": "Walk down staircase",
+        "imageWalking": {
+            "location": "images/360_images/Node_S.JPG",
+            "initialLook": [-14.7, -3]
+        }
     },
     "TS": {
         "Walking": "Walk up staircase",
         "imageWalking": {
             "location": "images/360_images/Node_T.JPG",
-            "initialLook": [0, 0]
+            "initialLook": [14.4, -144.7]
         }
     },
     "UV": {
@@ -227,7 +267,11 @@
         "ADA": "Take ramp to top"
     },
     "df": {
-        "Walking": "Take stairs to the top"
+        "Walking": "Take stairs to the top",
+        "imageWalking": {
+            "location": "images/360_images/Node_d1.JPG",
+            "initialLook": [0.1, -119]
+        }
     },
     "eA": {
         "ForAll": "Head towards center of plaza",
@@ -254,7 +298,7 @@
         "Walking": "Take stairs to bottom",
         "imageWalking": {
             "location": "images/360_images/Node_f1.JPG",
-            "initialLook": [0.1, 88.7]
+            "initialLook": [-8.3, 181.9]
         }
     },
     "fCAFE-0": {
@@ -275,16 +319,24 @@
         }
     },
     "ART-0G": {
-        "ForAll": "Exit Creative Arts Extension Building and head in front of elevator"
+        "ForAll": "Exit Creative Arts Extension Building and head in front of elevator",
+        "imageForAll": {
+            "location": "images/360_images/Node_ART0.JPG",
+            "initialLook": [-9, -190.5]
+        }
     },
     "ARTX-0G": {
-        "ForAll": "Exit Creative Arts Extension Building and head in front of elevator"
+        "ForAll": "Exit Creative Arts Extension Building and head in front of elevator",
+        "imageForAll": {
+            "location": "images/360_images/Node_ARTX0.JPG",
+            "initialLook": [-12.1, -203.6]
+        }
     },
     "CAFE-0f": {
         "ForAll": "Exit Cafeteria",
         "imageForAll": {
             "location": "images/360_images/Node_CAFE0.JPG",
-            "initialLook": [10.9, -3.3]
+            "initialLook": [-15.6, 172]
         }
     },
     "OSCI-1": {
@@ -326,25 +378,53 @@
         }
     },
     "FI": {
-        "ForAll": "Head down path"
+        "ForAll": "Head up path to Cloud Circle",
+        "imageForAll": {
+            "location": "images/360_images/Node_F.JPG",
+            "initialLook": [1, 84.5]
+        }
     },
     "IF": {
-        "ForAll": "Head up path to Cloud Circle"
+        "ForAll": "Head down path and stop after passing building on left",
+        "imageForAll": {
+            "location": "images/360_images/Node_I.JPG",
+            "initialLook": [-2, -2.8]
+        }
     },
     "FP": {
-        "ForAll": "Follow path to Judson Avenue"
+        "ForAll": "Follow path to Judson Avenue",
+        "imageForAll": {
+            "location": "images/360_images/Node_F.JPG",
+            "initialLook": [-2.3, -96.3]
+        }
     },
     "PF": {
-        "ForAll": "Follow path from Judson Avenue"
+        "ForAll": "Follow path until reaching building on right",
+        "imageForAll": {
+            "location": "images/360_images/Node_P.JPG",
+            "initialLook": [-3.7, -90]
+        }
     },
     "FVART-0": {
-        "ForAll": "Enter Visual Arts Building"
+        "ForAll": "Enter Visual Arts Building",
+        "imageForAll": {
+            "location": "images/360_images/Node_F.JPG",
+            "initialLook": [0.5, -8]
+        }
     },
     "VART-0F": {
-        "ForAll": "Exit Visual Arts Building"
+        "ForAll": "Exit Visual Arts Building",
+        "imageForAll": {
+            "location": "images/360_images/Node_VART0.JPG",
+            "initialLook": [-4, -177.9]
+        }
     },
     "GW": {
-        "ForAll": "Head to ramp"
+        "ForAll": "Head to ramp",
+        "imageForAll": {
+            "location": "images/360_images/Node_G.JPG",
+            "initialLook": [-1.4, -114.7]
+        }
     },
     "WG": {
         "ForAll": "Head towards Cloud Circle"
@@ -366,18 +446,22 @@
         "ForAll": "Cross Marston Avenue and follow path to first Cloud Circle crossing",
         "imageForAll": {
             "location": "images/360_images/Node_L.JPG",
-            "initialLook": [0, 0]
+            "initialLook": [0.4, -157.2]
         }
     },
     "IART-1": {
         "ForAll": "Follow ramp to Creative Arts Building",
         "imageForAll": {
             "location": "images/360_images/Node_I.JPG",
-            "initialLook": [4.9, -9.4]
+            "initialLook": [1.5, 13.6]
         }
     },
     "ART-1I": {
-        "ForAll": "Exit Creative Arts Building via ramp"
+        "ForAll": "Exit Creative Arts Building via ramp",
+        "imageForAll": {
+            "location": "images/360_images/Node_ART1.JPG",
+            "initialLook": [-3.5, -181.2]
+        }
     },
     "JH": {
         "ForAll": "Keep right and follow path to first Cloud Circle Crossing"
@@ -443,10 +527,10 @@
         }
     },
     "BATL-0L": {
-        "ForAll": "Exit Batmale Hall and proceed to crossing",
+        "ForAll": "Exit Batmale Hall, cross bridge, and follow sidewalk to first pedestrian crossing",
         "imageForAll": {
             "location": "images/360_images/Node_BATL0.JPG",
-            "initialLook": [0, 0]
+            "initialLook": [1.3, 162.3]
         }
     },
     "MN": {
@@ -464,10 +548,18 @@
         "ForAll": "Exit Horticulture / Floristry Center"
     },
     "PJDVL-0": {
-        "ForAll": "Enter Judson Village"
+        "ForAll": "Enter Judson Village",
+        "imageForAll": {
+            "location": "images/360_images/Node_P.JPG",
+            "initialLook": [1.9, -343]
+        }
     },
     "JDVL-0P": {
-        "ForAll": "Exit Judson Village"
+        "ForAll": "Exit Judson Village",
+        "imageForAll": {
+            "location": "images/360_images/Node_JDVL0.JPG",
+            "initialLook": [-1.7, 194.4]
+        }
     },
     "QR": {
         "ForAll": "Follow path to bridge leading to building on right",
@@ -508,18 +600,34 @@
         }
     },
     "SLIBR-0": {
-        "ForAll": "Enter Student Union"
+        "ForAll": "Enter Rosenburg Library",
+        "imageForAll": {
+            "location": "images/360_images/Node_S.JPG",
+            "initialLook": [-2.2, -95.1]
+        }
     },
     "LIBR-0S": {
-        "ForAll": "Exit Student Union"
+        "ForAll": "Exit Rosenburg Library and stop in front of staircase on left",
+        "imageForAll": {
+            "location": "images/360_images/Node_LIBR0.JPG",
+            "initialLook": [-12.4, -175.6]
+        }
     },
     "Th": {},
     "hT": {},
     "TAMPH-0": {
-        "ForAll": "Head to Amphitheather Plaza"
+        "ForAll": "Head to Amphitheather Plaza",
+        "imageForAll": {
+            "location": "images/360_images/Node_T.JPG",
+            "initialLook": [-2.2, -297.1]
+        }
     },
     "AMPH-0T": {
-        "ForAll": "Leave to Amphitheather Plaza"
+        "ForAll": "Leave to Amphitheather Plaza",
+        "imageForAll": {
+            "location": "images/360_images/Node_AMPH0.JPG",
+            "initialLook": [1.1, -345.2]
+        }
     },
     "Vm": {
         "ForAll": "Cross Cross Circle",
@@ -550,7 +658,11 @@
         }
     },
     "WHLTH-0": {
-        "ForAll": "Take ramp to Student Health Center"
+        "ForAll": "Take ramp to Student Health Center",
+        "imageForAll": {
+            "location": "images/360_images/Node_W.JPG",
+            "initialLook": [-3.2, -348.4]
+        }
     },
     "HLTH-0W": {
         "ForAll": "Exit Student Health Center via ramp"
@@ -586,7 +698,11 @@
         "ForAll": "Cross W road"
     },
     "bB700-0": {
-        "ForAll": "Take ramp to Bungalows 701 - 716"
+        "ForAll": "Take ramp to Bungalows 701 - 716",
+        "imageForAll": {
+            "location": "images/360_images/Node_b1.JPG",
+            "initialLook": [0.3, -201.7]
+        }
     },
     "B700-0b": {
         "ForAll": "Exit Bungalows 701 - 716 via ramp"
@@ -612,16 +728,32 @@
         "ForAll": "Head to elevator, select floor '3', and head right to Student Union entrance"
     },
     "dAMPH-0": {
-        "ForAll": "Head to Amphitheather Plaza"
+        "ForAll": "Head to Amphitheather Plaza",
+        "imageForAll": {
+            "location": "images/360_images/Node_d1.JPG",
+            "initialLook": [-5.7, -33.6]
+        }
     },
     "AMPH-0d": {
-        "ForAll": "Leave to Amphitheather Plaza"
+        "ForAll": "Leave to Amphitheather Plaza",
+        "imageForAll": {
+            "location": "images/360_images/Node_AMPH0.JPG",
+            "initialLook": [-6.6, -154.2]
+        }
     },
     "dWELL-0": {
-        "ForAll": "Enter Wellness Center"
+        "ForAll": "Enter Wellness Center",
+        "imageForAll": {
+            "location": "images/360_images/Node_d1.JPG",
+            "initialLook": [0, 69]
+        }
     },
     "WELL-0d": {
-        "ForAll": "Exit Wellness Center"
+        "ForAll": "Exit Wellness Center",
+        "imageForAll": {
+            "location": "images/360_images/Node_WELL0.JPG",
+            "initialLook": [-0.4, 91]
+        }
     },
     "eE": {
         "ForAll": "Descend to the corner of Science Circle and Cloud Circle",
@@ -638,13 +770,17 @@
         }
     },
     "eCLOUD-0": {
-        "ForAll": "Enter Cloud Hall"
+        "ForAll": "Enter Cloud Hall",
+        "imageForAll": {
+            "location": "images/360_images/Node_e1.JPG",
+            "initialLook": [-2, -166.1]
+        }
     },
     "CLOUD-0e": {
         "ForAll": "Exit Cloud Hall",
         "imageForAll": {
             "location": "images/360_images/Node_CLOUD0.JPG",
-            "initialLook": [-6, 170]
+            "initialLook": [-3, 176]
         }
     },
     "gJDVL-1": {
@@ -686,9 +822,17 @@
         "ForAll": "Head to elevator, select level '4', and leave through exit on left"
     },
     "JDVL-1JDVL-0": {
-        "ForAll": "Pass through Judson Village"
+        "ForAll": "Pass through Judson Village",
+        "imageForAll": {
+            "location": "images/360_images/Node_JDVL1.JPG",
+            "initialLook": [-17.8, -191.8]
+        }
     },
     "JDVL-0JDVL-1": {
-        "ForAll": "Pass through Judson Village"
+        "ForAll": "Pass through Judson Village",
+        "imageForAll": {
+            "location": "images/360_images/Node_JDVL0.JPG",
+            "initialLook": [-17.8, -191.8]
+        }
     }
 }
