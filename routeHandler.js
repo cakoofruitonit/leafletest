@@ -257,7 +257,7 @@ function success(pos) {
     }
 
     //remove openOn(map);
-    var popup = L.popup([lat,lng],{closeButton: true, content: "<b>You Are Here"}).openOn(map);
+    var popup = L.popup([lat,lng],{closeButton: true, content: "<b>You Are Here"});
 
     //estimated location of the user
     lCircleLocation = L.circle([lat, lng], 
