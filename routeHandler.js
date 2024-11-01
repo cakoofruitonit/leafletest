@@ -12,7 +12,7 @@ markerSUElevator, polylineRc, polylinectoSU, polylinec_d, polylinedtoWELL, polyl
 polylineeE, polylineAe, polylineItoART, polylineQe, polylineftoCAFE, polylined_f, polylineXtoBATL, polylinegtoHLTH, polylinegtoJDVL,
 polylineJDVL, polylineT_h, polylineh_i, polylinei_j, polylinej_k, polylinek_l, polylineZ_l, polylineEU, polylineE_m, polylineJ_m,
 polylineV_m, polylinentoCLOUD, polylineK_n, polylineBATL, polylineN_o, polylineotoCLOUD, polylinentoCLOUD, polylineYZForADA, lCircleLocation,
-markerBATLElevator;
+markerBATLElevator, polylinneI_p, polylinep_q, polylineqtoEHF, polylineP_p;
 
 let startlat, startlong;
 let destinationlat, destinationlong;
@@ -89,14 +89,6 @@ let shape3 = [
 
 let BK = shape3.concat([[37.724568494060584, -122.45016218506078], [37.72461320049394, -122.45004282675973], 
     [37.724673509392495, -122.44994626723535],[37.72476206272458, -122.44988591753273]]);
-
-let IL = [
-    [37.726927930648294, -122.45080079724654], [37.726911221030966, -122.45071202405849], 
-    [37.726949783764695, -122.4505826074732], [37.726936601581744, -122.45048403629178], 
-    [37.72692440321325, -122.45041362830577], [37.72688523717416, -122.45028624545753], 
-    [37.726827472778304, -122.45020453489546], [37.72676064680028, -122.45005164898112], 
-    [37.72669745637407, -122.44994838393367], [37.726605626097915, -122.4498317078415]
-];
 
 let MN = [
     [37.72638787552949, -122.44966336901145], [37.72619408096292, -122.44955004859686], 
@@ -220,7 +212,7 @@ function clearMapMarkers(){
         polylineeE, polylineAe, polylineItoART, polylineQe, polylineftoCAFE, polylined_f, polylineXtoBATL, polylinegtoHLTH,
         polylinegtoJDVL, polylineJDVL, polylineT_h, polylineh_i, polylinei_j, polylinej_k, polylinek_l, polylineZ_l, polylineEU,
         polylineE_m, polylineJ_m, polylineV_m, polylineBATL, polylineN_o, polylineotoCLOUD, polylinentoCLOUD, polylineYZForADA,
-        markerBATLElevator
+        markerBATLElevator, polylinneI_p, polylinep_q, polylineqtoEHF, polylineP_p
     ];
 
     for(var i = 0; i < mapMarkers.length; i++){
@@ -282,7 +274,6 @@ function success(pos) {
     map.on('zoomend', function(e){
         endZoom = map.getZoom();
         difference = startZoom - endZoom;
-        console.log(difference);
         if(startZoom - endZoom > 0){
             lCircleLocation.setRadius((20 - map.getZoom()) * (lCircleLocationBaseRadius + 0.05 * (20 - map.getZoom()) * (Math.sin(intervals/8))));
         } else if(startZoom - endZoom < 0){
@@ -547,6 +538,8 @@ function displayRoute(start, end){
         graph.addVertex("m");
         graph.addVertex("n");
         graph.addVertex("o");
+        graph.addVertex("p");
+        graph.addVertex("q");
         graph.addVertex("AMPH-0");
         graph.addVertex("ART-0");
         graph.addVertex("ART-1");
@@ -613,6 +606,7 @@ function displayRoute(start, end){
         graph.addEdge("G", "W", 120);
         graph.addEdge("H", "I", 265);
         graph.addEdge("I", "L", 300);
+        graph.addEdge("I", "p", 370);
         graph.addEdge("I", "ART-1", 75);
         graph.addEdge("J", "H", 600);
         graph.addEdge("J", "m", 400);
@@ -625,7 +619,8 @@ function displayRoute(start, end){
         graph.addEdge("L", "BATL-0", 200);
         graph.addEdge("M", "N", 260);
         graph.addEdge("N", "o", 40);
-        graph.addEdge("P", "EHF-0", 245);
+        //graph.addEdge("P", "EHF-0", 245);
+        graph.addEdge("P", "p", 50);
         graph.addEdge("P", "JDVL-0", 165);
         graph.addEdge("Q", "R", 130);
         graph.addEdge("Q", "U", 280);
@@ -660,6 +655,8 @@ function displayRoute(start, end){
         graph.addEdge("j", "k", 65);
         graph.addEdge("k", "l", 30);
         graph.addEdge("o", "CLOUD-2", 225);
+        graph.addEdge("p", "q", 100);
+        graph.addEdge("q", "EHF-0", 100);
         graph.addEdge("AMPH-0", "WELL-0", 80);
         graph.addEdge("BATL-0", "BATL-1", 120);
         graph.addEdge("JDVL-1", "JDVL-0", 140);
@@ -811,7 +808,18 @@ function displayEdge(node1, node2){
             polylineHI = L.polyline([[37.726920384869686, -122.45171562000382], [37.726927930648294, -122.45080079724654]], {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "I" && node2 === "L":
+            let IL = [
+                [37.726927930648294, -122.45080079724654], [37.726911221030966, -122.45071202405849], 
+                [37.726949783764695, -122.4505826074732], [37.726936601581744, -122.45048403629178], 
+                [37.72692440321325, -122.45041362830577], [37.72688523717416, -122.45028624545753], 
+                [37.726827472778304, -122.45020453489546], [37.72676064680028, -122.45005164898112], 
+                [37.72669745637407, -122.44994838393367], [37.726605626097915, -122.4498317078415]
+            ];
             polylineIL = L.polyline(IL, {color: COLOR, weight: 6}).addTo(map);
+            break;
+        case node1 === "I" && node2 === "p":
+            polylinneI_p = L.polyline([[37.726927930648294, -122.45080079724654], [37.728248710482035, -122.45080768161652]],
+                {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "I" && node2 === "ART-1":
             polylineItoART = L.polyline([[37.726927930648294, -122.45080079724654], [37.72713601841314, -122.45080079724654], 
@@ -872,6 +880,10 @@ function displayEdge(node1, node2){
             break;
         case node1 === "O" && node2 === "SCI-1":
             polylineOtoSCI = L.polyline([[37.7257028758774, -122.45149193737093], [37.7257028758774, -122.45122442674977]], {color: 'red', weight: 6}).addTo(map);
+            break;
+        case node1 === "P" && node2 === "p":
+            polylineP_p = L.polyline([[37.72802591518471, -122.45080079724654], [37.728248710482035, -122.45080768161652]], 
+                {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "P" && node2 === "JDVL-0":
             polylinePtoJDVL = L.polyline(PtoJDVL, {color: COLOR, weight: 6}).addTo(map);
@@ -1045,6 +1057,14 @@ function displayEdge(node1, node2){
             polylineotoCLOUD = L.polyline([[37.72570084370802, -122.44960203766824], [ 37.72564886716214, -122.44961678981782 ],
                 [ 37.72533382486868, -122.44999900460245 ], [ 37.72534337162453, -122.45004862546922 ],
                 [ 37.725401712883574, -122.4500231444836 ], [37.72541656337853, -122.45007812976839]], {color: COLOR, weight: 6}).addTo(map);
+            break;
+        case node1 === "p" && node2 === "q":
+            polylinep_q = L.polyline([[37.728248710482035, -122.45080768161652], [37.72825083189995, -122.4504281490409]], 
+                {color: COLOR, weight: 6}).addTo(map);
+            break;
+        case node1 === "q" && node2 === "EHF-0":
+            polylineqtoEHF = L.polyline([[37.72825083189995, -122.4504281490409], [37.72812403099609, -122.45042705543909]], 
+                {color: COLOR, weight: 6}).addTo(map);
             break;
         case node1 === "AMPH-0" && node2 === "WELL-0":
             polylineAMPHtoWELL = L.polyline([[37.724102653723, -122.44991155889541], [37.72391542787471, -122.44988004293974]], {color: COLOR, weight: 6}).addTo(map);
@@ -1261,7 +1281,8 @@ function changeSelectedDirection(value){
     this.addSceneHandler(imageLocations);
     viewer = pannellum.viewer(panoContainer, {
         "type": "equirectangular",
-        "hotSpotDebug": true,
+        //"hotSpotDebug": true
+        "hotSpotDebug": false,
         "default": {
             "firstScene": String(value),
             "sceneFadeDuration": 1000,
