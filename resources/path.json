@@ -208,7 +208,7 @@
         "Walking": "Walk down to bottom of staircase",
         "imageWalking": {
             "location": "images/360_images/Node_M.JPG",
-            "initialLook": [0,0]
+            "initialLook": [-10.241519102132132, 207.3278713873998]
         }
     },
     "OJ": {
@@ -256,15 +256,35 @@
         "Walking": "Walk up street"
     },
     "XM": {
-        "Walking": "Walk up stairs to Cloud Circle"
+        "Walking": "Walk up stairs to Cloud Circle",
+        "imageWalking": {
+            "location": "images/360_images/Node_X.JPG",
+            "initialLook": [-4.113409831598823, 250.71749570221021]
+        }
     },
     "YZ": {
         "Walking": "Walk down stairs to curb",
-        "ADA": "Take ramp to curb"
+        "imageWalking": {
+            "location": "images/360_images/Node_Y.JPG",
+            "initialLook": [-20.391497921759967, 220.28721930174785]
+        },
+        "ADA": "Take ramp to curb",
+        "imageADA": {
+            "location": "images/360_images/Node_Y.JPG",
+            "initialLook": [-7.808984673313014, 298.5882290243635]
+        }
     },
     "ZY": {
         "Walking": "Take stairs to top",
-        "ADA": "Take ramp to top"
+        "imageWalking": {
+            "location": "images/360_images/Node_Z.JPG",
+            "initialLook": [10.55, 168.37222222222223]
+        },
+        "ADA": "Take ramp to top",
+        "imageADA": {
+            "location": "images/360_images/Node_Z.JPG",
+            "initialLook": [3.6585027658109466, 86.11802905122158]
+        }
     },
     "df": {
         "Walking": "Take stairs to the top",
@@ -514,10 +534,18 @@
     "Kn": {},
     "nK": {},
     "LM": {
-        "ForAll": "Head down to small red box on left"
+        "ForAll": "Head down to small red box on left",
+        "imageForAll": {
+            "location": "images/360_images/Node_L.JPG",
+            "initialLook": [-2.8944444444444475, 59.59696650212088]
+        }
     },
     "ML": {
-        "ForAll": "Head up to Marston crossing"
+        "ForAll": "Follow sidewalk to Marston crossing",
+        "imageForAll": {
+            "location": "images/360_images/Node_M.JPG",
+            "initialLook": [ 0.16667666482733323, -274.6305059529613]
+        }
     },
     "LBATL-0": {
         "ForAll": "Head to bridge and enter Batmale Hall",
@@ -668,10 +696,18 @@
         "ForAll": "Exit Student Health Center via ramp"
     },
     "XY": {
-        "ForAll": "Head to staircase/ramp"
+        "ForAll": "Follow path to staircase/ramp",
+        "imageForAll": {
+            "location": "images/360_images/Node_X.JPG",
+            "initialLook": [-0.2124498347393411, 95.17415461399351]
+        }
     },
     "YX": {
-        "ForAll": "Head to staircase"
+        "ForAll": "Head to staircase",
+        "imageForAll": {
+            "location": "images/360_images/Node_Y.JPG",
+            "initialLook": [2.383333333333334, 42.053646915856454]
+        }
     },
     "XBATL-1": {
         "ForAll": "Enter Batmale Hall"
@@ -680,10 +716,18 @@
         "ForAll": "Exit Batmale Hall, turn right to path leading to staircase"
     },
     "Za": {
-        "ForAll": "Head to crossing"
+        "ForAll": "Head to crossing",
+        "imageForAll": {
+            "location": "images/360_images/Node_Z.JPG",
+            "initialLook": [-6.255555555555555, 266.44282857265307]
+        }
     },
     "aZ": {
-        "ForAll": "Head to small staircase/ramp"
+        "ForAll": "Head to small staircase/ramp",
+        "imageForAll": {
+            "location": "images/360_images/Node_a1.JPG",
+            "initialLook": [-1.3802256143228586, 282.3482925449708]
+        }
     },
     "Zl": {
 
@@ -692,10 +736,46 @@
 
     },
     "ab": {
-        "ForAll": "Cross W road"
+        "ForAll": "Cross W road",
+        "imageForAll": {
+            "location": "images/360_images/Node_a1.JPG",
+            "initialLook": [-7.28500866355671, -178.0436701536625]
+        }
     },
     "ba": {
-        "ForAll": "Cross W road"
+        "ForAll": "Cross W road",
+        "imageForAll": {
+            "location": "images/360_images/Node_b1.JPG",
+            "initialLook": [-1.425170084534778, -3.459398847242147]
+        }
+    },
+    "Pp": {
+        "ForAll": "Head to Judson Avenue"
+    },
+    "pP": {
+        "ForAll": "From Judson Avenue, head to red box"
+    },
+    "Ip": {
+        "ForAll": "Head down path to Judson Avenue",
+        "imageForAll": {
+            "location": "images/360_images/Node_I.JPG",
+            "initialLook": [-2, -2.8]
+        }
+    },
+    "pI": {
+        "ForAll": "Head down path to Cloud Circle"
+    },
+    "pq": {
+        "ForAll": "Follow sidewalk"
+    },
+    "qp": {
+        "ForAll": "Follow sidewalk to street corner"
+    },
+    "qEHF-0": {
+        "ForAll": "Enter Horticulture / Floristry Center"
+    },
+    "EHF-0q": {
+        "ForAll": "Exit Horticulture / Floristry Center"
     },
     "bB700-0": {
         "ForAll": "Take ramp to Bungalows 701 - 716",
@@ -705,7 +785,11 @@
         }
     },
     "B700-0b": {
-        "ForAll": "Exit Bungalows 701 - 716 via ramp"
+        "ForAll": "Exit Bungalows 701 - 716 via ramp",
+        "imageForAll": {
+            "location": "images/360_images/Node_B7000.JPG",
+            "initialLook": [-10.75749596933376, -133.87425913754902]
+        }
     },
     "cSU-0": {
         "ForAll": "Enter Student Union",
