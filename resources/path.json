@@ -247,13 +247,21 @@
         }
     },
     "UV": {
-        "Walking": "Walk down street to Frida Khalo Way crossing"
+        "Walking": "Walk down street to Frida Khalo Way crossing",
+        "imageWalking": {
+            "location": "images/360_images/Node_U.JPG",
+            "initialLook": [-6.371712178759462, 76.40021454409184]
+        }
     },
     "UE": {
         "ForAll": "Cross Cloud Circle"
     },
     "VU": {
-        "Walking": "Walk up street"
+        "Walking": "Cross Fridha Khalo Way",
+        "imageWalking": {
+            "location": "images/360_images/Node_V.JPG",
+            "initialLook": [-2.5833333333333335, -96.20555555555556]
+        }
     },
     "XM": {
         "Walking": "Walk up stairs to Cloud Circle",
@@ -329,7 +337,16 @@
         }
     },
     "gHLTH-1": {
-
+        "Walking": "Enter Student Health Center",
+        "imageWalking": {
+            "location": "images/360_images/Node_g1.JPG",
+            "initialLook": [2, -183.18151719771856]
+        },
+        "ADA": "Enter Student Health Center via ramp",
+        "imageADA":{
+            "location": "images/360_images/Node_g1.JPG",
+            "initialLook": [2, -183.18151719771856]
+        }
     },
     "mE": {
         "ForAll": "Ascend to the top of ramp, then cross Science Circle",
@@ -367,7 +384,16 @@
         }
     },
     "HLTH-1g": {
-
+        "Walking": "Exit Student Health Center",
+        "imageWalking": {
+            "location": "images/360_images/Node_HLTH1.JPG",
+            "initialLook": [-9.298079270445713, 178.87184460304968]
+        },
+        "ADA": "Exit Student Health Center",
+        "imageADA": {
+            "location": "images/360_images/Node_HLTH1.JPG",
+            "initialLook": [-5.587181168909217, 131.20377910982603]
+        }
     },
     "MUB-0J": {
         "ForAll": "Leave the Multi-Use Building and head towards the staircase",
@@ -386,8 +412,8 @@
     "SCI-2A": {
         "ForAll": "Exit Science Building via ramp and head towards the center of plaza",
         "imageForAll": {
-            "location": "images/test.JPG",
-            "initialLook": [-10, 177]
+            "location": "images/360_images/Node_SCI2.JPG",
+            "initialLook": [-7.786100253949266, 186.55760903964705]
         }
     },
     "SCI-1O": {
@@ -447,13 +473,25 @@
         }
     },
     "WG": {
-        "ForAll": "Head towards Cloud Circle"
+        "ForAll": "Head towards elevator",
+        "imageForAll": {
+            "location": "images/360_images/Node_W.JPG",
+            "initialLook": [-5.598554073910712, -182.04566222173193]
+        }
     },
     "HI": {
-        "ForAll": "Head to other Cloud Circle crossing"
+        "ForAll": "Head to next Cloud Circle crossing",
+        "imageForAll": {
+            "location": "images/360_images/Node_H.JPG",
+            "initialLook": [-0.8909855615484386, -272.46003199807615]
+        }
     },
     "IH": {
-        "ForAll": "Head to other Cloud Circle crossing"
+        "ForAll": "Head to next Cloud Circle crossing",
+        "imageForAll": {
+            "location": "images/360_images/Node_I.JPG",
+            "initialLook": [-0.1965411171039939, -91.45111525220501]
+        }
     },
     "IL": {
         "ForAll": "Follow path and cross Marston Avenue",
@@ -484,10 +522,18 @@
         }
     },
     "JH": {
-        "ForAll": "Keep right and follow path to first Cloud Circle Crossing"
+        "ForAll": "Keep right and follow path to next Cloud Circle Crossing",
+        "imageForAll": {
+            "location": "images/360_images/Node_J.JPG",
+            "initialLook": [1.2021879671441313, -268.9044764425206]
+        }
     },
     "HJ": {
-        "ForAll": "Keep left and follow path to big 'City College of San Francisco' sign in staircase"
+        "ForAll": "Follow path, turn left at Frida Khalo Way, and head to big 'City College of San Francisco' sign between staircase",
+        "imageForAll": {
+            "location": "images/360_images/Node_H.JPG",
+            "initialLook": [-1.946541117103994, -104.95111525220501]
+        }
     },
     "Jm": {
 
@@ -496,10 +542,18 @@
 
     },
     "KN": {
-        "ForAll": "Follow curb to the next Cloud Circle crossing"
+        "ForAll": "Head towards The 'Lunch Box' shack",
+        "imageForAll": {
+            "location": "images/360_images/Node_K.JPG",
+            "initialLook": [-1.7137481438447306, -105.04412491483453]
+        }
     },
     "NK": {
-        "ForAll": "Walk to 'The Lunch Box' building"
+        "ForAll": "Walk toward the gray-white stripped building",
+        "imageForAll": {
+            "location": "images/360_images/Node_N.JPG",
+            "initialLook": [1.7862518561552694, 97.39947489804199]
+        }
     },
     "KR": {
         "ForAll": "Follow curb and look for small bridge leading to a building on left",
@@ -530,9 +584,27 @@
             "initialLook": [-4.4, 179.7]
         }
     },
-    "SK": {},
-    "Kn": {},
-    "nK": {},
+    "SK": {
+        "ForAll": "Head to staircase on right",
+        "imageForAll": {
+            "location": "images/360_images/Node_S.JPG",
+            "initialLook": [-2.7, -109.9]
+        }
+    },
+    "Kn": {
+        "ForAll": "Cross Cloud Circle",
+        "imageForAll": {
+            "location": "images/360_images/Node_K.JPG",
+            "initialLook": [-1.4, 98.8]
+        }
+    },
+    "nK": {
+        "ForAll": "Cross Cloud Circle",
+        "imageForAll": {
+            "location": "images/360_images/Node_n1.JPG",
+            "initialLook": [-3.973929644101311, -48.703478821563316]
+        }
+    },
     "LM": {
         "ForAll": "Head down to small red box on left",
         "imageForAll": {
@@ -562,18 +634,32 @@
         }
     },
     "MN": {
-        "ForAll": "Head to the building 'The Lunch Box'"
+        "ForAll": "Head to the building 'The Lunch Box'",
+        "imageForAll": {
+            "location": "images/360_images/Node_M.JPG",
+            "initialLook": [-0.7099078143264501, 285.91267470299493]
+        }
     },
     "NM": {
-        "ForAll": "Follow path and look for a red box on right"
+        "ForAll": "Look for a red box on right on side of path",
+        "imageForAll": {
+            "location": "images/360_images/Node_N.JPG",
+            "initialLook": [-0.9321300365486724, 256.38509130558543]
+        }
     },
-    "No": {},
-    "oN": {},
-    "PEHF-0": {
-        "ForAll": "Enter Horticulture / Floristry Center"
+    "No": {
+        "ForAll": "Cross Cloud Circle",
+        "imageForAll": {
+            "location": "images/360_images/Node_N.JPG",
+            "initialLook": [-1.15, 173.5]
+        }
     },
-    "EHF-0P": {
-        "ForAll": "Exit Horticulture / Floristry Center"
+    "oN": {
+        "ForAll": "Cross Cloud Circle to the shack 'The Lunch Box'",
+        "imageForAll": {
+            "location": "images/360_images/Node_o1.JPG",
+            "initialLook": [-4.45, 176.95]
+        }
     },
     "PJDVL-0": {
         "ForAll": "Enter Judson Village",
@@ -607,11 +693,15 @@
         "ForAll": "Follow straight curb",
         "imageForAll": {
             "location": "images/360_images/Node_Q.JPG",
-            "initialLook": [-6, 170]
+            "initialLook": [-1.3289884138800294, 268.48494307969077]
         }
     },
     "UQ": {
-        "ForAll": "Follow straight curb to next Cloud Circle crossing"
+        "ForAll": "Follow straight curb to next Cloud Circle crossing",
+        "imageForAll": {
+            "location": "images/360_images/Node_U.JPG",
+            "initialLook": [-0.8649497214139177, 267.6077782387873]
+        }
     },
     "Rc": {
         "ForAll": "Cross bridge",
@@ -641,8 +731,20 @@
             "initialLook": [-12.4, -175.6]
         }
     },
-    "Th": {},
-    "hT": {},
+    "Th": {
+        "ForAll": "Walk down street",
+        "imageForAll": {
+            "location": "images/360_images/Node_T.JPG",
+            "initialLook": [-4.933333333333333, 306.7214935485561]
+        }
+    },
+    "hT": {
+        "ForAll": "Head down street",
+        "imageForAll": {
+            "location": "images/360_images/Node_h1.JPG",
+            "initialLook": [1.3929579229499238, 102.34140087643948]
+        }
+    },
     "TAMPH-0": {
         "ForAll": "Head to Amphitheather Plaza",
         "imageForAll": {
@@ -693,7 +795,11 @@
         }
     },
     "HLTH-0W": {
-        "ForAll": "Exit Student Health Center via ramp"
+        "ForAll": "Exit Student Health Center via ramp",
+        "imageForAll": {
+            "location": "images/360_images/Node_HLTH0.JPG",
+            "initialLook": [1.1, -345.2]
+        }
     },
     "XY": {
         "ForAll": "Follow path to staircase/ramp",
@@ -710,10 +816,18 @@
         }
     },
     "XBATL-1": {
-        "ForAll": "Enter Batmale Hall"
+        "ForAll": "Enter Batmale Hall",
+        "imageForAll": {
+            "location": "images/360_images/Node_X.JPG",
+            "initialLook": [0.49444444444444535, -25.535906515350934]
+        }
     },
     "BATL-1X": {
-        "ForAll": "Exit Batmale Hall, turn right to path leading to staircase"
+        "ForAll": "Exit Batmale Hall, turn right to path leading to fence",
+        "imageForAll": {
+            "location": "images/360_images/Node_BATL1.JPG",
+            "initialLook": [-0.5062720666871674, 87.57634475551495]
+        }
     },
     "Za": {
         "ForAll": "Head to crossing",
@@ -729,11 +843,19 @@
             "initialLook": [-1.3802256143228586, 282.3482925449708]
         }
     },
-    "Zl": {
-
+    "al": {
+        "ForAll": "Follow narrow curb to next crossing",
+        "imageForAll": {
+            "location": "images/360_images/Node_a1.JPG",
+            "initialLook": [-0.8816580031099566, -87.46013248270309]
+        }
     },
-    "lZ": {
-
+    "la": {
+        "ForAll": "Follow narrow straight curb",
+        "imageForAll": {
+            "location": "images/360_images/Node_l1.JPG",
+            "initialLook": [1.2444444444444454, 39.63285794275758]
+        }
     },
     "ab": {
         "ForAll": "Cross W road",
@@ -750,32 +872,60 @@
         }
     },
     "Pp": {
-        "ForAll": "Head to Judson Avenue"
+        "ForAll": "Head to Judson Avenue",
+        "imageForAll": {
+            "location": "images/360_images/Node_P.JPG",
+            "initialLook": [2.8, -271.1]
+        }
     },
     "pP": {
-        "ForAll": "From Judson Avenue, head to red box"
+        "ForAll": "From Judson Avenue, head to red box",
+        "imageForAll": {
+            "location": "images/360_images/Node_p1.JPG",
+            "initialLook": [-4.722222222222222, -90.76048824580229]
+        }
     },
     "Ip": {
-        "ForAll": "Head down path to Judson Avenue",
+        "ForAll": "Follow path to Judson Avenue",
         "imageForAll": {
             "location": "images/360_images/Node_I.JPG",
             "initialLook": [-2, -2.8]
         }
     },
     "pI": {
-        "ForAll": "Head down path to Cloud Circle"
+        "ForAll": "Follow path to Cloud Circle",
+        "imageForAll": {
+            "location": "images/360_images/Node_p1.JPG",
+            "initialLook": [-3.183333333333333, -94.42085480386008]
+        }
     },
     "pq": {
-        "ForAll": "Follow sidewalk"
+        "ForAll": "Follow sidewalk to entrance of building on right",
+        "imageForAll": {
+            "location": "images/360_images/Node_p1.JPG",
+            "initialLook": [-3.7045181623952677, 175.11911869839054]
+        }
     },
     "qp": {
-        "ForAll": "Follow sidewalk to street corner"
+        "ForAll": "Follow sidewalk to street corner",
+        "imageForAll": {
+            "location": "images/360_images/Node_q1.JPG",
+            "initialLook": [-3.8952803909409623, -90.23500522632638]
+        }
     },
     "qEHF-0": {
-        "ForAll": "Enter Horticulture / Floristry Center"
+        "ForAll": "Enter Horticulture / Floristry Center",
+        "imageForAll": {
+            "location": "images/360_images/Node_q1.JPG",
+            "initialLook": [0.35380116959064356, 178.86383018811156]
+        }
     },
     "EHF-0q": {
-        "ForAll": "Exit Horticulture / Floristry Center"
+        "ForAll": "Exit Horticulture / Floristry Center",
+        "imageForAll": {
+            "location": "images/360_images/Node_EHF0.JPG",
+            "initialLook": [-5.9048715874302555, 164.78557346643439]
+        }
     },
     "bB700-0": {
         "ForAll": "Take ramp to Bungalows 701 - 716",
@@ -806,10 +956,18 @@
         }
     },
     "cd": {
-        "ForAll": "Head to elevator, select floor '1', and descend ramp on back of elevator"
+        "ForAll": "Head to elevator, select level '1', and descend ramp on back of elevator",
+        "imageForAll": {
+            "location": "images/360_images/Node_c1.JPG",
+            "initialLook": [-0.00850203326617165, -224.88076064638378]
+        }
     },
     "dc": {
-        "ForAll": "Head to elevator, select floor '3', and head right to Student Union entrance"
+        "ForAll": "Head to elevator, select level '3', and head right to Student Union entrance",
+        "imageForAll": {
+            "location": "images/360_images/Node_d1.JPG",
+            "initialLook": [-1.9, -152.6]
+        }
     },
     "dAMPH-0": {
         "ForAll": "Head to Amphitheather Plaza",
@@ -868,23 +1026,103 @@
         }
     },
     "gJDVL-1": {
-        "ForAll": "Enter Judson Village"
+        "ForAll": "Enter Judson Village",
+        "imageForAll": {
+            "location": "images/360_images/Node_g1.JPG",
+            "initialLook": [1.9998026096153527, 266.0461016980792]
+        }
     },
     "JDVL-1g": {
-        "ForAll": "Exit Judson Village"
+        "ForAll": "Exit Judson Village",
+        "imageForAll": {
+            "location": "images/360_images/Node_JDVL1.JPG",
+            "initialLook": [-4.917750357588528, 180.19203704867323]
+        }
     },
-    "hi": {},
-    "ih": {},
-    "ij": {},
-    "ji": {},
-    "jk": {},
-    "kj": {},
-    "kl": {},
-    "lk": {},
-    "nCLOUD-1": {},
-    "CLOUD-1n": {},
-    "oCLOUD-2": {},
-    "CLOUD-2o": {},
+    "hi": {
+        "ForAll": "Head to fence and follow ramp down to ramp down",
+        "imageForAll": {
+            "location": "images/360_images/Node_h1.JpG",
+            "initialLook": [-0.9033867322276314, -129.96327993443924]
+        }
+    },
+    "ih": {
+        "ForAll": "Follow ramp until reaching the first building (Rosenburg Library), then turn left to the street corner",
+        "imageForAll": {
+            "location": "images/360_images/Node_i1.JPG",
+            "initialLook": [1.0074889808802254, -65.92860626358349]
+        }
+    },
+    "ij": {
+        "ForAll": "Cross street and head to arrow",
+        "imageForAll": {
+            "location": "images/360_images/Node_i1.JPG",
+            "initialLook": [0.17865401353640742, 116.26251210056215]
+        }
+    },
+    "ji": {
+        "ForAll": "Head to arrow by following curb and crossing the road",
+        "imageForAll": {
+            "location": "images/360_images/Node_j1.JPG",
+            "initialLook": [-0.7930873468668036, -48.985264931705544]
+        }
+    },
+    "jk": {
+        "ForAll": "Follow curb to next crossing",
+        "imageForAll": {
+            "location": "images/360_images/Node_j1.JPG",
+            "initialLook": [1.6784811316688286, 110.84584543389548]
+        }
+    },
+    "kj": {
+        "ForAll": "Follow curb",
+        "imageForAll": {
+            "location": "images/360_images/Node_k1.JPG",
+            "initialLook": [-5.1515492430161895, 33.024126608637474]
+        }
+    },
+    "kl": {
+        "ForAll": "Cross street",
+        "imageForAll": {
+            "location": "images/360_images/Node_k1.JPG",
+            "initialLook": [-1.130374346401188, -173.73415681066078]
+        }
+    },
+    "lk": {
+        "ForAll": "Cross the road",
+        "imageForAll": {
+            "location": "images/360_images/Node_l1.JPG",
+            "initialLook": [-5.249970714325583, 182.9932518736629]
+        }
+    },
+    "nCLOUD-1": {
+        "ForAll": "Walk up stairs to enter Cloud Hall",
+        "imageForAll": {
+            "location": "images/360_images/Node_n1.JPG",
+            "initialLook": [-4.079595521989711, 190.37040447801022]
+        }
+    },
+    "CLOUD-1n": {
+        "ForAll": "Exit Cloud Hall and walk to Cloud Circle via staircase",
+        "imageForAll": {
+            "location": "images/360_images/Node_CLOUD1.JPG",
+            "initialLook": [-8.1, -194.05]
+        }
+    },
+    "oCLOUD-2": {
+        "ForAll": "Walk up stairs and enter Cloud Hall",
+        "imageForAll": {
+            "location": "images/360_images/Node_o1.JPG",
+            "initialLook": [9.697543292720166, -40.239858661572406]
+        }
+    },
+    "CLOUD-2o": {
+        "ForAll": "Exit Cloud Hall and walk down to Cloud Circle via stairs",
+        "imageForAll": {
+            "location": "images/360_images/Node_CLOUD2.JPG",
+            "initialLook": [-10.5, 183.16666666666666]
+        }
+    },
     "AMPH-0WELL-0": {
         "ForAll": "Head to Wellness Center",
         "imageForAll": {
